@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 
+import com.awpathum.pharmacy.classes.BillDrugQuantity;
 import com.awpathum.pharmacy.entity.Bill;
 import com.awpathum.pharmacy.entity.Drug;
 import com.awpathum.pharmacy.entity.DrugBill;
@@ -50,7 +51,7 @@ public class BillController {
 		return "Hello";
 	}
 
-	@PostMapping("/save")
+	@PostMapping("/")
 	public Bill saveBill(@RequestBody Bill theBill) {
 		
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");  
@@ -67,7 +68,7 @@ public class BillController {
 
 	}
 
-	@GetMapping("/list")
+	@GetMapping("/")
 	public List<Bill> listBills() {
 
 		// get bills form the service
@@ -75,13 +76,19 @@ public class BillController {
 	}
 
 
-	@PostMapping("/addDrugsForBill")
-	public void saveDrugsForBill(@RequestBody String billId,@RequestBody String drugId,@RequestBody Integer quantity) {
+	@PostMapping("/addDrugs")
+	public void saveDrugsForBill(@RequestBody BillDrugQuantity billDrugQuantity) {
+
+		String billId = billDrugQuantity.getBillId();
+		String drugId = billDrugQuantity.getDrugId();
+		Integer quantity = billDrugQuantity.getQuantity();
 		
 		
 		Bill bill = billService.getBill(billId);
 		
 		Drug drug = drugService.getDrug(drugId);
+
+
 		
 		Float unitPrice = Float.parseFloat(drug.getUnitPrice());
 		
