@@ -17,7 +17,7 @@ import com.awpathum.pharmacy.service.StockService;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/home")
+@RequestMapping("/")
 public class HomeController {
 	
 	@Autowired

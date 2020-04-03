@@ -2,6 +2,8 @@ package com.awpathum.pharmacy.rest;
 
 import java.util.List;
 
+import com.awpathum.pharmacy.classes.DrugStock;
+import com.awpathum.pharmacy.classes.SupplierStock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,25 +31,30 @@ public class StockController {
 	@Autowired
 	private DrugService drugService;
 
-	@PostMapping("/save")
+	@PostMapping("/")
 	public Stock addStock(@RequestBody Stock theStock) {
 
-		theStock.setId("X");
+		theStock.setId("");
 
 		stockService.saveStock(theStock);
 
 		return theStock;
 	}
 
-	@GetMapping("/list")
+	@GetMapping("/")
 	public List<Stock> listStocks() {
 
 		// get stocks form the service
 		List<Stock> theStocks = stockService.getStocks();
 		return theStocks;
 	}
+	//get stock by id
+	@GetMapping("/{stockId}")
+	public Stock getStock(@PathVariable String stockId){
+		return stockService.getStock(stockId);
+	}
 
-	@PutMapping("/stock")
+	@PutMapping("/")
 	public Stock updateStock(@RequestBody Stock theStock) {
 
 		stockService.saveStock(theStock);
@@ -55,7 +62,7 @@ public class StockController {
 		return theStock;
 	}
 
-	@GetMapping("/delete/{theId}")
+	@DeleteMapping("/{theId}")
 	public String delete(@PathVariable String theId) {
 		
 		//reduce drug quantity from general stock
@@ -78,10 +85,12 @@ public class StockController {
 
 	}
 	
-	@PostMapping("/saveSupplier")
-	public String saveSupplier(@RequestBody String supplierId,@RequestBody String stockId) {
+	@PostMapping("/addSupplier")
+	public String addSupplier(@RequestBody SupplierStock supplierStock) {
 		
-		
+		String supplierId = supplierStock.getSupplierId();
+		String stockId = supplierStock.getStockId();
+
 		Supplier supplier = supplierService.getSupplier(supplierId);
 		
 		
@@ -96,9 +105,12 @@ public class StockController {
 	}
 
 	
-	@PostMapping("/saveDrug")
-	public String saveDrug(@RequestBody String drugId,@RequestBody String stockId) {
-		
+	@PostMapping("/addDrug")
+	public String addDrug(@RequestBody DrugStock drugStock) {
+
+		String drugId = drugStock.getDrugId();
+		String stockId = drugStock.getStockId();
+
 		Drug drug = drugService.getDrug(drugId);
 		
 		

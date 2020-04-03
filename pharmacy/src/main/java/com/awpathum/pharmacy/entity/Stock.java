@@ -43,6 +43,21 @@ public class Stock {
 	@JsonIgnore
 	private Drug drug;
 
+	public Stock() {
+
+	}
+
+	public Stock(String id,String drugName,Integer quantity,String manDate,String resDate,String expDate) {
+		this.id = id;
+		this.drugName = drugName;
+		this.quantity = quantity;
+		this.manDate = manDate;
+		this.resDate = resDate;
+		this.expDate = expDate;
+	}
+
+
+
 	public String getId() {
 		return id;
 	}
