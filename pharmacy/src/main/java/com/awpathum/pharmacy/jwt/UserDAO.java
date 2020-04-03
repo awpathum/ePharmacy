@@ -1,6 +1,5 @@
-package com.awpathum.pharmacy.dao;
+package com.awpathum.pharmacy.jwt;
 
-import com.awpathum.pharmacy.entity.UserEntity;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

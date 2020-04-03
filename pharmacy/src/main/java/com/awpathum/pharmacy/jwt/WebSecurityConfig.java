@@ -1,4 +1,4 @@
-package com.awpathum.pharmacy.config;
+package com.awpathum.pharmacy.jwt;
 
 
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,4 +1,4 @@
-package com.awpathum.pharmacy.config;
+package com.awpathum.pharmacy.jwt;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

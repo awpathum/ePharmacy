@@ -1,4 +1,4 @@
-package com.awpathum.pharmacy.entity;
+package com.awpathum.pharmacy.jwt;
 
 
 public class UserDTO {

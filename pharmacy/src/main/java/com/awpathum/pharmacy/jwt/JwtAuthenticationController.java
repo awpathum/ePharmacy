@@ -1,10 +1,7 @@
-package com.awpathum.pharmacy.rest;
+package com.awpathum.pharmacy.jwt;
 
 import com.awpathum.pharmacy.classes.JwtRequest;
 import com.awpathum.pharmacy.classes.JwtResponse;
-import com.awpathum.pharmacy.config.JwtTokenUtil;
-import com.awpathum.pharmacy.entity.UserDTO;
-import com.awpathum.pharmacy.service.JwtUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;

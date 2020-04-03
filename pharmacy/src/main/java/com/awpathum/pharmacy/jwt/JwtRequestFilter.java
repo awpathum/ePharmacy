@@ -1,7 +1,6 @@
-package com.awpathum.pharmacy.config;
+package com.awpathum.pharmacy.jwt;
 
 
-import com.awpathum.pharmacy.service.JwtUserDetailsService;
 import io.jsonwebtoken.ExpiredJwtException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

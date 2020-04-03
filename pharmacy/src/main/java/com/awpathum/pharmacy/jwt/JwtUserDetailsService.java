@@ -1,10 +1,6 @@
-package com.awpathum.pharmacy.service;
+package com.awpathum.pharmacy.jwt;
 
-import com.awpathum.pharmacy.dao.UserDAO;
-import com.awpathum.pharmacy.entity.UserDTO;
-import com.awpathum.pharmacy.entity.UserEntity;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
