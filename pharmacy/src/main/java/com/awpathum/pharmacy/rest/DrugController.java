@@ -19,17 +19,16 @@ public class DrugController {
 	private DrugService drugService;
 
 
-	@PostMapping("/save")
+	@PostMapping("/")
 	public Drug saveDrug(@RequestBody Drug theDrug) {
 
 		theDrug.setQuantity(0);
 		drugService.saveDrug(theDrug);
-		System.out.println("Saved!!");
 		return theDrug;
 
 	}
 
-	@GetMapping("/list")
+	@GetMapping("/")
 	public List<Drug> listDrugs(Model theModel) {
 
 		// get drugs form the service
@@ -37,7 +36,7 @@ public class DrugController {
 		return theDrugs;
 	}
 
-	@PutMapping("/update")
+	@PutMapping("/")
 	public Drug updateDrug(@RequestBody Drug theDrug) {
 
 		drugService.saveDrug(theDrug);
@@ -45,7 +44,7 @@ public class DrugController {
 		return theDrug;
 	}
 
-	@DeleteMapping("/drugs/{drugId}")
+	@DeleteMapping("/{drugId}")
 	public String deleteDrug(@PathVariable String drugId) {
 
 		Drug tempDrug = drugService.getDrug(drugId);
