@@ -28,8 +28,7 @@ public class SupplierDAOImpl implements SupplierDAO {
 																								// class name
 		// execute query and get result list
 		List<Supplier> suppliers = theQuery.getResultList();
-		System.out.println("suppliers size");
-		System.out.println(suppliers.size());
+
 		// return the results
 		return suppliers;
 	}

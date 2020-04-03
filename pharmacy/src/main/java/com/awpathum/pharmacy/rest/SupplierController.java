@@ -18,40 +18,36 @@ public class SupplierController {
 	@Autowired
 	private SupplierService supplierService;
 
-	@PostMapping("/save")
+	@PostMapping("/")
 	public Supplier saveSupplier(@RequestBody Supplier theSupplier) {
-		theSupplier.setId("");
+		//theSupplier.setId("X");
 		supplierService.saveSupplier(theSupplier);
 		return theSupplier;
 	}
 
-	@GetMapping("/list")
-	public List<Supplier> listSuppliers(Model theModel) {
+	@GetMapping("/")
+	public List<Supplier> listSuppliers() {
 
 		// get suppliers form the service
 		List<Supplier> theSuppliers = supplierService.getSuppliers();
 		return theSuppliers;
 	}
 
-	@PutMapping("/update")
+	@PutMapping("/")
 	public Supplier updateSupplier(@RequestBody Supplier theSupplier) {
 
 		supplierService.saveSupplier(theSupplier);
 
 		return theSupplier;
 	}
-	
-	@GetMapping("/delete")
-	public String delete(@RequestParam("supplierId") String theId) {
 
-		// delete the drug
-		supplierService.deleteSupplier(theId);
-
-		return "redirect:/supplier/list";
-
+	//get supplier by id
+	@GetMapping("/{supplierId}")
+	public Supplier getSupplier(@PathVariable String supplierId){
+		return supplierService.getSupplier(supplierId);
 	}
 
-	@DeleteMapping("/delete/{supplierId}")
+	@DeleteMapping("/{supplierId}")
 	public String deleteSupplier(@PathVariable String supplierId) {
 
 		Supplier tempSupplier = supplierService.getSupplier(supplierId);
