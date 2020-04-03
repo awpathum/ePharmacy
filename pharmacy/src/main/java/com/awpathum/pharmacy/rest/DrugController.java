@@ -36,6 +36,12 @@ public class DrugController {
 		return theDrugs;
 	}
 
+	//get drug by id
+	@GetMapping("/{drugId}")
+	public Drug getDrug(@PathVariable String drugId){
+		return drugService.getDrug(drugId);
+	}
+
 	@PutMapping("/")
 	public Drug updateDrug(@RequestBody Drug theDrug) {
 

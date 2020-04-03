@@ -25,7 +25,14 @@ public class HomeController {
 	
 	@Autowired
 	private DrugService drugService;
-	
+
+	@GetMapping("/hello")
+	public String hello() {
+
+		// get bills form the service
+		return "Hello";
+	}
+
 	@GetMapping("/checkStock")
 	public List<Drug> checkStock() {
 		
@@ -33,5 +40,6 @@ public class HomeController {
 		return drugs;
 		
 	}
+
 	
 }

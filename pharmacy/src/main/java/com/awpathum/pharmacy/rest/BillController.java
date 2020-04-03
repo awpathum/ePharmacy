@@ -36,20 +36,6 @@ public class BillController {
 	@Autowired
 	private StockService stockService;
 
-//	@GetMapping("/add")
-//	public void addBill(Model theModel) {
-//
-//		Bill theBill = new Bill();
-//
-//		theModel.addAttribute("bill", theBill);
-//	}
-
-	@GetMapping("/hello")
-	public String hello() {
-
-		// get bills form the service
-		return "Hello";
-	}
 
 	@PostMapping("/")
 	public Bill saveBill(@RequestBody Bill theBill) {
@@ -75,6 +61,12 @@ public class BillController {
 		return billService.getBills();
 	}
 
+	//get bill by id
+	@GetMapping("/{billId}")
+	public Bill getBill(@PathVariable String billId){
+		return billService.getBill(billId);
+
+	}
 
 	@PostMapping("/addDrugs")
 	public void saveDrugsForBill(@RequestBody BillDrugQuantity billDrugQuantity) {
