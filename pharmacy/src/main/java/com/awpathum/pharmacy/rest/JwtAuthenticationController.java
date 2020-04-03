@@ -3,6 +3,7 @@ package com.awpathum.pharmacy.rest;
 import com.awpathum.pharmacy.classes.JwtRequest;
 import com.awpathum.pharmacy.classes.JwtResponse;
 import com.awpathum.pharmacy.config.JwtTokenUtil;
+import com.awpathum.pharmacy.entity.UserDTO;
 import com.awpathum.pharmacy.service.JwtUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -37,6 +38,11 @@ public class JwtAuthenticationController {
         final String token = jwtTokenUtil.generateToken(userDetails);
 
         return ResponseEntity.ok(new JwtResponse(token));
+    }
+
+    @RequestMapping(value = "/register", method = RequestMethod.POST)
+    public ResponseEntity<?> saveUser(@RequestBody UserDTO user) throws Exception {
+        return ResponseEntity.ok(userDetailsService.save(user));
     }
 
     private void authenticate(String username, String password) throws Exception {
