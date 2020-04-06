@@ -15,6 +15,7 @@ class PharmacyApp extends Component {
                             <Route path="/authenticate" component={LoginComponent}></Route>
                             <Route path="/home/checkStock" component={ListDrugsComponent}></Route>
                             <Route path="/home" exact component={WelcomeComponent}></Route>
+                            <Route path="/logout" component={LogoutComponent}></Route>
                             <Route path="" component={ErrorComponent}></Route>
                         </Switch>
                         <FooterComponent></FooterComponent>
@@ -105,9 +106,20 @@ class HeaderComponent extends Component {
 class FooterComponent extends Component {
     render() {
         return (
+            <footer className="footer">
+                <span className="text-muted">All Rights Reserved 2020 @awpathum</span>
+
+            </footer>
+        )
+    }
+}
+
+class LogoutComponent extends Component{
+    render(){
+        return(
             <div>
-                Footer
-                <hr></hr>
+                <h1>You are Logged Out</h1>
+                <div className="container">Have a Nice Day</div>
             </div>
         )
     }
