@@ -1,13 +1,22 @@
-import React  from 'react';
+import React from 'react';
 import { Component } from "react";
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
-class PharmacyApp extends Component{
+class PharmacyApp extends Component {
 
-    render(){
-        return(
+    render() {
+        return (
             <div className="PharmacyApp">
-            <LoginComponent></LoginComponent>
-            <WelcomeComponent></WelcomeComponent>
+                    <Router>
+                        <>
+                        <Route path="/" exact component={LoginComponent}></Route>
+                        <Route path="/authenticate" component={LoginComponent}></Route>
+                        <Route path="/home/" component={WelcomeComponent}></Route>
+                        </> 
+                    </Router>
+            
+                {/* <LoginComponent></LoginComponent>
+            <WelcomeComponent></WelcomeComponent> */}
 
             </div>
         )
@@ -15,62 +24,63 @@ class PharmacyApp extends Component{
 }
 
 
-class WelcomeComponent extends Component{
+class WelcomeComponent extends Component {
 
-    render(){
+    render() {
         return <div>Welcome to Pharmacy</div>
     }
 }
 
 
-class LoginComponent extends Component{
+class LoginComponent extends Component {
 
-    constructor(props){
+    constructor(props) {
         super(props)
-        this.state ={
-            username : 'mamba',
-            password : '',
-            hasLoginFailed:false,
-            showSuccessMessage : false
+        this.state = {
+            username: 'mamba',
+            password: '',
+            hasLoginFailed: false,
+            showSuccessMessage: false
         }
         this.handleChange = this.handleChange.bind(this);
         this.loginClicked = this.loginClicked.bind(this);
     }
 
-    handleChange(event){
+    handleChange(event) {
         //console.log(event.target.value);
 
         this.setState({
-            [event.target.name] : event.target.value
+            [event.target.name]: event.target.value
         })
 
     }
 
-    loginClicked(){
+    loginClicked() {
         //mamba
         //mamba123
-        if(this.state.username === 'mamba' && this.state.password === 'mamba123'){
-            console.log('Successful')
-            this.setState({showSuccessMessage : true})
-            this.setState({hasLoginFailed : false})
+        if (this.state.username === 'mamba' && this.state.password === 'mamba123') {
+            
+            this.props.history.push("/home")
+            // this.setState({ showSuccessMessage: true })
+            // this.setState({ hasLoginFailed: false })
         }
-        else{
+        else {
             console.log('failed')
-            this.setState({showSuccessMessage :false})
-            this.setState({hasLoginFailed:true})
+            this.setState({ showSuccessMessage: false })
+            this.setState({ hasLoginFailed: true })
         }
 
         console.log(this.state)
     }
-     
-    render(){
-        return(
+
+    render() {
+        return (
             <div>
                 {this.state.hasLoginFailed && <div>Invalid Credentials</div>}
                 {this.state.showSuccessMessage && <div>Login Successful</div>}
                 User Name : <input type="text" name="username" value={this.state.username} onChange={this.handleChange}></input>
                 Password : <input type="password" name="password" value={this.state.password} onChange={this.handleChange}></input>
-                <button onClick = {this.loginClicked}>Login</button>
+                <button onClick={this.loginClicked}>Login</button>
 
             </div>
 
