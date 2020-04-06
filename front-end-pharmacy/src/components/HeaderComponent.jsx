@@ -1,6 +1,6 @@
 import React from 'react';
 import { Component } from "react";
-import { BrowserRouter as Link } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
 import AuthenticationService from './AuthenticationService.js'
 class HeaderComponent extends Component {
     render() {
