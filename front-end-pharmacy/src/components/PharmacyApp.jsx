@@ -3,12 +3,13 @@ import { Component } from "react";
 import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
 import AuthenticatedRoute from './AuthenticatedRoute.jsx';
 import LoginComponent from './LoginComponent.jsx'
-import ListDrugsComponent from './ListDrugs.jsx'
+import ListDrugsComponent from './DrugComponents/ListDrugsComponent.jsx'
 import HeaderComponent from './HeaderComponent.jsx'
 import FooterComponent from './FooterComponent.jsx'
 import LogoutComponent from './LogoutComponent.jsx'
 import WelcomeComponent from './WelcomeComponent.jsx'
 import ErrorComponent from './ErrorComponent'
+import DrugComponent from './DrugComponents/DrugComponent.jsx'
 
 class PharmacyApp extends Component {
 
@@ -23,6 +24,7 @@ class PharmacyApp extends Component {
                             <Route path="/authenticate" component={LoginComponent}></Route>
                             <AuthenticatedRoute path="/home/checkStock" component={ListDrugsComponent}></AuthenticatedRoute>
                             <AuthenticatedRoute path="/home" exact component={WelcomeComponent}></AuthenticatedRoute>
+                            <AuthenticatedRoute path="/drug/:id" component={DrugComponent}></AuthenticatedRoute>
                             <AuthenticatedRoute path="/logout" component={LogoutComponent}></AuthenticatedRoute>
                             <Route path="" component={ErrorComponent}></Route>
                         </Switch>

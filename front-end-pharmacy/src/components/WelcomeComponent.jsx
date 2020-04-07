@@ -12,6 +12,7 @@ class WelcomeComponent extends Component {
         }
         this.retriveWelcomeMessage = this.retriveWelcomeMessage.bind(this)
         this.handleSuccessfulResponse = this.handleSuccessfulResponse.bind(this)
+        this.handleError = this.handleError.bind(this)
     }
 
     render() {
@@ -42,7 +43,7 @@ class WelcomeComponent extends Component {
     retriveWelcomeMessage() {
         HelloWorldService.executeHelloWorldService()
         .then(response => this.handleSuccessfulResponse(response))
-        //.catch()
+        .catch(error => this.handleError(error))
     }
 
     handleSuccessfulResponse(response){
@@ -50,6 +51,13 @@ class WelcomeComponent extends Component {
         
         this.setState({
             welcomeMessage : response.data.greet
+        })
+        
+    }
+
+    handleError(error){
+        this.setState({
+            welcomeMessage : error.response.data.message
         })
         
     }

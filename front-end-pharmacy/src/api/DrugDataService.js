@@ -1,12 +1,12 @@
 import Axios from "axios"
 
-let restApiUrl = 'hrrp://localhost:8080/'
+let restApiUrl = 'http://localhost:8080/'
 class DrugDataService {
 
     
 
     retrieveAllDrugs(){
-        return Axios.get(`${restApiUrl}/supplier/`)
+        return Axios.get(`${restApiUrl}/drug/`)
 
      }
 

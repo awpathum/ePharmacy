@@ -49,6 +49,7 @@ public class SupplierController {
 	}
 
 	@DeleteMapping("/{supplierId}")
+	@CrossOrigin(origins="http://localhost:4200")
 	public String deleteSupplier(@PathVariable String supplierId) {
 
 		Supplier tempSupplier = supplierService.getSupplier(supplierId);
