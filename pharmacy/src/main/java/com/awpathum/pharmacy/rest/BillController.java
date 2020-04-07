@@ -21,6 +21,7 @@ import com.awpathum.pharmacy.service.StockService;
 
 @RestController
 @RequestMapping("/bill")
+@CrossOrigin(origins="http://localhost:4200")
 public class BillController {
 
 	// need to inject the bill service

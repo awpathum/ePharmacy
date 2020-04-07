@@ -12,6 +12,7 @@ import com.awpathum.pharmacy.service.SupplierService;
 
 @RestController
 @RequestMapping("/supplier")
+@CrossOrigin(origins="http://localhost:4200")
 public class SupplierController {
 
 	// need to inject the supplier service

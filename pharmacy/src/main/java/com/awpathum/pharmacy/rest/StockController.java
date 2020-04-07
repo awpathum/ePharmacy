@@ -18,6 +18,7 @@ import com.awpathum.pharmacy.service.SupplierService;
 
 @RestController
 @RequestMapping("/stock")
+@CrossOrigin(origins="http://localhost:4200")
 public class StockController {
 	
 
