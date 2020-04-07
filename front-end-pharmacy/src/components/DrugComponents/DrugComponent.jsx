@@ -1,23 +1,51 @@
 import React, { Component } from 'react';
-import { Formik, Field } from 'formik';
+import { Formik, Field,Form,ErrorMessage } from 'formik';
+import DrugDataService from '../../api/DrugDataService.js'
 
 class DrugComponent extends Component {
 
     constructor(props) {
         super(props)
         this.state = {
-            id: 'PK001',
-            name: 'ZZZ',
-            unitPrice: 10,
-            compound: 'Paracetamol',
+            id: this.props.match.params.id,
+            name: this.props.match.params.name,
+            unitPrice: this.props.match.params.unitPrice,
+            compound: this.props.match.params.compound,
             stock: 5000
         }
+        this.onSubmit = this.onSubmit.bind(this)
+        this.validate = this.validate.bind(this)
     }
 
+    componentDidMount(){
+        DrugDataService.retrieveDrugById(this.state.id)
+                        .then(response => this.setState({
+                            name: response.data.name,
+                            unitPrice : response.data.unitPrice,
+                            compound : response.data.compound,
+                            stock : response.data.quantity
+                        }))
+    }
+
+    onSubmit(values){
+        console.log(values)
+    }
+
+    validate(values){
+        console.log(values)
+        let errors = {}
+        if(!values.name){
+            errors.name = 'Enter a name'
+        }
+        if(!values.unitPrice){
+            errors.unitPrice = 'Enter unit price'
+        }
+        
+        return errors
+    }
     render() {
-        let id = this.state.id
         let name = this.state.name
-        let unitPrice = this.unitPrice
+        let unitPrice = this.state.unitPrice
         let compound = this.state.compound
         let stock = this.state.stock
         return <div>
@@ -25,20 +53,23 @@ class DrugComponent extends Component {
             <div className="container">
                 <Formik
                     initialValues={{
-                        id,
+                        
                         name,
                         unitPrice,
                         compound,
                         stock
                     }}
+                    onSubmit = {this.onSubmit}  
+                    validateOnChange={false}
+                    validateOnBlur={false}
+                    validate = {this.validate}
+                    enableReinitialize={true}
                 >
                     {
                         (props) => (
-                            <form>
-                                <fieldset className="form-group">
-                                    <label>Id</label>
-                                    <Field className="form-control" type="text" name="id"></Field>
-                                </fieldset>
+                            <Form>
+                                <ErrorMessage name="name" Component="div" className="alert alert-warning"></ErrorMessage>
+                                <ErrorMessage name="unitPrice" Component="div" className="alert alert-warning"></ErrorMessage>
                                 <fieldset className="form-group">
                                     <label>Name</label>
                                     <Field className="form-control" type="text" name="name"></Field>
@@ -56,7 +87,7 @@ class DrugComponent extends Component {
                                     <Field className="form-control" type="text" name="stock"></Field>
                                 </fieldset>
                                 <button className="btn btn-success" type="submit">Save</button>
-                            </form>
+                            </Form>
                         )
                     }
                 </Formik>
