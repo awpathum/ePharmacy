@@ -13,6 +13,7 @@ class ListDrugsComponent extends Component {
         this.deleteDrugClicked = this.deleteDrugClicked.bind(this)
         this.refreshDrugs = this.refreshDrugs.bind(this)
         this.updateDrugClicked = this.updateDrugClicked.bind(this)
+        this.addTodoClicked = this.adlsdTodoClicked.bind(this)
         
     }
 
@@ -39,6 +40,9 @@ class ListDrugsComponent extends Component {
                 <h1>Drugs</h1>
                 {this.state.message && <div className="alert alert-success">{this.state.message}</div>}
                 <div className="container">
+                <div className="row">
+                    <button className="btn btn-success" onClick={this.addTodoClicked}>Add</button>
+                </div>
                     <table className="table">
                         <thead>
                             <tr>
@@ -49,6 +53,7 @@ class ListDrugsComponent extends Component {
                                 <th>Stock</th>
                                 {/* <th>Delete</th> */}
                                 <th>Update</th>
+                                
                             </tr>
                         </thead>
                         <tbody>
@@ -91,6 +96,10 @@ class ListDrugsComponent extends Component {
         console.log(`${id}`)
         this.props.history.push(`/drug/${id}`)
         
+    }
+
+    addTodoClicked(){
+        this.props.history.push('/newdrug')
     }
 
 }

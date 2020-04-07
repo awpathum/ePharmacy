@@ -14,6 +14,10 @@ class DrugDataService {
          return Axios.get(`${restApiUrl}/drug/${id}`)
      }
 
+     updateDrug(id){
+        return Axios.put(`${restApiUrl}/drug/${id}`)
+     }
+
      //cannot delete sql thows an error because of forign keys
 
     //  deleteDrug(id){

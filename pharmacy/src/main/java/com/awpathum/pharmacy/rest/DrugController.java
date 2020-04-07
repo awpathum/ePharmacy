@@ -43,8 +43,8 @@ public class DrugController {
 		return drugService.getDrug(drugId);
 	}
 
-	@PutMapping("/")
-	public Drug updateDrug(@RequestBody Drug theDrug) {
+	@PutMapping("/{drugId}")
+	public Drug updateDrug(@PathVariable String drugId,@RequestBody Drug theDrug) {
 
 		drugService.saveDrug(theDrug);
 

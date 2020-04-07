@@ -1,8 +1,9 @@
-import React, { Component } from 'react';
+import React from 'react';
+import { Component } from "react";
 import { Formik, Field,Form,ErrorMessage } from 'formik';
 import DrugDataService from '../../api/DrugDataService.js'
 
-class DrugComponent extends Component {
+class AddNewDrugComponent extends Component{
 
     constructor(props) {
         super(props)
@@ -11,55 +12,25 @@ class DrugComponent extends Component {
             name: this.props.match.params.name,
             unitPrice: this.props.match.params.unitPrice,
             compound: this.props.match.params.compound,
-            stock: this.props.match.params.quantity
+            stock: 5000
         }
-        this.onSubmit = this.onSubmit.bind(this)
-        this.validate = this.validate.bind(this)
+        // this.onSubmit = this.onSubmit.bind(this)
+        // this.validate = this.validate.bind(this)
     }
 
-    componentDidMount(){
-        DrugDataService.retrieveDrugById(this.state.id)
-                        .then(response => this.setState({
-                            name: response.data.name,
-                            unitPrice : response.data.unitPrice,
-                            compound : response.data.compound,
-                        }))
-    }
+    // componentDidMount(){
 
-    onSubmit(values){
-        console.log(values)
-        DrugDataService.updateDrug(this.state.id,{
-            name : values.name,
-            unitPrice : values.unitPrice,
-            compound : values.compound,
-        }).then(() => this.props.history.push(`/drug/`)).catch((e) => console.log(e))
-    }
+    // }
 
-    validate(values){
-        console.log(values)
-        let errors = {}
-        if(!values.name){
-            errors.name = 'Enter a name'
-        }
-        if(!values.unitPrice){
-            errors.unitPrice = 'Enter unit price'
-        }
-        
-        return errors
-    }
-    render() {
-        let name = this.state.name
-        let unitPrice = this.state.unitPrice
-        let compound = this.state.compound
-        return <div>
-            <h1>Drug</h1>
+    render(){
+        let id = this.state.id
+        return(
+            <>
+            <h1>Add New Drug</h1>
             <div className="container">
                 <Formik
                     initialValues={{
-                        
-                        name,
-                        unitPrice,
-                        compound
+                        id
                     }}
                     onSubmit = {this.onSubmit}  
                     validateOnChange={false}
@@ -72,6 +43,10 @@ class DrugComponent extends Component {
                             <Form>
                                 <ErrorMessage name="name" Component="div" className="alert alert-warning"></ErrorMessage>
                                 <ErrorMessage name="unitPrice" Component="div" className="alert alert-warning"></ErrorMessage>
+                                <fieldset className="form-group">
+                                    <label>Id</label>
+                                    <Field className="form-control" type="text" name="id"></Field>
+                                </fieldset>
                                 <fieldset className="form-group">
                                     <label>Name</label>
                                     <Field className="form-control" type="text" name="name"></Field>
@@ -91,7 +66,8 @@ class DrugComponent extends Component {
                 </Formik>
 
             </div>
-        </div>
+            </>
+        )
     }
 }
-export default DrugComponent
+export default AddNewDrugComponent

@@ -21,7 +21,7 @@ class WelcomeComponent extends Component {
 
                 <h1>Welcome!</h1>
                 <div className="container">
-                    Welcome to Pharmacy. To Check the Drug Stock <Link to="home/checkStock">Click Here</Link>
+                    Welcome to Pharmacy. To Check the Drug Stock <Link to="drug/">Click Here</Link>
                 </div>
 
                 <div className="container">

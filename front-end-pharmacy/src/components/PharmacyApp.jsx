@@ -10,6 +10,7 @@ import LogoutComponent from './LogoutComponent.jsx'
 import WelcomeComponent from './WelcomeComponent.jsx'
 import ErrorComponent from './ErrorComponent'
 import DrugComponent from './DrugComponents/DrugComponent.jsx'
+import AddNewDrugComponent from './DrugComponents/AddNewDrugComponent.jsx'
 
 class PharmacyApp extends Component {
 
@@ -22,9 +23,10 @@ class PharmacyApp extends Component {
                         <Switch>
                             <Route path="/" exact component={LoginComponent}></Route>
                             <Route path="/authenticate" component={LoginComponent}></Route>
-                            <AuthenticatedRoute path="/home/checkStock" component={ListDrugsComponent}></AuthenticatedRoute>
+                            <AuthenticatedRoute path="/drug/:id" exact component={DrugComponent}></AuthenticatedRoute>
+                            <AuthenticatedRoute path="/drug/" component={ListDrugsComponent}></AuthenticatedRoute>
+                            <AuthenticatedRoute path="/newdrug/" component={AddNewDrugComponent}></AuthenticatedRoute>
                             <AuthenticatedRoute path="/home" exact component={WelcomeComponent}></AuthenticatedRoute>
-                            <AuthenticatedRoute path="/drug/:id" component={DrugComponent}></AuthenticatedRoute>
                             <AuthenticatedRoute path="/logout" component={LogoutComponent}></AuthenticatedRoute>
                             <Route path="" component={ErrorComponent}></Route>
                         </Switch>
