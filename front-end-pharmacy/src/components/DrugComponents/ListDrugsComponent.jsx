@@ -13,7 +13,7 @@ class ListDrugsComponent extends Component {
         this.deleteDrugClicked = this.deleteDrugClicked.bind(this)
         this.refreshDrugs = this.refreshDrugs.bind(this)
         this.updateDrugClicked = this.updateDrugClicked.bind(this)
-        this.addTodoClicked = this.adlsdTodoClicked.bind(this)
+        this.addTodoClicked = this.addTodoClicked.bind(this)
         
     }
 
