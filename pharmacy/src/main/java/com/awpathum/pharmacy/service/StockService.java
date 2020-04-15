@@ -2,13 +2,13 @@ package com.awpathum.pharmacy.service;
 
 import java.util.List;
 
+import com.awpathum.pharmacy.classes.StockResponse;
 import com.awpathum.pharmacy.entity.Stock;
-import com.awpathum.pharmacy.entity.Supplier;
 
 public interface StockService {
 	
 
-	public List<Stock> getStocks();
+	public List<StockResponse> getStocks();
 
 	public void saveStock(Stock theStock);
 

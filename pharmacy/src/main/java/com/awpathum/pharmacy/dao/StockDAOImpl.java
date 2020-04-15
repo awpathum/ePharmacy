@@ -2,6 +2,7 @@ package com.awpathum.pharmacy.dao;
 
 import java.util.List;
 
+import com.awpathum.pharmacy.classes.StockResponse;
 import org.hibernate.Session;
 import javax.persistence.EntityManager;
 import org.hibernate.query.Query;
@@ -17,15 +18,16 @@ public class StockDAOImpl implements StockDAO {
 	private EntityManager entityManager;
 
 	@Override
-	public List<Stock> getStocks() {
+	public List<StockResponse> getStocks() {
 
 		Session currentSession = entityManager.unwrap(Session.class);
 
-		// create a query
-		Query<Stock> theQuery = currentSession.createQuery("from Stock order by id", Stock.class); // Supplier is entity
-																								// class name
+		String sqlQuery="SELECT new com.awpathum.pharmacy.classes.StockResponse(s.id,s.drugName,s.quantity,s.manDate,s.resDate,s.expDate,sp.name,sp.id) FROM Stock s INNER JOIN s.supplier sp";
+
+		Query<StockResponse> theQuery = currentSession.createQuery(sqlQuery);
 		// execute query and get result list
-		List<Stock> stocks = theQuery.getResultList();
+		List<StockResponse> stocks = theQuery.getResultList();
+
 		// return the results
 		return stocks;
 	}

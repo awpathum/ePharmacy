@@ -2,10 +2,11 @@ package com.awpathum.pharmacy.dao;
 
 import java.util.List;
 
+import com.awpathum.pharmacy.classes.StockResponse;
 import com.awpathum.pharmacy.entity.Stock;
 public interface StockDAO {
 
-	public List<Stock> getStocks();
+	public List<StockResponse> getStocks();
 
 	public void saveStock(Stock theStock);
 

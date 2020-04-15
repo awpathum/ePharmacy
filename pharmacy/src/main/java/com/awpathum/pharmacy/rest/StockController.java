@@ -3,6 +3,7 @@ package com.awpathum.pharmacy.rest;
 import java.util.List;
 
 import com.awpathum.pharmacy.classes.DrugStock;
+import com.awpathum.pharmacy.classes.StockResponse;
 import com.awpathum.pharmacy.classes.SupplierStock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -43,10 +44,11 @@ public class StockController {
 	}
 
 	@GetMapping("/")
-	public List<Stock> listStocks() {
+	public List<StockResponse> listStocks() {
 
 		// get stocks form the service
-		List<Stock> theStocks = stockService.getStocks();
+		List<StockResponse> theStocks = stockService.getStocks();
+		System.out.println(theStocks);
 		return theStocks;
 	}
 	//get stock by id

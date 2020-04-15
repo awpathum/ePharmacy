@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 
 const Input = ({ name, label, value, onChange, error, type,isdisabled }) => {
     return (
@@ -11,7 +11,7 @@ const Input = ({ name, label, value, onChange, error, type,isdisabled }) => {
                 name={name}
                 type={type}
                 className="form-control"
-                disabled = {isdisabled}
+                disabled={isdisabled}
             />
             {error && <div className="alert alert-danger">{error}</div>}
         </div>

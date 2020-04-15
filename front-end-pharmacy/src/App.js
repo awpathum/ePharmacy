@@ -4,11 +4,11 @@ import "./App.css";
 import Home from "./components/home";
 import NavBar from "./components/navBar";
 import Suppliers from "./components/suppliers/suppliers";
-import Stocks from "./components/stocks";
 import Drugs from "./components/drugs";
 import Bills from "./components/bills";
 import NotFound from "./components/notfound";
 import SupplierForm from "./components/suppliers/supplierFrom";
+import Stocks from './components/stocks/stocks';
 
 class App extends Component {
   render() {

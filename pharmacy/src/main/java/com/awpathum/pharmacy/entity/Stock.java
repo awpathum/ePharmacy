@@ -115,7 +115,7 @@ public class Stock {
 	public void setSupplier(Supplier supplier) {
 		this.supplier = supplier;
 	}
-	
+
 
 	public Drug getDrug() {
 		return drug;

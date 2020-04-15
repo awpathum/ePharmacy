@@ -1,13 +1,11 @@
 import React, { Component } from "react";
-// import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 import Pagination from "../common/pagination";
 import { paginate } from '../../utils/paginate';
-import ListGroup from "../common/listGroup";
 import SearchBox from "../common/searchBox";
 import SuppliersTable from "./suppliersTable";
 import { getSuppliers, deleteSupplier } from "../../services/supplierService";
 import _ from 'lodash';
-import { Route, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 
 class Suppliers extends Component {
@@ -18,7 +16,7 @@ class Suppliers extends Component {
         searchQuery: "",
         selectedGenre: null,
         sortColumn: { path: 'supplier', order: 'asc' },
-        isdisabled : true
+        isdisabled: true
     }
 
     async componentDidMount() {
@@ -135,7 +133,7 @@ class Suppliers extends Component {
 
     render() {
         const { length: count } = this.state.suppliers;
-        const { pageSize, currentPage, suppliers: allSuppliers, selectedGenre, sortColumn, navBarItems, searchQuery,isdisabled } = this.state;
+        const { pageSize, currentPage, suppliers: allSuppliers, sortColumn, searchQuery } = this.state;
         if (count === 0) {
             return <p>There are no suppliers in the database.</p>
         }
@@ -145,10 +143,10 @@ class Suppliers extends Component {
             <div className="container">
                 <h1>Suppliers</h1>
                 <Link
-                to = {{pathname:"/suppliers/new",newId : newSupplierId}}
+                    to={{ pathname: "/suppliers/new", newId: newSupplierId }}
                     className="btn btn-primary"
-                    style={{ marginBottom: 20 }    
-                }
+                    style={{ marginBottom: 20 }
+                    }
                 >
                     New Supplier
             </Link>

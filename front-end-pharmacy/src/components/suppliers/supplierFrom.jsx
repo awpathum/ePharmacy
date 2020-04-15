@@ -2,7 +2,6 @@ import React from "react";
 import Joi from "joi-browser";
 import Form from "../common/form";
 import { getSupplier, saveSupplier } from "../../services/supplierService";
-import { getGenres } from "../../services/genreService";
 
 class SupplierForm extends Form {
     state = {
