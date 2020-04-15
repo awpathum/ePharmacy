@@ -12,7 +12,7 @@ import com.awpathum.pharmacy.service.DrugService;
 
 @RestController
 @RequestMapping("/drug")
-@CrossOrigin(origins="http://localhost:4200")
+@CrossOrigin(origins="http://localhost:3000")
 public class DrugController {
 
 	// need to inject the drug service

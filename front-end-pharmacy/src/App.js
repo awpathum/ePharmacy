@@ -1,19 +1,35 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from "react";
+import { Route, Switch, Redirect } from "react-router-dom";
+import "./App.css";
+import Home from "./components/home";
+import NavBar from "./components/navBar";
+import Suppliers from "./components/suppliers";
+import Stocks from "./components/stocks";
+import Drugs from "./components/drugs";
+import Bills from "./components/bills";
+import NotFound from "./components/notfound";
+import SupplierForm from "./components/supplierFrom";
 
 class App extends Component {
   render() {
     return (
-      <div className="App">
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
-        </div>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-      </div>
+      <React.Fragment>
+        <NavBar></NavBar>
+        <main className="container">
+          <Switch>
+            <Route path="/home" component={Home}></Route>
+            <Route path="/suppliers/:id" component={SupplierForm}></Route>
+            <Route path="/suppliers/new" exact component={SupplierForm}></Route>
+            <Route path="/suppliers" component={Suppliers}></Route>
+            <Route path="/stocks" component={Stocks}></Route>
+            <Route path="/drugs" component={Drugs}></Route>
+            <Route path="/bills" component={Bills}></Route>
+            <Route path="/not-found" component={NotFound}></Route>
+            <Redirect from="/" exact to="/home"></Redirect>
+            <Redirect to="/not-found"></Redirect>
+          </Switch>
+        </main>
+      </React.Fragment>
     );
   }
 }

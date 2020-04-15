@@ -12,7 +12,7 @@ import com.awpathum.pharmacy.service.SupplierService;
 
 @RestController
 @RequestMapping("/supplier")
-@CrossOrigin(origins="http://localhost:4200")
+@CrossOrigin(origins="http://localhost:3000")
 public class SupplierController {
 
 	// need to inject the supplier service
@@ -49,7 +49,6 @@ public class SupplierController {
 	}
 
 	@DeleteMapping("/{supplierId}")
-	@CrossOrigin(origins="http://localhost:4200")
 	public String deleteSupplier(@PathVariable String supplierId) {
 
 		Supplier tempSupplier = supplierService.getSupplier(supplierId);
