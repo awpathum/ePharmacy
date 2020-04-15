@@ -3,12 +3,12 @@ import { Route, Switch, Redirect } from "react-router-dom";
 import "./App.css";
 import Home from "./components/home";
 import NavBar from "./components/navBar";
-import Suppliers from "./components/suppliers";
+import Suppliers from "./components/suppliers/suppliers";
 import Stocks from "./components/stocks";
 import Drugs from "./components/drugs";
 import Bills from "./components/bills";
 import NotFound from "./components/notfound";
-import SupplierForm from "./components/supplierFrom";
+import SupplierForm from "./components/suppliers/supplierFrom";
 
 class App extends Component {
   render() {
