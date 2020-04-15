@@ -18,6 +18,7 @@ class Suppliers extends Component {
         searchQuery: "",
         selectedGenre: null,
         sortColumn: { path: 'supplier', order: 'asc' },
+        isdisabled : true
     }
 
     async componentDidMount() {
@@ -89,6 +90,11 @@ class Suppliers extends Component {
         })
     }
 
+    handleButtonDisable = () => {
+        console.log(this.state.suppliers.stocks.length);
+        //if(this.state.suppliers.stock)
+    }
+
     getPageData = () => {
         const { pageSize, currentPage, suppliers: allSuppliers, selectedGenre, sortColumn, searchQuery } = this.state;
         let filtered = allSuppliers;
@@ -134,8 +140,8 @@ class Suppliers extends Component {
 
     render() {
         const { length: count } = this.state.suppliers;
-        const { pageSize, currentPage, suppliers: allSuppliers, selectedGenre, sortColumn, navBarItems, searchQuery } = this.state;
-
+        const { pageSize, currentPage, suppliers: allSuppliers, selectedGenre, sortColumn, navBarItems, searchQuery,isdisabled } = this.state;
+       // this.handleButtonDisable();
         if (count === 0) {
             return <p>There are no suppliers in the database.</p>
         }
@@ -149,9 +155,7 @@ class Suppliers extends Component {
                 <Link
                 to = {{pathname:"/suppliers/new",newId : newSupplierId}}
                     className="btn btn-primary"
-                    style={{ marginBottom: 20 }
-                
-                    
+                    style={{ marginBottom: 20 }    
                 }
                 >
                     New Supplier

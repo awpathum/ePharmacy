@@ -25,5 +25,6 @@ export function saveSupplier(supplier) {
 }
 
 export function deleteSupplier(supplierId) {
+  console.log(supplierId)
   http.delete(supplierUrl(supplierId));
 }
