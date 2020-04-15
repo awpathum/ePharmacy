@@ -79,7 +79,7 @@ class SupplierForm extends Form {
             <div>
                 <h1>Supplier Form</h1>
                 <form onSubmit={this.handleSubmit}>
-                    {this.renderInput("id", "Supplier Id")}
+                    {this.renderInput("id", "Supplier Id","text",true)}
                     {this.renderInput("name", "Name")}
                     {this.renderInput("location", "Location")}
                     {this.renderInput("email", "Email")}
