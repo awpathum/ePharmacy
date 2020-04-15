@@ -4,7 +4,7 @@ import { apiUrl } from "../config.json";
 const apiEndpoint = apiUrl + "/supplier/";
 
 function supplierUrl(id) {
-  return `${apiEndpoint}/${id}`;
+  return `${apiEndpoint}${id}`;
 }
 
 export function getSuppliers() {
@@ -14,13 +14,14 @@ export function getSuppliers() {
 export function getSupplier(supplierId) {
   return http.get(supplierUrl(supplierId));
 }
+
 export function saveSupplier(supplier) {
-  if (supplier._id) {
+  if (supplier.id) {
     const body = { ...supplier };
-    delete body._id;
-    return http.put(supplierUrl(supplier._id), body);
+    delete body.id;
+    //return http.put(supplierUrl(supplier.id), body);
+    return http.post(apiEndpoint, supplier);
   }
-  return http.post(apiEndpoint, supplier);
 }
 
 export function deleteSupplier(supplierId) {
