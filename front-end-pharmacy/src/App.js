@@ -9,7 +9,7 @@ import Bills from "./components/bills";
 import NotFound from "./components/notfound";
 import SupplierForm from "./components/suppliers/supplierFrom";
 import Stocks from './components/stocks/stocks';
-
+import StockForm from './components/stocks/stockForm';
 class App extends Component {
   render() {
     return (
@@ -21,6 +21,8 @@ class App extends Component {
             <Route path="/suppliers/:id" component={SupplierForm}></Route>
             <Route path="/suppliers/new" exact component={SupplierForm}></Route>
             <Route path="/suppliers" component={Suppliers}></Route>
+            <Route path="/stocks/:id" component={StockForm}></Route>
+            <Route path="/stocks/new" exact component={StockForm}></Route>
             <Route path="/stocks" component={Stocks}></Route>
             <Route path="/drugs" component={Drugs}></Route>
             <Route path="/bills" component={Bills}></Route>

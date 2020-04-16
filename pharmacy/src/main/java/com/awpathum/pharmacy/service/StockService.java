@@ -14,6 +14,8 @@ public interface StockService {
 
 	public Stock getStock(String theId);
 
+	public StockResponse getStockResponse(String theId);
+
 	public void deleteStock(String theId);
 	
 	public void reduceStock(String theId, Integer quantity);

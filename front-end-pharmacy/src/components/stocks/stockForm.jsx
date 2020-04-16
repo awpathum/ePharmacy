@@ -1,29 +1,34 @@
 import React from "react";
 import Joi from "joi-browser";
-import Form from "./common/form";
-import { getStock, saveStock } from "../services/stockService";
-import { getGenres } from "../services/genreService";
+import Form from "../common/form";
+import { getStock, saveStock } from "../../services/stockService";
+import { getSuppliers } from "../../services/supplierService";
+
 
 class StockForm extends Form {
   state = {
     data: {
-      title: "",
-      genreId: "",
-      numberInStock: "",
-      dailyRentalRate: ""
+      id: "",
+      drugName: "",
+      quantity: 0,
+      manDate: "",
+      resDate: "",
+      expDate: "",
+      supplier: "",
+      supplierId: ""
     },
-    genres: [],
+    suppliers: [],
     errors: {}
   };
 
   schema = {
-    _id: Joi.string(),
+    id: Joi.string(),
     title: Joi.string()
       .required()
       .label("Title"),
-    genreId: Joi.string()
+    supplierId: Joi.string()
       .required()
-      .label("Genre"),
+      .label("Supplier"),
     numberInStock: Joi.number()
       .required()
       .min(0)
@@ -36,11 +41,22 @@ class StockForm extends Form {
       .label("Daily Rental Rate")
   };
 
-  async populateGenres() {
-    const { data: genres } = await getGenres();
-    this.setState({ genres });
+  async populateSuppliers() {
+    const { data: suppliers } = await getSuppliers();
+    let supNames= [];
+    suppliers.forEach(e => {
+      console.log(e.name);
+      supNames.push(e.name);
+    });
+    this.setState({ suppliers : supNames });
   }
-
+  //   async componentDidMount() {
+  //     const { data: suppliers } = await getSuppliers();
+  //     console.log(suppliers[0].name);
+  //     this.setState({
+  //         suppliers,
+  //     })
+  // }
   async populateStock() {
     try {
       const stockId = this.props.match.params.id;
@@ -55,17 +71,20 @@ class StockForm extends Form {
   }
 
   async componentDidMount() {
-    await this.populateGenres();
+    await this.populateSuppliers();
     await this.populateStock();
   }
 
   mapToViewModel(stock) {
     return {
-      _id: stock._id,
-      title: stock.title,
-      genreId: stock.genre._id,
-      numberInStock: stock.numberInStock,
-      dailyRentalRate: stock.dailyRentalRate
+      id: stock.id,
+      drugName: stock.drugName,
+      quantity: stock.quantity,
+      manDate: stock.manDate,
+      resDate: stock.resDate,
+      expDate: stock.expDate,
+      supplier: stock.supplier
+
     };
   }
 
@@ -76,14 +95,23 @@ class StockForm extends Form {
   };
 
   render() {
+    console.log(this.state.suppliers)
+    //console.log(this.state.suppliers.filter(s => s.name = this.state.data.supplier.name))
     return (
       <div>
         <h1>Stock Form</h1>
         <form onSubmit={this.handleSubmit}>
-          {this.renderInput("title", "Title")}
-          {this.renderSelect("genreId", "Genre", this.state.genres)}
-          {this.renderInput("numberInStock", "Number in Stock", "number")}
-          {this.renderInput("dailyRentalRate", "Rate")}
+          {this.renderInput("id", "Stock Id", "text", true)}
+          {this.renderInput("drugName", "Drug Name")}
+          {this.renderInput("quantity", "Quantity")}
+          {this.renderInput("manDate", "Man Date")}
+          {this.renderInput("resDate", "Res Date")}
+          {this.renderInput("expDate", "Exp Rate")}
+          {
+            //this.renderSelect("supplierId", "Supplier", this.state.suppliers)
+             this.state.data.id === null ? this.renderSelect("supplierId", "Supplier", this.state.suppliers) : this.renderSelect("supplierId", "Supplier", this.state.suppliers.filter(s => s === this.state.data.supplier))
+          };
+
           {this.renderButton("Save")}
         </form>
       </div>

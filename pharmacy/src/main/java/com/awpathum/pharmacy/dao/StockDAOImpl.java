@@ -22,6 +22,7 @@ public class StockDAOImpl implements StockDAO {
 
 		Session currentSession = entityManager.unwrap(Session.class);
 
+		//need to add supplier to return list of stocks
 		String sqlQuery="SELECT new com.awpathum.pharmacy.classes.StockResponse(s.id,s.drugName,s.quantity,s.manDate,s.resDate,s.expDate,sp.name,sp.id) FROM Stock s INNER JOIN s.supplier sp";
 
 		Query<StockResponse> theQuery = currentSession.createQuery(sqlQuery);
@@ -41,6 +42,22 @@ public class StockDAOImpl implements StockDAO {
 		// save the customer
 		currentSession.saveOrUpdate(theStock);
 
+	}
+
+	@Override
+	public StockResponse getStockResponse(String theId) {
+		System.out.println("stockDAO");
+		// get the current hibernate session
+		Session currentSession = entityManager.unwrap(Session.class);
+		// retrieve data from database using the primary key
+		String sqlQuery = "SELECT new com.awpathum.pharmacy.classes.StockResponse(s.id,s.drugName,s.quantity,s.manDate,s.resDate,s.expDate,sp.name,sp.id) FROM Stock s INNER JOIN s.supplier sp WHERE s.id = :theId";
+
+		Query<StockResponse> theQuery = currentSession.createQuery("SELECT new com.awpathum.pharmacy.classes.StockResponse(s.id,s.drugName,s.quantity,s.manDate,s.resDate,s.expDate,sp.name,sp.id) FROM Stock s INNER JOIN s.supplier sp WHERE s.id = :theId");
+		theQuery.setParameter("theId", theId);
+		StockResponse theStock = theQuery.getSingleResult();
+		//Stock theStock = currentSession.get(Stock.class, theId);
+
+		return theStock;
 	}
 	
 	@Override

@@ -8,11 +8,15 @@ function supplierUrl(id) {
 }
 
 export function getSuppliers() {
-  return http.get(apiEndpoint);
+  const suppliers = http.get(apiEndpoint);
+  console.log(suppliers);
+  return suppliers;
 }
 
 export function getSupplier(supplierId) {
-  return http.get(supplierUrl(supplierId));
+  const supplier = http.get(supplierUrl(supplierId));
+  console.log(supplier);
+  return supplier;
 }
 
 export function saveSupplier(supplier) {
@@ -25,6 +29,6 @@ export function saveSupplier(supplier) {
 }
 
 export function deleteSupplier(supplierId) {
-  console.log(supplierId)
+  console.log(supplierId);
   http.delete(supplierUrl(supplierId));
 }

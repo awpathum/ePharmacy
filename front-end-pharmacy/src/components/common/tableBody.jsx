@@ -6,6 +6,7 @@ class TableBody extends Component {
         if (column.content) {
             return column.content(item);
         }
+        console.log(_.get(item,column.path))
         return _.get(item, column.path)
     };
 

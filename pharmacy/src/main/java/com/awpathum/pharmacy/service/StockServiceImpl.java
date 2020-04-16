@@ -40,8 +40,15 @@ public class StockServiceImpl implements StockService {
 	@Override
 	@Transactional
 	public Stock getStock(String theId) {
-		
+
 		return stockDAO.getStock(theId);
+	}
+
+	@Override
+	@Transactional
+	public StockResponse getStockResponse(String theId) {
+		
+		return stockDAO.getStockResponse(theId);
 	}
 
 	@Override

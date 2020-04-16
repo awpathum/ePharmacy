@@ -36,15 +36,15 @@ class Stocks extends Component {
         })
     }
 
-    handleDelete = async (stock) => {  
+    handleDelete = async (stock) => {
         const originalStocks = this.state.stocks;
-        const stocks = originalStocks.filter(m => m._id !== stock._id);
+        const stocks = originalStocks.filter(s => s.id !== stock.id);
         this.setState({
             //key and value are same therefore can write like this
             stocks
         });
         try {
-            const res = await deleteStock(stock._id);
+            const res = await deleteStock(stock.id);
             console.log(res)
         } catch (ex) {
             console.log(ex)
@@ -115,43 +115,75 @@ class Stocks extends Component {
         return { totalCount: filtered.length, data: stocks, searchQuery }
     }
 
+    getNewStockId = (allStocks) => {
+        const allStocksLen = allStocks.length;
+        const lastStockId = allStocks[allStocksLen - 1].id;
+        console.log(lastStockId);
+        let newStockId = lastStockId.substring(1, lastStockId.length);
+        let newStockIdInt = parseInt(newStockId);
+        newStockIdInt++;
+        console.log(newStockIdInt.toString());
+        const newStockIdStr = newStockIdInt.toString();
+
+        if (newStockIdStr.length === 1) {
+            let prefix = "L00";
+            const refactoredStockId = prefix.concat(newStockIdStr);
+            return refactoredStockId;
+        } else if (newStockIdStr.length === 2) {
+            let prefix = "L0";
+            const refactoredStockId = prefix.concat(newStockIdStr);
+            return refactoredStockId;
+        } else {
+            let prefix = "L";
+            const refactoredStockId = prefix.concat(newStockIdStr);
+            return refactoredStockId;
+        }
+
+    }
 
     render() {
+        console.log(this.state.suppliers);
         const { length: count } = this.state.stocks;
         const { pageSize, currentPage, stocks: allStocks, selectedSupplier, sortColumn, navBarItems, searchQuery } = this.state;
         if (count === 0) {
-            return <p>There are no stocks in the database.</p>
+            return <Link
+                to="/stocks/new"
+                className="btn btn-primary"
+                style={{ marginBottom: 20 }}
+            >
+                New Stock
+        </Link>
         }
         const { totalCount, data: stocks } = this.getPageData();
-        console.log(stocks)
+        const newStockId = this.getNewStockId(allStocks);
         return (
 
-                <div className="container">
-                    <Link
-                        to="/stocks/new"
-                        className="btn btn-primary"
-                        style={{ marginBottom: 20 }}
-                    >
-                        New Stock
+            <div className="container">
+                <Link
+                    to="/stocks/new"
+                    className="btn btn-primary"
+                    style={{ marginBottom: 20 }}
+                >
+                    New Stock
                     </Link>
-                    <p>Showing {totalCount} stocks in the database.</p>
-                    <SearchBox
-                        value={searchQuery} onChange={this.handleSearch}></SearchBox>
-                    <StocksTable
-                        stocks={stocks}
-                        sortColumn={sortColumn}
-                        onLike={this.handleLike}
-                        onDelete={this.handleDelete}
-                        onSort={this.hanldeSort}
-                    ></StocksTable>
-                    <Pagination
-                        itemsCount={totalCount}
-                        pageSize={pageSize}
-                        currentPage={currentPage}
-                        onPageChange={this.handlePageChange}>
-                    </Pagination>
+                <p>Showing {totalCount} stocks in the database.</p>
+                <SearchBox
+                    value={searchQuery} onChange={this.handleSearch}></SearchBox>
+                <StocksTable
+                    stocks={stocks}
+                    sortColumn={sortColumn}
+                    onLike={this.handleLike}
+                    onDelete={this.handleDelete}
+                    onSort={this.hanldeSort}
+                ></StocksTable>
+                <Pagination
+                    itemsCount={totalCount}
+                    pageSize={pageSize}
+                    currentPage={currentPage}
+                    onPageChange={this.handlePageChange}>
+                </Pagination>
 
-                </div>
+            </div>
 
         );
     }

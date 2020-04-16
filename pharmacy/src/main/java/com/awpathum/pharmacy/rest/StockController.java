@@ -35,8 +35,8 @@ public class StockController {
 
 	@PostMapping("/")
 	public Stock addStock(@RequestBody Stock theStock) {
-
-		theStock.setId("");
+//		String id = theStock.getId();
+//		theStock.setId(id);
 
 		stockService.saveStock(theStock);
 
@@ -53,8 +53,8 @@ public class StockController {
 	}
 	//get stock by id
 	@GetMapping("/{stockId}")
-	public Stock getStock(@PathVariable String stockId){
-		return stockService.getStock(stockId);
+	public StockResponse getStock(@PathVariable String stockId){
+		return stockService.getStockResponse(stockId);
 	}
 
 	@PutMapping("/")
@@ -73,7 +73,7 @@ public class StockController {
 		Integer toDeleteQuantity = stockService.getStock(theId).getQuantity();
 		String toDeleteDrugId = theDrugFromStock.getId();
 		
-		
+
 		Drug genDrug = drugService.getDrug(toDeleteDrugId);
 		Integer remQuantity = genDrug.getQuantity() - toDeleteQuantity;
 		
