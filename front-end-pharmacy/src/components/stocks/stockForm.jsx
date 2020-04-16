@@ -1,11 +1,12 @@
 import React from "react";
-import Joi from "joi-browser";
-import Form from "../common/form";
+import { Formik, Form, Field, ErrorMessage } from 'formik';
+import Joi from "joi-browser"
+import FormD from "../common/form";
 import { getStock, saveStock } from "../../services/stockService";
 import { getSuppliers } from "../../services/supplierService";
 
 
-class StockForm extends Form {
+class StockForm extends FormD {
   state = {
     data: {
       id: "",
@@ -23,40 +24,26 @@ class StockForm extends Form {
 
   schema = {
     id: Joi.string(),
-    title: Joi.string()
+    drugName: Joi.string()
       .required()
-      .label("Title"),
-    supplierId: Joi.string()
+      .label("Drug Name"),
+    quantity: Joi.number()
       .required()
-      .label("Supplier"),
-    numberInStock: Joi.number()
-      .required()
-      .min(0)
-      .max(100)
-      .label("Number in Stock"),
-    dailyRentalRate: Joi.number()
-      .required()
-      .min(0)
-      .max(10)
-      .label("Daily Rental Rate")
-  };
+      .min(1)
+      .label("Quantity")
+  }
+
+
 
   async populateSuppliers() {
     const { data: suppliers } = await getSuppliers();
-    let supNames= [];
+    let supNames = [];
     suppliers.forEach(e => {
       console.log(e.name);
       supNames.push(e.name);
     });
-    this.setState({ suppliers : supNames });
+    this.setState({ suppliers: supNames });
   }
-  //   async componentDidMount() {
-  //     const { data: suppliers } = await getSuppliers();
-  //     console.log(suppliers[0].name);
-  //     this.setState({
-  //         suppliers,
-  //     })
-  // }
   async populateStock() {
     try {
       const stockId = this.props.match.params.id;
@@ -89,33 +76,106 @@ class StockForm extends Form {
   }
 
   doSubmit = async () => {
-    await saveStock(this.state.data);
-
-    this.props.history.push("/stocks");
+    //await saveStock(this.state.data);
+    console.log("doSubmit")
+    //this.props.history.push("/stocks");
   };
 
+  validate = (values) => {
+    let errors = {};
+    //const options = {abortEarly:false};
+    console.log(values.supplier)
+    if (!values.name) {
+      errors.name = "Enter a name";
+    }
+    if (!values.quantity) {
+      errors.quantity = "Enter the quantity";
+    }
+    if (!values.manDate) {
+      errors.manDate = "Set manufactured date"
+    }
+    if (!values.resDate) {
+      errors.resDate = "Set receive date"
+    }
+    if (!values.expDate) {
+      errors.manDate = "Set expire date"
+    }
+    console.log(errors)
+    return errors
+  }
   render() {
-    console.log(this.state.suppliers)
-    //console.log(this.state.suppliers.filter(s => s.name = this.state.data.supplier.name))
+    const { data, suppliers } = this.state;
     return (
       <div>
         <h1>Stock Form</h1>
-        <form onSubmit={this.handleSubmit}>
-          {this.renderInput("id", "Stock Id", "text", true)}
-          {this.renderInput("drugName", "Drug Name")}
-          {this.renderInput("quantity", "Quantity")}
-          {this.renderInput("manDate", "Man Date")}
-          {this.renderInput("resDate", "Res Date")}
-          {this.renderInput("expDate", "Exp Rate")}
+        <Formik
+          initialValues={{
+            id: data.id,
+            name: data.drugName,
+            quantity: data.quantity,
+            manDate: data.manDate,
+            resDate: data.resDate,
+            expDate: data.expDate,
+            supplier : data.supplier
+          }}
+          onSubmit={this.doSubmit}
+          validateOnChange={true}
+          validateOnBlur={false}
+          validate={this.validate}
+          enableReinitialize={true}
+        >
           {
-            //this.renderSelect("supplierId", "Supplier", this.state.suppliers)
-             this.state.data.id === null ? this.renderSelect("supplierId", "Supplier", this.state.suppliers) : this.renderSelect("supplierId", "Supplier", this.state.suppliers.filter(s => s === this.state.data.supplier))
-          };
+            (props) => (
+              <Form>
+                <ErrorMessage name="quantity" component="div" className="alert alert-warning"></ErrorMessage>
+                <fieldset className="form-group">
+                  <label>Drug Id</label>
+                  <Field className="form-control" type="text" name="id"></Field>
+                </fieldset>
+                <ErrorMessage name="name" component="div" className="alert alert-warning"></ErrorMessage>
+                <fieldset className="form-group">
+                  <label>Drug Name</label>
+                  <Field className="form-control" type="text" name="name"></Field>
+                </fieldset>
+                <ErrorMessage name="quantity" component="div" className="alert alert-warning"></ErrorMessage>
+                <fieldset className="form-group">
+                  <label>Quantity</label>
+                  <Field className="form-control" type="text" name="quantity"></Field>
+                </fieldset>
+                <ErrorMessage name="manDate" component="div" className="alert alert-warning"></ErrorMessage>
+                <fieldset className="form-group">
+                  <label>Man Date</label>
+                  <Field className="form-control" type="date" name="manDate"></Field>
+                </fieldset>
+                <ErrorMessage name="resDate" component="div" className="alert alert-warning"></ErrorMessage>
+                <fieldset className="form-group">
+                  <label>Res Date</label>
+                  <Field className="form-control" type="date" name="resDate"></Field>
+                </fieldset>
+                <ErrorMessage name="expDate" component="div" className="alert alert-warning"></ErrorMessage>
+                <fieldset className="form-group">
+                  <label>Exp Date</label>
+                  <Field className="form-control" type="date" name="expDate"></Field>
+                </fieldset>
+                <ErrorMessage name="supplier" component="div" className="alert alert-warning"></ErrorMessage>
+                <fieldset className="form-group">
+                  <label>Supplier</label>
+                  <Field component="select" className="form-control" type="suppliers" name="supplier">
+                    {
+                      data.id != null ? suppliers.map(s => <option value={s} key={s}>{s}</option>) : suppliers.filter(s => s === data.supplier)
+                      //data.id === null ? this.renderSelect("supplierId", "Supplier", suppliers) : this.renderSelect("supplierId", "Supplier", suppliers.filter(s => s === this.state.data.supplier))
 
-          {this.renderButton("Save")}
-        </form>
+                    }
+                  </Field>
+                </fieldset>
+                <button className="btn btn-success" type="submit">Save</button>
+              </Form>
+
+            )}
+
+        </Formik>
       </div>
-    );
+    )
   }
 }
 
