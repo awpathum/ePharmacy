@@ -20,7 +20,11 @@ public class StockResponse {
 
     private String supplierId;
 
-    public StockResponse(String id, String drugName, Integer quantity, String manDate, String resDate, String expDate, String supplier, String supplierId) {
+    private String drug;
+
+    private String drugId;
+
+    public StockResponse(String id, String drugName, Integer quantity, String manDate, String resDate, String expDate, String supplier, String supplierId, String drug, String drugId) {
         this.id = id;
         this.drugName = drugName;
         this.quantity = quantity;
@@ -29,6 +33,24 @@ public class StockResponse {
         this.expDate = expDate;
         this.supplier = supplier;
         this.supplierId = supplierId;
+        this.drug = drug;
+        this.drugId = drugId;
+    }
+
+    public String getDrug() {
+        return drug;
+    }
+
+    public void setDrug(String drug) {
+        this.drug = drug;
+    }
+
+    public String getDrugId() {
+        return drugId;
+    }
+
+    public void setDrugId(String drugId) {
+        this.drugId = drugId;
     }
 
     public String getId() {

@@ -3,6 +3,7 @@ package com.awpathum.pharmacy.dao;
 import java.util.List;
 
 import com.awpathum.pharmacy.classes.StockResponse;
+import com.awpathum.pharmacy.entity.Drug;
 import org.hibernate.Session;
 import javax.persistence.EntityManager;
 import org.hibernate.query.Query;
@@ -23,7 +24,7 @@ public class StockDAOImpl implements StockDAO {
 		Session currentSession = entityManager.unwrap(Session.class);
 
 		//need to add supplier to return list of stocks
-		String sqlQuery="SELECT new com.awpathum.pharmacy.classes.StockResponse(s.id,s.drugName,s.quantity,s.manDate,s.resDate,s.expDate,sp.name,sp.id) FROM Stock s INNER JOIN s.supplier sp";
+		String sqlQuery="SELECT new com.awpathum.pharmacy.classes.StockResponse(s.id,s.drugName,s.quantity,s.manDate,s.resDate,s.expDate,sp.name,sp.id,d.name,d.id) FROM Stock s INNER JOIN s.supplier sp INNER JOIN s.drug d";
 
 		Query<StockResponse> theQuery = currentSession.createQuery(sqlQuery);
 		// execute query and get result list
@@ -50,9 +51,10 @@ public class StockDAOImpl implements StockDAO {
 		// get the current hibernate session
 		Session currentSession = entityManager.unwrap(Session.class);
 		// retrieve data from database using the primary key
-		String sqlQuery = "SELECT new com.awpathum.pharmacy.classes.StockResponse(s.id,s.drugName,s.quantity,s.manDate,s.resDate,s.expDate,sp.name,sp.id) FROM Stock s INNER JOIN s.supplier sp WHERE s.id = :theId";
+		//String sqlQuery = "SELECT new com.awpathum.pharmacy.classes.StockResponse(s.id,s.drugName,s.quantity,s.manDate,s.resDate,s.expDate,sp.name,sp.id) FROM Stock s INNER JOIN s.supplier sp WHERE s.id = :theId";
 
-		Query<StockResponse> theQuery = currentSession.createQuery("SELECT new com.awpathum.pharmacy.classes.StockResponse(s.id,s.drugName,s.quantity,s.manDate,s.resDate,s.expDate,sp.name,sp.id) FROM Stock s INNER JOIN s.supplier sp WHERE s.id = :theId");
+		//Query<StockResponse> theQuery = currentSession.createQuery("SELECT new com.awpathum.pharmacy.classes.StockResponse(s.id,s.drugName,s.quantity,s.manDate,s.resDate,s.expDate,sp.name,sp.id) FROM Stock s INNER JOIN s.supplier sp WHERE s.id = :theId");
+		Query<StockResponse> theQuery = currentSession.createQuery("SELECT new com.awpathum.pharmacy.classes.StockResponse(s.id,s.drugName,s.quantity,s.manDate,s.resDate,s.expDate,sp.name,sp.id,d.name,d.id) FROM Stock s INNER JOIN s.supplier sp INNER JOIN s.drug d WHERE s.id = :theId ");
 		theQuery.setParameter("theId", theId);
 		StockResponse theStock = theQuery.getSingleResult();
 		//Stock theStock = currentSession.get(Stock.class, theId);

@@ -35,3 +35,8 @@ export function addSupplierToStock(stockSupplier) {
   console.log(apiEndpoint + "addSupplier");
   http.post(apiEndpoint + "addSupplier",stockSupplier);
 }
+
+export function addDrugToStock(stockDrug) {
+  console.log(apiEndpoint + "addDrug");
+  http.post(apiEndpoint + "addDrug",stockDrug);
+}
