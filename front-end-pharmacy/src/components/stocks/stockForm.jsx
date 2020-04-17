@@ -91,8 +91,10 @@ class StockForm extends FormD {
     const stockSupplier = { supplierId, stockId: id }
     //const stockSupplier = { supplierId: 'S001', stockId: 'L000009' }
     console.log(stockSupplier)
-    // await saveStock(stock).then((res) => console.log(res));
-    await addSupplierToStock(stockSupplier);
+    await saveStock(stock).then((res) => {
+      addSupplierToStock(stockSupplier)
+    })
+    // await addSupplierToStock(stockSupplier)
     //  this.props.history.push("/stocks");
     console.log("doSubmit")
   };
