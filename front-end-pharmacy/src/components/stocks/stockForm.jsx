@@ -98,6 +98,7 @@ class StockForm extends FormD {
     const { id, drugName, quantity, manDate, resDate, expDate, supplier } = values;
     const stock = { id, drugName, quantity, manDate, resDate, expDate }
     const stockSupplier = { supplierId: supplier, stockId: id }
+    console.log(stock)
     console.log(stockSupplier)
     await saveStock(stock).then((res) => {
       addSupplierToStock(stockSupplier)
@@ -184,20 +185,20 @@ class StockForm extends FormD {
                   <Field className="form-control" type="date" name="expDate"></Field>
                 </fieldset>
 
-                {(data.drugName) ? <div name="supplier" value={data.supplierId}></div> :
-                  <div>
+                
                     <ErrorMessage name="supplier" component="div" className="alert alert-warning"></ErrorMessage>
 
                     <label>Supplier</label>
                     <fieldset className="form-group">
                       <Field component="select" className="form-control" type="suppliers" name="supplier">
                         {
-                          suppliers.map(s => <option value={s.id} key={s.id} >{s.name}</option>)
+                          (data.drugName) ? suppliers.map(s => (s.id === data.supplierId) ? <option value={data.supplierId} selected>{data.supplier}{console.log('true')}</option> : <option value={s.id}>{s.name}</option>) :
+                            suppliers.map(s => <option value={s.id} key={s.id} >{console.log(s.id), s.name}</option>)
                         }
                       </Field>
                     </fieldset>
-                  </div>
-                }
+                  
+                
                 {/* <Field component="select" className="form-control" type="suppliers" name="supplier">
                     {
                       console.log('data.id', data.supplierId),

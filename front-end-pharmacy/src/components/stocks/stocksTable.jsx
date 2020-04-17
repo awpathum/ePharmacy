@@ -15,7 +15,7 @@ class StocksTable extends Component {
         { path: 'supplier', label: 'Supplier', content: stock => <Link to={`/suppliers/${stock.supplierId}`}>{stock.supplier}</Link> },
         {
             key: 'delete',
-            content: stock => (<button className="btn btn-danger" onClick={() => this.props.onDelete(stock)}>Delete</button>)
+            content: stock => (<button className="btn btn-danger" onClick={() => this.props.onDelete(stock)}>{console.log(stock)}Delete</button>)
         },
     ]
 

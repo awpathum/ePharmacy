@@ -37,15 +37,19 @@ class Stocks extends Component {
     }
 
     handleDelete = async (stock) => {
+
         const originalStocks = this.state.stocks;
         const stocks = originalStocks.filter(s => s.id !== stock.id);
+        console.log(stock)
         this.setState({
+
             //key and value are same therefore can write like this
             stocks
         });
         try {
+            console.log(stock)
             const res = await deleteStock(stock.id);
-            console.log(res)
+            console.log(stock.id)
         } catch (ex) {
             console.log(ex)
             if (ex.response && ex.response.status === 404) {

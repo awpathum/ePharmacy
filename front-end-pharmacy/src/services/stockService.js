@@ -26,6 +26,7 @@ export function saveStock(stock) {
 
 export function deleteStock(stockId) {
   console.log(stockId);
+  console.log(stockUrl(stockId))
   http.delete(stockUrl(stockId));
 }
 

@@ -34,7 +34,7 @@ public class Stock {
 	@Column(name = "exp_date")
 	private String expDate;
 	
-	@ManyToOne(fetch = FetchType.EAGER,cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.DETACH,CascadeType.REFRESH})	
+	@ManyToOne(fetch = FetchType.EAGER,cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.DETACH,CascadeType.REFRESH})
 	@JoinColumn(name = "supplier_id")
 	@JsonIgnore
 	private Supplier supplier;
