@@ -2,7 +2,7 @@ import React from "react";
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import Joi from "joi-browser"
 import FormD from "../common/form";
-import { getStock, saveStock } from "../../services/stockService";
+import { getStock, saveStock, addSupplierToStock } from "../../services/stockService";
 import { getSuppliers } from "../../services/supplierService";
 
 
@@ -41,6 +41,7 @@ class StockForm extends FormD {
     suppliers.forEach(e => {
       console.log(e.name);
       supNames.push(e.name);
+      supNames.push(e.id)
     });
     this.setState({ suppliers: supNames });
   }
@@ -70,23 +71,38 @@ class StockForm extends FormD {
       manDate: stock.manDate,
       resDate: stock.resDate,
       expDate: stock.expDate,
-      supplier: stock.supplier
+      supplier: stock.supplier,
+      supplierId: stock.supplierId
 
     };
   }
 
-  doSubmit = async () => {
-    //await saveStock(this.state.data);
+  doSubmit = async (values) => {
+    const { id, drugName, quantity, manDate, resDate, expDate, supplier } = values;
+    const stock = { id, drugName, quantity, manDate, resDate, expDate }
+    //console.log(stock);
+
+    //console.log(this.state.suppliers)
+    //console.log(this.state.suppliers.indexOf(supplier))
+    const supplierNameIndex = this.state.suppliers.indexOf(supplier);
+    const supplierIdIndex = supplierNameIndex + 1;
+    //console.log(this.state.suppliers[supplierIdIndex])
+    const supplierId = this.state.suppliers[supplierIdIndex];
+    const stockSupplier = { supplierId, stockId: id }
+    //const stockSupplier = { supplierId: 'S001', stockId: 'L000009' }
+    console.log(stockSupplier)
+    // await saveStock(stock).then((res) => console.log(res));
+    await addSupplierToStock(stockSupplier);
+    //  this.props.history.push("/stocks");
     console.log("doSubmit")
-    //this.props.history.push("/stocks");
   };
 
   validate = (values) => {
     let errors = {};
     //const options = {abortEarly:false};
     console.log(values.supplier)
-    if (!values.name) {
-      errors.name = "Enter a name";
+    if (!values.drugName) {
+      errors.drugName = "Enter a name";
     }
     if (!values.quantity) {
       errors.quantity = "Enter the quantity";
@@ -111,12 +127,12 @@ class StockForm extends FormD {
         <Formik
           initialValues={{
             id: data.id,
-            name: data.drugName,
+            drugName: data.drugName,
             quantity: data.quantity,
             manDate: data.manDate,
             resDate: data.resDate,
             expDate: data.expDate,
-            supplier : data.supplier
+            supplier: data.supplier
           }}
           onSubmit={this.doSubmit}
           validateOnChange={true}
@@ -127,15 +143,14 @@ class StockForm extends FormD {
           {
             (props) => (
               <Form>
-                <ErrorMessage name="quantity" component="div" className="alert alert-warning"></ErrorMessage>
                 <fieldset className="form-group">
                   <label>Drug Id</label>
                   <Field className="form-control" type="text" name="id"></Field>
                 </fieldset>
-                <ErrorMessage name="name" component="div" className="alert alert-warning"></ErrorMessage>
+                <ErrorMessage name="drugName" component="div" className="alert alert-warning"></ErrorMessage>
                 <fieldset className="form-group">
                   <label>Drug Name</label>
-                  <Field className="form-control" type="text" name="name"></Field>
+                  <Field className="form-control" type="text" name="drugName"></Field>
                 </fieldset>
                 <ErrorMessage name="quantity" component="div" className="alert alert-warning"></ErrorMessage>
                 <fieldset className="form-group">

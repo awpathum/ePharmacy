@@ -25,6 +25,12 @@ export function saveStock(stock) {
 }
 
 export function deleteStock(stockId) {
-  console.log(stockId)
+  console.log(stockId);
   http.delete(stockUrl(stockId));
+}
+
+export function addSupplierToStock(stockSupplier) {
+  console.log(stockSupplier);
+  console.log(apiEndpoint + "addSupplier");
+  http.post(apiEndpoint + "addSupplier",stockSupplier);
 }
