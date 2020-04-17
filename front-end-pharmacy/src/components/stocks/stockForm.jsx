@@ -80,22 +80,14 @@ class StockForm extends FormD {
   doSubmit = async (values) => {
     const { id, drugName, quantity, manDate, resDate, expDate, supplier } = values;
     const stock = { id, drugName, quantity, manDate, resDate, expDate }
-    //console.log(stock);
-
-    //console.log(this.state.suppliers)
-    //console.log(this.state.suppliers.indexOf(supplier))
     const supplierNameIndex = this.state.suppliers.indexOf(supplier);
     const supplierIdIndex = supplierNameIndex + 1;
-    //console.log(this.state.suppliers[supplierIdIndex])
     const supplierId = this.state.suppliers[supplierIdIndex];
     const stockSupplier = { supplierId, stockId: id }
-    //const stockSupplier = { supplierId: 'S001', stockId: 'L000009' }
     console.log(stockSupplier)
     await saveStock(stock).then((res) => {
       addSupplierToStock(stockSupplier)
-    })
-    // await addSupplierToStock(stockSupplier)
-    //  this.props.history.push("/stocks");
+    });
     console.log("doSubmit")
   };
 
