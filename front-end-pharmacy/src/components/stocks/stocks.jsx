@@ -90,6 +90,7 @@ class Stocks extends Component {
         this.props.history.push(path)
     }
     handleSearch = query => {
+        console.log(query)
         this.setState({
             searchQuery: query,
             selectedSupplier: null,
@@ -103,10 +104,10 @@ class Stocks extends Component {
 
         if (searchQuery) {
             filtered = allStocks.filter(m =>
-                m.title.toLowerCase().startsWith(searchQuery.toLowerCase())
+                m.drugName.toLowerCase().startsWith(searchQuery.toLowerCase())
             );
-        } else if (selectedSupplier && selectedSupplier._id) {
-            filtered = allStocks.filter(m => m.supplier._id === selectedSupplier._id);
+        } else if (selectedSupplier && selectedSupplier.id) {
+            filtered = allStocks.filter(m => m.supplier.id === selectedSupplier.id);
         }
 
         //sorting stocks with lodash
@@ -117,19 +118,39 @@ class Stocks extends Component {
 
     getNewStockId = (allStocks) => {
         const allStocksLen = allStocks.length;
-        const lastStockId = allStocks[allStocksLen - 1].id;
-        console.log(lastStockId);
-        let newStockId = lastStockId.substring(1, lastStockId.length);
-        let newStockIdInt = parseInt(newStockId);
-        newStockIdInt++;
-        console.log(newStockIdInt.toString());
-        const newStockIdStr = newStockIdInt.toString();
+        let newStockIdStr;
+        if (allStocksLen === 0) {
+            newStockIdStr = '1';
+        } else {
+            const lastStockId = allStocks[allStocksLen - 1].id;
+            console.log(lastStockId);
+            let newStockId = lastStockId.substring(1, lastStockId.length);
+            let newStockIdInt = parseInt(newStockId);
+            newStockIdInt++;
+            console.log(newStockIdInt.toString());
+            newStockIdStr = newStockIdInt.toString();
+        }
+
+        console.log(newStockIdStr)
+
 
         if (newStockIdStr.length === 1) {
-            let prefix = "L00";
+            let prefix = "L00000";
             const refactoredStockId = prefix.concat(newStockIdStr);
             return refactoredStockId;
         } else if (newStockIdStr.length === 2) {
+            let prefix = "L0000";
+            const refactoredStockId = prefix.concat(newStockIdStr);
+            return refactoredStockId;
+        } else if (newStockIdStr.length === 3) {
+            let prefix = "L000";
+            const refactoredStockId = prefix.concat(newStockIdStr);
+            return refactoredStockId;
+        } else if (newStockIdStr.length === 4) {
+            let prefix = "L00";
+            const refactoredStockId = prefix.concat(newStockIdStr);
+            return refactoredStockId;
+        } else if (newStockIdStr.length === 5) {
             let prefix = "L0";
             const refactoredStockId = prefix.concat(newStockIdStr);
             return refactoredStockId;
@@ -142,12 +163,14 @@ class Stocks extends Component {
     }
 
     render() {
-        console.log(this.state.suppliers);
+
         const { length: count } = this.state.stocks;
         const { pageSize, currentPage, stocks: allStocks, selectedSupplier, sortColumn, navBarItems, searchQuery } = this.state;
+        const newStockId = this.getNewStockId(allStocks);
+        console.log('newStockId', newStockId);
         if (count === 0) {
             return <Link
-                to="/stocks/new"
+                to={{ pathname: "/stocks/new", newId: newStockId }}
                 className="btn btn-primary"
                 style={{ marginBottom: 20 }}
             >
@@ -155,12 +178,12 @@ class Stocks extends Component {
         </Link>
         }
         const { totalCount, data: stocks } = this.getPageData();
-        const newStockId = this.getNewStockId(allStocks);
+
         return (
 
             <div className="container">
                 <Link
-                    to="/stocks/new"
+                    to={{ pathname: "/stocks/new", newId: newStockId }}
                     className="btn btn-primary"
                     style={{ marginBottom: 20 }}
                 >

@@ -37,21 +37,37 @@ class StockForm extends FormD {
 
   async populateSuppliers() {
     const { data: suppliers } = await getSuppliers();
-    let supNames = [];
-    suppliers.forEach(e => {
-      console.log(e.name);
-      supNames.push(e.name);
-      supNames.push(e.id)
-    });
-    this.setState({ suppliers: supNames });
+    // let supNames = [];
+    // suppliers.forEach(e => {
+    //   console.log(e.name);
+    //   supNames.push(e.name);
+    //   //supNames.push(e.id)
+    // });
+    console.log(suppliers)
+    this.setState({ suppliers });
   }
   async populateStock() {
     try {
       const stockId = this.props.match.params.id;
-      if (stockId === "new") return;
+      console.log('newStockId in stockform', this.props.location.newId)
+      if (stockId === "new") {
+        let newStock = {
+          id: this.props.location.newId,
+          drugName: "",
+          quantity: "",
+          manDate: "",
+          resDate: "",
+          expDate: "",
+          supplier: "",
+          supplierId: ""
+        }
+        this.setState({ data: this.mapToViewModel(newStock) });
+      } else {
+        const { data: stock } = await getStock(stockId);
+        this.setState({ data: this.mapToViewModel(stock) });
+      }
 
-      const { data: stock } = await getStock(stockId);
-      this.setState({ data: this.mapToViewModel(stock) });
+
     } catch (ex) {
       if (ex.response && ex.response.status === 404)
         this.props.history.replace("/not-found");
@@ -78,17 +94,16 @@ class StockForm extends FormD {
   }
 
   doSubmit = async (values) => {
+    console.log(values)
     const { id, drugName, quantity, manDate, resDate, expDate, supplier } = values;
     const stock = { id, drugName, quantity, manDate, resDate, expDate }
-    const supplierNameIndex = this.state.suppliers.indexOf(supplier);
-    const supplierIdIndex = supplierNameIndex + 1;
-    const supplierId = this.state.suppliers[supplierIdIndex];
-    const stockSupplier = { supplierId, stockId: id }
+    const stockSupplier = { supplierId: supplier, stockId: id }
     console.log(stockSupplier)
     await saveStock(stock).then((res) => {
       addSupplierToStock(stockSupplier)
     });
     console.log("doSubmit")
+    this.props.history.push("/stocks");
   };
 
   validate = (values) => {
@@ -114,7 +129,9 @@ class StockForm extends FormD {
     return errors
   }
   render() {
-    const { data, suppliers } = this.state;
+    const { data, suppliers: stateSuppliers } = this.state;
+    const suppliers = [{ id: "", name: "" }, ...stateSuppliers]
+    console.log(suppliers)
     return (
       <div>
         <h1>Stock Form</h1>
@@ -126,7 +143,7 @@ class StockForm extends FormD {
             manDate: data.manDate,
             resDate: data.resDate,
             expDate: data.expDate,
-            supplier: data.supplier
+            supplier: data.supplierId
           }}
           onSubmit={this.doSubmit}
           validateOnChange={true}
@@ -139,7 +156,7 @@ class StockForm extends FormD {
               <Form>
                 <fieldset className="form-group">
                   <label>Drug Id</label>
-                  <Field className="form-control" type="text" name="id"></Field>
+                  <Field className="form-control" type="text" name="id" disabled></Field>
                 </fieldset>
                 <ErrorMessage name="drugName" component="div" className="alert alert-warning"></ErrorMessage>
                 <fieldset className="form-group">
@@ -166,17 +183,40 @@ class StockForm extends FormD {
                   <label>Exp Date</label>
                   <Field className="form-control" type="date" name="expDate"></Field>
                 </fieldset>
-                <ErrorMessage name="supplier" component="div" className="alert alert-warning"></ErrorMessage>
-                <fieldset className="form-group">
-                  <label>Supplier</label>
-                  <Field component="select" className="form-control" type="suppliers" name="supplier">
+
+                {(data.drugName) ? <div name="supplier" value={data.supplierId}></div> :
+                  <div>
+                    <ErrorMessage name="supplier" component="div" className="alert alert-warning"></ErrorMessage>
+
+                    <label>Supplier</label>
+                    <fieldset className="form-group">
+                      <Field component="select" className="form-control" type="suppliers" name="supplier">
+                        {
+                          suppliers.map(s => <option value={s.id} key={s.id} >{s.name}</option>)
+                        }
+                      </Field>
+                    </fieldset>
+                  </div>
+                }
+                {/* <Field component="select" className="form-control" type="suppliers" name="supplier">
                     {
-                      data.id != null ? suppliers.map(s => <option value={s} key={s}>{s}</option>) : suppliers.filter(s => s === data.supplier)
+                      console.log('data.id', data.supplierId),
+                      //suppliers.map(s => <option value={data.supplierId} key={s.id} >{console.log('s.id',s.id),data.supplier}</option>)
+                      (data.drugName) ? <option value={data.supplierId} key={data.id} selected disabled>{data.supplier}</option> : suppliers.map(s => <option value={s.id} key={s.id} >{s.name}</option>)
+                      // (data.drugName) ? suppliers.map(s =>
+                      //   (s.id === data.supplierId) ?
+                      //     <option value={s.id} key={s.id} selected>{s.name}</option>
+                      //     : <option value={s.id} key={s.id}>{s.name}</option>
+                      // )
+                      //   : suppliers.map(s => <option value={data.drugName} key={s.id} >{console.log('s.id', s.id), s.name}
+                      //   </option>)
+
+                      //data.id != null ? suppliers.map(s => <option value={s.id} key={s.id}>{s.name}</option>) : suppliers.filter(s => s.name === data.supplier)
                       //data.id === null ? this.renderSelect("supplierId", "Supplier", suppliers) : this.renderSelect("supplierId", "Supplier", suppliers.filter(s => s === this.state.data.supplier))
 
                     }
-                  </Field>
-                </fieldset>
+                  </Field> */}
+
                 <button className="btn btn-success" type="submit">Save</button>
               </Form>
 
