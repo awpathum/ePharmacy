@@ -16,12 +16,10 @@ export function getStock(stockId) {
 }
 
 export function saveStock(stock) {
-  if (stock.id) {
-    const body = { ...stock };
-    delete body.id;
+
     //return http.put(stockUrl(stock.id), body);
     return http.post(apiEndpoint, stock);
-  }
+  
 }
 
 export function deleteStock(stockId) {
@@ -31,12 +29,14 @@ export function deleteStock(stockId) {
 }
 
 export function addSupplierToStock(stockSupplier) {
-  console.log(stockSupplier);
-  console.log(apiEndpoint + "addSupplier");
-  http.post(apiEndpoint + "addSupplier",stockSupplier);
+
+    //return http.put(stockUrl(stock.id), body);
+    return http.post(apiEndpoint+'addSupplier', stockSupplier);
+  
 }
 
 export function addDrugToStock(stockDrug) {
-  console.log(apiEndpoint + "addDrug");
-  http.post(apiEndpoint + "addDrug",stockDrug);
+    //return http.put(stockUrl(stock.id), body);
+    return http.post(apiEndpoint+'addDrug', stockDrug);
+  
 }

@@ -127,18 +127,27 @@ class StockForm extends FormD {
     console.log(stockDrug)
 
     try {
-      const response1 = await saveStock(stock);
-      await addDrugToStock(stockDrug).then((res) => {
-         addSupplierToStock(stockSupplier);
-        console.log(res)
-      })
-      // console.log('response1', response1);
-      // console.log('response2', response2);
-      // console.log('response3', response3);
+      const response = await saveStock(stock);
+      console.log(response)
     } catch (e) {
       console.log(e);
     }
 
+    try {
+      const response1 = await addSupplierToStock(stockSupplier);
+      const response2 = await addDrugToStock(stockDrug);
+     console.log(response1)
+     console.log(response2)
+    } catch (e) {
+      console.log(e);
+    }
+
+    // try {
+    //   const response = await addDrugToStock(stockDrug);
+    //   console.log(response)
+    // } catch (e) {
+    //   console.log(e)
+    // }
     // await saveStock(stock).then(async (res) => {
     //   console.log(res)
     //   await Promise.all([addDrugToStock(stockDrug), addSupplierToStock(stockSupplier)]);
