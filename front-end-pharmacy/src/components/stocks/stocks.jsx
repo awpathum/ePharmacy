@@ -126,10 +126,12 @@ class Stocks extends Component {
         if (allStocksLen === 0) {
             newStockIdStr = '1';
         } else {
+            console.log('alllStocks',allStocks)
             const lastStockId = allStocks[allStocksLen - 1].id;
-            console.log(lastStockId);
+            console.log('lastStockId',lastStockId);
             let newStockId = lastStockId.substring(1, lastStockId.length);
             let newStockIdInt = parseInt(newStockId);
+            console.log('newStockIdInt', newStockIdInt)
             newStockIdInt++;
             console.log(newStockIdInt.toString());
             newStockIdStr = newStockIdInt.toString();
@@ -141,6 +143,7 @@ class Stocks extends Component {
         if (newStockIdStr.length === 1) {
             let prefix = "L00000";
             const refactoredStockId = prefix.concat(newStockIdStr);
+            console.log('refactoredStockId', refactoredStockId)
             return refactoredStockId;
         } else if (newStockIdStr.length === 2) {
             let prefix = "L0000";

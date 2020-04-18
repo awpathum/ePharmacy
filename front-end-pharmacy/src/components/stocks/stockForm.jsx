@@ -24,38 +24,12 @@ class StockForm extends FormD {
     drugs: [],
     errors: {}
   };
-
-  schema = {
-    id: Joi.string(),
-    drugName: Joi.string()
-      .required()
-      .label("Drug Name"),
-    quantity: Joi.number()
-      .required()
-      .min(1)
-      .label("Quantity")
-  }
-
-
-
   async populateSuppliers() {
     const { data: suppliers } = await getSuppliers();
-    // let supNames = [];
-    // suppliers.forEach(e => {
-    //   console.log(e.name);
-    //   supNames.push(e.name);
-    //   //supNames.push(e.id)
-    // });
     this.setState({ suppliers });
   }
   async populateDrugs() {
     const { data: drugs } = await getDrugs();
-    // let supNames = [];
-    // suppliers.forEach(e => {
-    //   console.log(e.name);
-    //   supNames.push(e.name);
-    //   //supNames.push(e.id)
-    // });
     console.log(drugs)
     this.setState({ drugs });
   }
@@ -76,7 +50,10 @@ class StockForm extends FormD {
         this.setState({ data: this.mapToViewModel(newStock) });
       } else {
         const { data: stock } = await getStock(stockId);
-        this.setState({ data: this.mapToViewModel(stock) });
+        this.setState({
+          data: this.mapToViewModel(stock)
+        });
+        console.log(this.state.data)
       }
 
 
@@ -93,6 +70,7 @@ class StockForm extends FormD {
   }
 
   mapToViewModel(stock) {
+    console.log(stock.drugName)
     return {
       id: stock.id,
       drugName: stock.drugName,
@@ -101,7 +79,8 @@ class StockForm extends FormD {
       resDate: stock.resDate,
       expDate: stock.expDate,
       supplier: stock.supplier,
-      supplierId: stock.supplierId
+      supplierId: stock.supplierId,
+      drugId : stock.drugId
 
     };
   }
@@ -136,39 +115,11 @@ class StockForm extends FormD {
     try {
       const response1 = await addSupplierToStock(stockSupplier);
       const response2 = await addDrugToStock(stockDrug);
-     console.log(response1)
-     console.log(response2)
+      console.log(response1)
+      console.log(response2)
     } catch (e) {
       console.log(e);
     }
-
-    // try {
-    //   const response = await addDrugToStock(stockDrug);
-    //   console.log(response)
-    // } catch (e) {
-    //   console.log(e)
-    // }
-    // await saveStock(stock).then(async (res) => {
-    //   console.log(res)
-    //   await Promise.all([addDrugToStock(stockDrug), addSupplierToStock(stockSupplier)]);
-
-    // });
-
-
-
-
-
-    // saveStock(stock);
-    //   await addSupplierToStock(stockSupplier);
-    // await addDrugToStock(stockDrug);
-
-    //await addDrugToStock(stockDrug);
-
-    // await saveStock(stock).then((res) => {
-    //   addSupplierToStock(stockSupplier).then((res) => {
-    //     addDrugToStock(stockDrug);
-    //   })
-    // });
     console.log("doSubmit")
     this.props.history.push("/stocks");
   };
@@ -200,13 +151,15 @@ class StockForm extends FormD {
     const suppliers = [{ id: "", name: "" }, ...stateSuppliers]
     const drugs = [{ id: "", name: "" }, ...stateDrugs];
     console.log(suppliers)
+
+
     return (
       <div>
         <h1>Stock Form</h1>
         <Formik
           initialValues={{
             id: data.id,
-            drugName: data.drugName,
+            drug: data.drugId,
             quantity: data.quantity,
             manDate: data.manDate,
             resDate: data.resDate,
@@ -221,12 +174,13 @@ class StockForm extends FormD {
         >
           {
             (props) => (
+
               <Form>
                 <fieldset className="form-group">
                   <label>Drug Id</label>
                   <Field className="form-control" type="text" name="id" disabled></Field>
                 </fieldset>
-                <ErrorMessage name="drugName" component="div" className="alert alert-warning"></ErrorMessage>
+                <ErrorMessage name="drug" component="div" className="alert alert-warning"></ErrorMessage>
                 {/* <fieldset className="form-group">
                   <label>Drug Name</label>
                   <Field className="form-control" type="text" name="drugName"></Field>
@@ -234,10 +188,11 @@ class StockForm extends FormD {
 
                 <label>Drug Name</label>
                 <fieldset className="form-group">
-                  <Field component="select" className="form-control" type="suppliers" name="drug">
+                  <Field component="select" className="form-control" type="drugs" name="drug">
                     {
-                      (data.drugName) ? drugs.map(d => (d.id === data.drugId) ? <option value={data.drugId} selected>{data.drug}{console.log('true')}</option> : <option value={d.id}>{d.name}</option>) :
-                        drugs.map(d => <option value={d.id} key={d.id} >{console.log(d.id), d.name}</option>)
+
+                    (data.drugName) ? drugs.map(d => (d.id === data.drugId) ? <option value={data.drugId} selected>{data.drugName}{console.log(d.id,data.drugId)}{console.log('true')}</option> : <option value={d.id}>{d.name}{console.log('drugs',drugs),console.log('data.drugId',data.drugId)}</option>) :
+                        drugs.map(d => <option value={d.id} key={d.id} >{d.name}</option>)
                     }
                   </Field>
                 </fieldset>
@@ -268,6 +223,8 @@ class StockForm extends FormD {
                 <label>Supplier</label>
                 <fieldset className="form-group">
                   <Field component="select" className="form-control" type="suppliers" name="supplier">
+                    <div>{console.log(drugs),
+                      console.log(data.drugId)}</div>
                     {
                       (data.drugName) ? suppliers.map(s => (s.id === data.supplierId) ? <option value={data.supplierId} selected>{data.supplier}{console.log('true')}</option> : <option value={s.id}>{s.name}</option>) :
                         suppliers.map(s => <option value={s.id} key={s.id} >{console.log(s.id), s.name}</option>)

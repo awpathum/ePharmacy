@@ -13,10 +13,10 @@ class StocksTable extends Component {
         { path: 'resDate', label: 'Res Date' },
         { path: 'expDate', label: 'Exp Date' },
         { path: 'supplier', label: 'Supplier', content: stock => <Link to={`/suppliers/${stock.supplierId}`}>{stock.supplier}</Link> },
-        {
-            key: 'delete',
-            content: stock => (<button className="btn btn-danger" onClick={() => this.props.onDelete(stock)}>{console.log(stock)}Delete</button>)
-        },
+        // {
+        //     key: 'delete',
+        //     content: stock => (<button className="btn btn-danger" onClick={() => this.props.onDelete(stock)}>{console.log(stock)}Delete</button>)
+        // },
     ]
 
     raiseSort = path => {

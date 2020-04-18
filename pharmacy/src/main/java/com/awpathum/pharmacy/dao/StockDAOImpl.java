@@ -24,7 +24,7 @@ public class StockDAOImpl implements StockDAO {
 		Session currentSession = entityManager.unwrap(Session.class);
 
 		//need to add supplier to return list of stocks
-		String sqlQuery="SELECT new com.awpathum.pharmacy.classes.StockResponse(s.id,s.drugName,s.quantity,s.manDate,s.resDate,s.expDate,sp.name,sp.id,d.name,d.id) FROM Stock s INNER JOIN s.supplier sp INNER JOIN s.drug d";
+		String sqlQuery="SELECT new com.awpathum.pharmacy.classes.StockResponse(s.id,s.drugName,s.quantity,s.manDate,s.resDate,s.expDate,sp.name,sp.id,d.name,d.id) FROM Stock s INNER JOIN s.supplier sp INNER JOIN s.drug d ORDER BY s.id";
 
 		Query<StockResponse> theQuery = currentSession.createQuery(sqlQuery);
 		// execute query and get result list
