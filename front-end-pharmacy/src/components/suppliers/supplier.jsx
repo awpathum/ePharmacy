@@ -21,6 +21,7 @@ class Suppliers extends Component {
 
     async componentDidMount() {
         const { data } = await getSuppliers();
+        console.log(data)
         this.setState({
             suppliers : data
         })
@@ -32,8 +33,6 @@ class Suppliers extends Component {
         const suppliers = originalSuppliers.filter(s => s.id !== supplier.id);
         console.log(supplier)
         this.setState({
-
-            //key and value are same therefore can write like this
             suppliers
         });
         try {
@@ -50,17 +49,6 @@ class Suppliers extends Component {
             })
         }
     }
-
-    // handleLike = (supplier) => {
-    //     const suppliers = [...this.state.suppliers];
-    //     const index = suppliers.indexOf(supplier);
-    //     suppliers[index] = { ...suppliers[index] };
-    //     suppliers[index].liked = !suppliers[index].liked;
-    //     this.setState({
-    //         suppliers
-    //     });
-    // }
-
     handlePageChange = (page) => {
         this.setState({
             currentPage: page
@@ -110,60 +98,63 @@ class Suppliers extends Component {
         return { totalCount: filtered.length, data: suppliers, searchQuery }
     }
 
-    // getNewSupplierId = (allSuppliers) => {
-    //     const allSuppliersLen = allSuppliers.length;
-    //     let newSupplierIdStr;
-    //     if (allSuppliersLen === 0) {
-    //         newSupplierIdStr = '1';
-    //     } else {
-    //         console.log('alllSuppliers', allSuppliers)
-    //         const lastSupplierId = allSuppliers[allSuppliersLen - 1].id;
-    //         console.log('lastSupplierId', lastSupplierId);
-    //         let newSupplierId = lastSupplierId.substring(1, lastSupplierId.length);
-    //         let newSupplierIdInt = parseInt(newSupplierId);
-    //         console.log('newSupplierIdInt', newSupplierIdInt)
-    //         newSupplierIdInt++;
-    //         console.log(newSupplierIdInt.toString());
-    //         newSupplierIdStr = newSupplierIdInt.toString();
-    //     }
+    getNewSupplierId = (allSuppliers) => {
+        const allSuppliersLen = allSuppliers.length;
+        let newSupplierIdStr;
+        if (allSuppliersLen === 0) {
+            newSupplierIdStr = '1';
+        } else {
+            console.log('alllSuppliers',allSuppliers)
+            const lastSupplierId = allSuppliers[allSuppliersLen - 1].id;
+            console.log('lastSupplierId',lastSupplierId);
+            let newSupplierId = lastSupplierId.substring(1, lastSupplierId.length);
+            let newSupplierIdInt = parseInt(newSupplierId);
+            console.log('newSupplierIdInt', newSupplierIdInt)
+            newSupplierIdInt++;
+            console.log(newSupplierIdInt.toString());
+            newSupplierIdStr = newSupplierIdInt.toString();
+        }
 
-    //     console.log(newSupplierIdStr)
+        console.log(newSupplierIdStr)
 
 
-    //     if (newSupplierIdStr.length === 1) {
-    //         let prefix = "L00000";
-    //         const refactoredSupplierId = prefix.concat(newSupplierIdStr);
-    //         console.log('refactoredSupplierId', refactoredSupplierId)
-    //         return refactoredSupplierId;
-    //     } else if (newSupplierIdStr.length === 2) {
-    //         let prefix = "L0000";
-    //         const refactoredSupplierId = prefix.concat(newSupplierIdStr);
-    //         return refactoredSupplierId;
-    //     } else if (newSupplierIdStr.length === 3) {
-    //         let prefix = "L000";
-    //         const refactoredSupplierId = prefix.concat(newSupplierIdStr);
-    //         return refactoredSupplierId;
-    //     } else if (newSupplierIdStr.length === 4) {
-    //         let prefix = "L00";
-    //         const refactoredSupplierId = prefix.concat(newSupplierIdStr);
-    //         return refactoredSupplierId;
-    //     } else if (newSupplierIdStr.length === 5) {
-    //         let prefix = "L0";
-    //         const refactoredSupplierId = prefix.concat(newSupplierIdStr);
-    //         return refactoredSupplierId;
-    //     } else {
-    //         let prefix = "L";
-    //         const refactoredSupplierId = prefix.concat(newSupplierIdStr);
-    //         return refactoredSupplierId;
-    //     }
+        if (newSupplierIdStr.length === 1) {
+            let prefix = "S00000";
+            const refactoredSupplierId = prefix.concat(newSupplierIdStr);
+            console.log('refactoredSupplierId', refactoredSupplierId)
+            return refactoredSupplierId;
+        } else if (newSupplierIdStr.length === 2) {
+            let prefix = "S0000";
+            const refactoredSupplierId = prefix.concat(newSupplierIdStr);
+            return refactoredSupplierId;
+        } else if (newSupplierIdStr.length === 3) {
+            let prefix = "S000";
+            const refactoredSupplierId = prefix.concat(newSupplierIdStr);
+            return refactoredSupplierId;
+        } else if (newSupplierIdStr.length === 4) {
+            let prefix = "S00";
+            const refactoredSupplierId = prefix.concat(newSupplierIdStr);
+            return refactoredSupplierId;
+        } else if (newSupplierIdStr.length === 5) {
+            let prefix = "S0";
+            const refactoredSupplierId = prefix.concat(newSupplierIdStr);
+            return refactoredSupplierId;
+        } else {
+            let prefix = "S";
+            const refactoredSupplierId = prefix.concat(newSupplierIdStr);
+            return refactoredSupplierId;
+        }
 
-    // }
+    }
+
     render() {
         const { length: count } = this.state.suppliers;
+        console.log(this.state.suppliers)
         const { pageSize, currentPage, suppliers: allSuppliers, selectedSupplier, sortColumn, navBarItems, searchQuery } = this.state;
-        //const newSupplierId = this.getNewSupplierId(allSuppliers);
-        //console.log('newSupplierId', newSupplierId);
-        const newSupplierId = '0001'
+        console.log(allSuppliers)
+        const newSupplierId = this.getNewSupplierId(allSuppliers);
+        console.log('newSupplierId', newSupplierId);
+
         if (count === 0) {
             return <div>
                 <h1>Suppliers</h1>
@@ -180,6 +171,7 @@ class Suppliers extends Component {
         return (
 
             <div className="container">
+                <h1>Suppliers</h1>
                 <Link
                     to={{ pathname: "/suppliers/new", newId: newSupplierId }}
                     className="btn btn-primary"

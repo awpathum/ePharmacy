@@ -101,9 +101,9 @@ class Stocks extends Component {
         if (allStocksLen === 0) {
             newStockIdStr = '1';
         } else {
-            console.log('alllStocks',allStocks)
+            console.log('alllStocks', allStocks)
             const lastStockId = allStocks[allStocksLen - 1].id;
-            console.log('lastStockId',lastStockId);
+            console.log('lastStockId', lastStockId);
             let newStockId = lastStockId.substring(1, lastStockId.length);
             let newStockIdInt = parseInt(newStockId);
             console.log('newStockIdInt', newStockIdInt)
@@ -151,13 +151,17 @@ class Stocks extends Component {
         const newStockId = this.getNewStockId(allStocks);
         console.log('newStockId', newStockId);
         if (count === 0) {
-            return <Link
-                to={{ pathname: "/stocks/new", newId: newStockId }}
-                className="btn btn-primary"
-                style={{ marginBottom: 20 }}
-            >
-                New Stock
+            return <div>
+                <h1>Stocks</h1>
+                <Link
+                    to={{ pathname: "/stocks/new", newId: newStockId }}
+                    className="btn btn-primary"
+                    style={{ marginBottom: 20 }}
+                >
+                    New Stock
         </Link>
+            </div>
+
         }
         const { totalCount, data: stocks } = this.getPageData();
 
