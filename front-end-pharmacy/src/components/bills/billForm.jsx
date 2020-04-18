@@ -8,11 +8,11 @@ class BillForm extends Component {
         data: {
             id: "",
             date: "",
-            totalPrice: "",
             customerName: "",
             customerAge: "",
             drugBills: [],
         },
+        totalPrice: 0,
         bills: [],
         drugList: [],
         errors: {}
@@ -71,6 +71,11 @@ class BillForm extends Component {
         // this.props.history.push("/bills");
     };
 
+    doSubmitDrugs = async (values) => {
+        console.log('doSumbitDrugs', values);
+        console.log(this.state.drugList[0].props.netPrice)
+    }
+
     validate = (values) => {
         let errors = {};
         console.log(values)
@@ -83,9 +88,26 @@ class BillForm extends Component {
         console.log(errors)
         return errors
     }
+    handleNetPrice = (netPrice,name) => {
+        console.log(netPrice,name)
+        //dont add every time. even when netprice is 0, substract when it's 0.
+        let newTotal = this.state.totalPrice + netPrice;
+        if (netPrice === 0) {
+            newTotal = newTotal - netPrice;
+        }
+
+        console.log('newTotal', newTotal)
+        this.setState({
+            totalPrice: newTotal
+        });
+        // this.setState({
+        //     totalPrice: (totalPrice + netPrice)
+        // })
+    }
+
     handleDrugList = () => {
         this.setState({
-            drugList: [...this.state.drugList, <DrugList/>]
+            drugList: [...this.state.drugList, <DrugList getNetPrice={this.handleNetPrice}></DrugList>]
         })
     }
     render() {
@@ -150,13 +172,23 @@ class BillForm extends Component {
                     </div>
                     <div className="col-sm">
                         <div>
-                            <fieldset className="form-group">
-                                <label>Add Drug</label> <br></br>
+                            <Formik
+                                onSubmit={this.doSubmitDrugs}
+
+                            >
                                 <div>
                                     <button onClick={this.handleDrugList} className="btn btn-success"> + </button>
-                                    {this.state.drugList}
+                                    <Form>
+                                        <label>Add Drug</label> <br></br>
+                                        <div>
+                                            {this.state.drugList}
+
+                                        </div>
+                                        <div>{this.state.totalPrice}</div>
+                                        <button className="btn btn-primary" type="submit">Save</button>
+                                    </Form>
                                 </div>
-                            </fieldset>
+                            </Formik>
                         </div>
 
                     </div>

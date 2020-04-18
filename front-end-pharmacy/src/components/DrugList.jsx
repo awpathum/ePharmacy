@@ -10,7 +10,8 @@ class DrugList extends Component {
         selectedDrug: '',
         quantity: '',
         unitPrice:'',
-        netPrice:''
+        netPrice:'',
+        
 
     }
     async populateDrugs() {
@@ -30,12 +31,14 @@ class DrugList extends Component {
     handleTextChange = (e) => {
         let{name,value} = e.target;
         const netPrice = this.calcutaleNetPrice(value);
+        this.props.getNetPrice(netPrice,name);
         this.setState({netPrice})
 
     }
 
     calcutaleNetPrice = (quantity) =>{
         const netPrice = quantity * this.state.unitPrice;
+        //this.props.netPrice = netPrice;
         return netPrice;
     }
 
@@ -58,6 +61,7 @@ class DrugList extends Component {
     }
 
     render() {
+        console.log(this.props.netPrice)
         const { drugs : stateDrugs, selectedDrug } = this.state;
         const drugs = [{ id: "", name: "" }, ...stateDrugs];
         return (
