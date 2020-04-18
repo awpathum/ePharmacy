@@ -5,7 +5,8 @@ import Home from "./components/home";
 import NavBar from "./components/navBar";
 import Suppliers from "./components/suppliers/supplier";
 import Drugs from "./components/drugs/drugs";
-import Bills from "./components/bills";
+import Bills from "./components/bills/bills";
+import BillForm from './components/bills/billForm'
 import NotFound from "./components/notfound";
 import SupplierForm from "./components/suppliers/supplierForm";
 import Stocks from "./components/stocks/stocks";
@@ -28,6 +29,8 @@ class App extends Component {
             <Route path="/drugs/:id" component={DrugForm}></Route>
             <Route path="/drugs/new" exact component={DrugForm}></Route>
             <Route path="/drugs" component={Drugs}></Route>
+            <Route path="/bills/:id" component={BillForm}></Route>
+            <Route path="/bills/new" exact component={BillForm}></Route>
             <Route path="/bills" component={Bills}></Route>
             <Route path="/not-found" component={NotFound}></Route>
             <Redirect from="/" exact to="/home"></Redirect>

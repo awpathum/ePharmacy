@@ -35,24 +35,46 @@ public class Bill {
 
 	@Column(name = "total_price")
 	private Float totalPrice;
-	
+
+	@Column(name = "customer_name")
+	private String customerName;
+
+	@Column(name = "customer_age")
+	private Integer customerAge;
+
+
 	@OneToMany(fetch = FetchType.EAGER,mappedBy = "bill")
 	private Set<DrugBill> drugBills;
 	
 
 	//private List<Drug> drugs;
-	
+
 
 	public Bill() {
 
 	}
-
-	public Bill(String id, String date, Float totalPrice) {
-		super();
+	public Bill(String id,String date,Float totalPrice,String customerName,Integer customerAge){
 		this.id = id;
 		this.date = date;
 		this.totalPrice = totalPrice;
-		
+		this.customerName = customerName;
+		this.customerAge = customerAge;
+	}
+
+	public String getCustomerName() {
+		return customerName;
+	}
+
+	public void setCustomerName(String customerName) {
+		this.customerName = customerName;
+	}
+
+	public Integer getCustomerAge() {
+		return customerAge;
+	}
+
+	public void setCustomerAge(Integer customerAge) {
+		this.customerAge = customerAge;
 	}
 
 	public String getId() {
