@@ -4,7 +4,7 @@ import { getSupplier, saveSupplier } from '../../services/supplierService';
 import { getSuppliers } from "../../services/supplierService";
 import { getDrugs } from '../../services/drugService';
 
-class StockForm extends Component {
+class SupplierForm extends Component {
     state = {
         data: {
             id: "",
@@ -146,4 +146,4 @@ class StockForm extends Component {
     }
 }
 
-export default StockForm;
+export default SupplierForm;

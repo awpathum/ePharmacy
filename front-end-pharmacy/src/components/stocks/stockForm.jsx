@@ -231,7 +231,7 @@ class StockForm extends Component{
                     }
                   </Field>
                 </fieldset>
-                <button className="btn btn-success" type="submit">Save</button>
+                <button className="btn btn-primary" type="submit">Save</button>
               </Form>
 
             )}

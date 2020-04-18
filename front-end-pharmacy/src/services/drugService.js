@@ -20,12 +20,7 @@ export function getDrug(drugId) {
 }
 
 export function saveDrug(drug) {
-  if (drug.id) {
-    const body = { ...drug };
-    delete body.id;
-    //return http.put(drugUrl(drug.id), body);
-    return http.post(apiEndpoint, drug);
-  }
+  return http.post(apiEndpoint, drug);
 }
 
 export function deleteDrug(drugId) {

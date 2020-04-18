@@ -168,6 +168,7 @@ class Stocks extends Component {
         return (
 
             <div className="container">
+                <h1>Stocks</h1>
                 <Link
                     to={{ pathname: "/stocks/new", newId: newStockId }}
                     className="btn btn-primary"

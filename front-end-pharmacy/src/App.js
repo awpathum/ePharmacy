@@ -4,12 +4,13 @@ import "./App.css";
 import Home from "./components/home";
 import NavBar from "./components/navBar";
 import Suppliers from "./components/suppliers/supplier";
-import Drugs from "./components/drugs";
+import Drugs from "./components/drugs/drugs";
 import Bills from "./components/bills";
 import NotFound from "./components/notfound";
 import SupplierForm from "./components/suppliers/supplierForm";
 import Stocks from "./components/stocks/stocks";
 import StockForm from "./components/stocks/stockForm";
+import DrugForm from './components/drugs/drugForm';
 class App extends Component {
   render() {
     return (
@@ -24,6 +25,8 @@ class App extends Component {
             <Route path="/stocks/:id" component={StockForm}></Route>
             <Route path="/stocks/new" exact component={StockForm}></Route>
             <Route path="/stocks" component={Stocks}></Route>
+            <Route path="/drugs/:id" component={DrugForm}></Route>
+            <Route path="/drugs/new" exact component={DrugForm}></Route>
             <Route path="/drugs" component={Drugs}></Route>
             <Route path="/bills" component={Bills}></Route>
             <Route path="/not-found" component={NotFound}></Route>
