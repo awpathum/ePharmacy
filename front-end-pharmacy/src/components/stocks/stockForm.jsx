@@ -1,12 +1,10 @@
-import React from "react";
+import React, { Component } from "react";
 import { Formik, Form, Field, ErrorMessage } from 'formik';
-import Joi from "joi-browser"
-import FormD from "../common/form";
 import { getStock, saveStock, addSupplierToStock, addDrugToStock } from "../../services/stockService";
 import { getSuppliers } from "../../services/supplierService";
 import { getDrugs } from '../../services/drugService';
 
-class StockForm extends FormD {
+class StockForm extends Component{
   state = {
     data: {
       id: "",
@@ -126,10 +124,9 @@ class StockForm extends FormD {
 
   validate = (values) => {
     let errors = {};
-    //const options = {abortEarly:false};
     console.log(values.drug)
     if (!values.drug) {
-      errors.drugName = "Enter a name";
+      errors.drug = "Set Drug";
     }
     if (!values.quantity) {
       errors.quantity = "Enter the quantity";
@@ -141,7 +138,10 @@ class StockForm extends FormD {
       errors.resDate = "Set receive date"
     }
     if (!values.expDate) {
-      errors.manDate = "Set expire date"
+      errors.expDate = "Set expire date"
+    }
+    if (!values.supplier) {
+      errors.supplier = "Set supplier"
     }
     console.log(errors)
     return errors
@@ -231,27 +231,6 @@ class StockForm extends FormD {
                     }
                   </Field>
                 </fieldset>
-
-
-                {/* <Field component="select" className="form-control" type="suppliers" name="supplier">
-                    {
-                      console.log('data.id', data.supplierId),
-                      //suppliers.map(s => <option value={data.supplierId} key={s.id} >{console.log('s.id',s.id),data.supplier}</option>)
-                      (data.drugName) ? <option value={data.supplierId} key={data.id} selected disabled>{data.supplier}</option> : suppliers.map(s => <option value={s.id} key={s.id} >{s.name}</option>)
-                      // (data.drugName) ? suppliers.map(s =>
-                      //   (s.id === data.supplierId) ?
-                      //     <option value={s.id} key={s.id} selected>{s.name}</option>
-                      //     : <option value={s.id} key={s.id}>{s.name}</option>
-                      // )
-                      //   : suppliers.map(s => <option value={data.drugName} key={s.id} >{console.log('s.id', s.id), s.name}
-                      //   </option>)
-
-                      //data.id != null ? suppliers.map(s => <option value={s.id} key={s.id}>{s.name}</option>) : suppliers.filter(s => s.name === data.supplier)
-                      //data.id === null ? this.renderSelect("supplierId", "Supplier", suppliers) : this.renderSelect("supplierId", "Supplier", suppliers.filter(s => s === this.state.data.supplier))
-
-                    }
-                  </Field> */}
-
                 <button className="btn btn-success" type="submit">Save</button>
               </Form>
 

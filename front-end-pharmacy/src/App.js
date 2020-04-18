@@ -3,11 +3,11 @@ import { Route, Switch, Redirect } from "react-router-dom";
 import "./App.css";
 import Home from "./components/home";
 import NavBar from "./components/navBar";
-import Suppliers from "./components/suppliers/suppliers";
+import Suppliers from './components/suppliers/supplier';
 import Drugs from "./components/drugs";
 import Bills from "./components/bills";
 import NotFound from "./components/notfound";
-import SupplierForm from "./components/suppliers/supplierFrom";
+//import SupplierForm from './components/suppliers/supplierForm';
 import Stocks from './components/stocks/stocks';
 import StockForm from './components/stocks/stockForm';
 class App extends Component {
@@ -18,8 +18,8 @@ class App extends Component {
         <main className="container">
           <Switch>
             <Route path="/home" component={Home}></Route>
-            <Route path="/suppliers/:id" component={SupplierForm}></Route>
-            <Route path="/suppliers/new" exact component={SupplierForm}></Route>
+            {/* <Route path="/suppliers/:id" component={SupplierForm}></Route>
+            <Route path="/suppliers/new" exact component={SupplierForm}></Route> */}
             <Route path="/suppliers" component={Suppliers}></Route>
             <Route path="/stocks/:id" component={StockForm}></Route>
             <Route path="/stocks/new" exact component={StockForm}></Route>

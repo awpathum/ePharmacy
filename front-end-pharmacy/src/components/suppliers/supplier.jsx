@@ -1,0 +1,213 @@
+import React, { Component } from 'react';
+import {getSuppliers,deleteSupplier} from '../../services/supplierService';
+import { Route, Link } from "react-router-dom";
+import Pagination from "../common/pagination";
+import { paginate } from '../../utils/paginate';
+import ListGroup from "../common/listGroup";
+import SearchBox from "../common/searchBox";
+import SupplierTable from './supplierTable';
+import { toast } from "react-toastify";
+import _ from 'lodash';
+
+class Suppliers extends Component {
+    state = {
+        suppliers: [],
+        currentPage: 1,
+        pageSize: 4,
+        searchQuery: "",
+        selectedSupplier: null,
+        sortColumn: { path: 'title', order: 'asc' },
+    }
+
+    async componentDidMount() {
+        const { data } = await getSuppliers();
+        this.setState({
+            suppliers : data
+        })
+    }
+
+    handleDelete = async (supplier) => {
+
+        const originalSuppliers = this.state.suppliers;
+        const suppliers = originalSuppliers.filter(s => s.id !== supplier.id);
+        console.log(supplier)
+        this.setState({
+
+            //key and value are same therefore can write like this
+            suppliers
+        });
+        try {
+            console.log(supplier)
+            const res = await deleteSupplier(supplier.id);
+            console.log(supplier.id)
+        } catch (ex) {
+            console.log(ex)
+            if (ex.response && ex.response.status === 404) {
+                toast.error('This supplier has already been deleted');
+            }
+            this.setState({
+                suppliers: originalSuppliers
+            })
+        }
+    }
+
+    // handleLike = (supplier) => {
+    //     const suppliers = [...this.state.suppliers];
+    //     const index = suppliers.indexOf(supplier);
+    //     suppliers[index] = { ...suppliers[index] };
+    //     suppliers[index].liked = !suppliers[index].liked;
+    //     this.setState({
+    //         suppliers
+    //     });
+    // }
+
+    handlePageChange = (page) => {
+        this.setState({
+            currentPage: page
+        });
+    }
+
+    handleSupplierSelect = (supplier) => {
+        this.setState({
+            selectedSupplier: supplier,
+            searchQuery: "",
+            currentPage: 1
+        })
+    }
+
+    hanldeSort = (sortColumn) => {
+        this.setState({
+            sortColumn
+        })
+    }
+    handleNewSupplier = (path) => {
+        this.props.history.push(path)
+    }
+    handleSearch = query => {
+        console.log(query)
+        this.setState({
+            searchQuery: query,
+            selectedSupplier: null,
+            currentPage: 1
+        })
+    }
+
+    getPageData = () => {
+        const { pageSize, currentPage, suppliers: allSuppliers, selectedSupplier,sortColumn, searchQuery } = this.state;
+        let filtered = allSuppliers;
+
+        if (searchQuery) {
+            filtered = allSuppliers.filter(s =>
+                s.name.toLowerCase().startsWith(searchQuery.toLowerCase())
+            );
+        } else if (selectedSupplier && selectedSupplier.id) {
+            filtered = allSuppliers.filter(s => s.supplier.id === selectedSupplier.id);
+        }
+
+        //sorting suppliers with lodash
+        const sorted = _.orderBy(filtered, [sortColumn.path], [sortColumn.order])
+        const suppliers = paginate(sorted, currentPage, pageSize);
+        return { totalCount: filtered.length, data: suppliers, searchQuery }
+    }
+
+    // getNewSupplierId = (allSuppliers) => {
+    //     const allSuppliersLen = allSuppliers.length;
+    //     let newSupplierIdStr;
+    //     if (allSuppliersLen === 0) {
+    //         newSupplierIdStr = '1';
+    //     } else {
+    //         console.log('alllSuppliers', allSuppliers)
+    //         const lastSupplierId = allSuppliers[allSuppliersLen - 1].id;
+    //         console.log('lastSupplierId', lastSupplierId);
+    //         let newSupplierId = lastSupplierId.substring(1, lastSupplierId.length);
+    //         let newSupplierIdInt = parseInt(newSupplierId);
+    //         console.log('newSupplierIdInt', newSupplierIdInt)
+    //         newSupplierIdInt++;
+    //         console.log(newSupplierIdInt.toString());
+    //         newSupplierIdStr = newSupplierIdInt.toString();
+    //     }
+
+    //     console.log(newSupplierIdStr)
+
+
+    //     if (newSupplierIdStr.length === 1) {
+    //         let prefix = "L00000";
+    //         const refactoredSupplierId = prefix.concat(newSupplierIdStr);
+    //         console.log('refactoredSupplierId', refactoredSupplierId)
+    //         return refactoredSupplierId;
+    //     } else if (newSupplierIdStr.length === 2) {
+    //         let prefix = "L0000";
+    //         const refactoredSupplierId = prefix.concat(newSupplierIdStr);
+    //         return refactoredSupplierId;
+    //     } else if (newSupplierIdStr.length === 3) {
+    //         let prefix = "L000";
+    //         const refactoredSupplierId = prefix.concat(newSupplierIdStr);
+    //         return refactoredSupplierId;
+    //     } else if (newSupplierIdStr.length === 4) {
+    //         let prefix = "L00";
+    //         const refactoredSupplierId = prefix.concat(newSupplierIdStr);
+    //         return refactoredSupplierId;
+    //     } else if (newSupplierIdStr.length === 5) {
+    //         let prefix = "L0";
+    //         const refactoredSupplierId = prefix.concat(newSupplierIdStr);
+    //         return refactoredSupplierId;
+    //     } else {
+    //         let prefix = "L";
+    //         const refactoredSupplierId = prefix.concat(newSupplierIdStr);
+    //         return refactoredSupplierId;
+    //     }
+
+    // }
+    render() {
+        const { length: count } = this.state.suppliers;
+        const { pageSize, currentPage, suppliers: allSuppliers, selectedSupplier, sortColumn, navBarItems, searchQuery } = this.state;
+        //const newSupplierId = this.getNewSupplierId(allSuppliers);
+        //console.log('newSupplierId', newSupplierId);
+        const newSupplierId = '0001'
+        if (count === 0) {
+            return <div>
+                <h1>Suppliers</h1>
+                <Link
+                to={{ pathname: "/suppliers/new", newId: newSupplierId }}
+                className="btn btn-primary"
+                style={{ marginBottom: 20 }}
+            >
+                New Supplier
+        </Link>
+            </div>
+        }
+        const { totalCount, data: suppliers } = this.getPageData();
+        return (
+
+            <div className="container">
+                <Link
+                    to={{ pathname: "/suppliers/new", newId: newSupplierId }}
+                    className="btn btn-primary"
+                    style={{ marginBottom: 20 }}
+                >
+                    New Supplier
+                    </Link>
+                <p>Showing {totalCount} suppliers in the database.</p>
+                <SearchBox
+                    value={searchQuery} onChange={this.handleSearch}></SearchBox>
+                <SupplierTable
+                    suppliers={suppliers}
+                    sortColumn={sortColumn}
+                    onLike={this.handleLike}
+                    onDelete={this.handleDelete}
+                    onSort={this.hanldeSort}
+                ></SupplierTable>
+                <Pagination
+                    itemsCount={totalCount}
+                    pageSize={pageSize}
+                    currentPage={currentPage}
+                    onPageChange={this.handlePageChange}>
+                </Pagination>
+
+            </div>
+
+        );
+    }
+}
+
+export default Suppliers;

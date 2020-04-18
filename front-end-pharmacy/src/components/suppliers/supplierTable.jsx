@@ -4,23 +4,19 @@ import { Link } from 'react-router-dom';
 
 class SuppliersTable extends Component {
 
-
     columns = [
         { path: 'id', label: 'Supplier Id', content: supplier => <Link to={`/suppliers/${supplier.id}`}>{supplier.id}</Link> },
+        // { path: 'genre.name', label: 'Genre' },
         { path: 'name', label: 'Name' },
         { path: 'location', label: 'Location' },
         { path: 'email', label: 'Email' },
         { path: 'telephone', label: 'Telephone' },
-        // {
-        //     key: 'like',
-        //     content: supplier => (<Like liked={supplier.liked} onClick={() => this.props.onLike(supplier)}></Like>)
-        // },
+        // { path: 'supplier', label: 'Supplier', content: supplier => <Link to={`/suppliers/${supplier.supplierId}`}>{supplier.supplier}</Link> },
         {
             key: 'delete',
-            content: supplier => (<button className="btn btn-danger" onClick={() => this.props.onDelete(supplier)} disabled={supplier.stocks.length ? true : false} >{console.log(supplier.stocks.length)}Delete</button>)
+            content: supplier => (<button className="btn btn-danger" onClick={() => this.props.onDelete(supplier)}disabled={supplier.stocks.length ? true : false}>{console.log(supplier)}Delete</button>)
         },
     ]
-    //disabled={supplier.stocks.length ? false:true}
 
     raiseSort = path => {
         const sortColumn = { ...this.props.sortColumn };
@@ -34,6 +30,7 @@ class SuppliersTable extends Component {
     };
     render() {
         const { suppliers, sortColumn, onSort } = this.props;
+        console.log(suppliers)
 
         return (
             <Table
