@@ -70,87 +70,99 @@ public class BillController {
 	}
 
 	@PostMapping("/addDrugs")
-	public void saveDrugsForBill(@RequestBody BillDrugQuantity billDrugQuantity) {
+	public void saveDrugsForBill(@RequestBody List<BillDrugQuantity> billDrugQuantity) {
 
-		String billId = billDrugQuantity.getBillId();
-		String drugId = billDrugQuantity.getDrugId();
-		Integer quantity = billDrugQuantity.getQuantity();
-		
-		
-		Bill bill = billService.getBill(billId);
-		
-		Drug drug = drugService.getDrug(drugId);
+		for (int k =0 ; k < billDrugQuantity.size(); k++){
+
+			System.out.println(k);
+			System.out.println("size");
+			System.out.println(billDrugQuantity.size());
+			System.out.println(billDrugQuantity.get(k).getDrugId());
+
+			String billId = billDrugQuantity.get(k).getBillId();
+			String drugId = billDrugQuantity.get(k).getDrugId();
+			Integer quantity = billDrugQuantity.get(k).getQuantity();
 
 
-		
-		Float unitPrice = Float.parseFloat(drug.getUnitPrice());
-		
-		Float totalPrice = unitPrice * quantity;
-		
-		bill.setTotalPrice(totalPrice);
-		
-		
-		
-		DrugBill db = new DrugBill();
-		
-		db.setBill(bill);
-		db.setDrug(drug);
-		db.setQuantity(quantity);
-		db.setTotalPrice(totalPrice);
-		
-		
-		
-		bill.getDrugBills().add(db);
-		drug.getDrugBills().add(db);
-		
-		//reduce drug stock
-		Integer drugQuantity = drug.getQuantity();
-		
-		if(drugQuantity >= quantity) {
-			Integer newQuantity = (int) (drugQuantity - quantity);
-			drug.setQuantity(newQuantity);
-		
-			
-			//reduce drug from stock
-			
-			//get List of stocks and sort on ID. oldest id 1st
-			List<Stock> stocks = stockService.getSpecifcStocks(drugId);
-			
-			
-			Integer remStock = 0;
-			Integer reqStock = 0;
-			Integer currentStock = 0;
-			String updatedStockId = null;
-			
-			int i = 0;
-			while(reqStock != quantity) {
-				currentStock = currentStock + stocks.get(i).getQuantity();
-				
-				if( currentStock >= quantity) {
-					remStock = currentStock - quantity;
-					reqStock = quantity;
-					updatedStockId = stocks.get(i).getId();
-				}else {
-					stocks.get(i).setQuantity(0);
-					reqStock = reqStock + currentStock;
+			Bill bill = billService.getBill(billId);
+
+			Drug drug = drugService.getDrug(drugId);
+
+
+
+			Float unitPrice = Float.parseFloat(drug.getUnitPrice());
+
+			Float totalPrice = unitPrice * quantity;
+
+			bill.setTotalPrice(totalPrice);
+
+
+
+			DrugBill db = new DrugBill();
+
+			db.setBill(bill);
+			db.setDrug(drug);
+			db.setQuantity(quantity);
+			db.setTotalPrice(totalPrice);
+
+
+
+			bill.getDrugBills().add(db);
+			drug.getDrugBills().add(db);
+
+			//reduce drug stock
+			Integer drugQuantity = drug.getQuantity();
+
+			if(drugQuantity >= quantity) {
+				Integer newQuantity = (int) (drugQuantity - quantity);
+				drug.setQuantity(newQuantity);
+
+
+				//reduce drug from stock
+
+				//get List of stocks and sort on ID. oldest id 1st
+				List<Stock> stocks = stockService.getSpecifcStocks(drugId);
+
+
+				Integer remStock = 0;
+				Integer reqStock = 0;
+				Integer currentStock = 0;
+				String updatedStockId = null;
+
+				int i = 0;
+				while(reqStock != quantity) {
+					currentStock = currentStock + stocks.get(i).getQuantity();
+
+					if( currentStock >= quantity) {
+						remStock = currentStock - quantity;
+						reqStock = quantity;
+						updatedStockId = stocks.get(i).getId();
+					}else {
+						stocks.get(i).setQuantity(0);
+						reqStock = reqStock + currentStock;
+					}
+					i++;
 				}
-				i++;
-			}
-			
-			System.out.println(i);
-			
-			
-			for(int j = 0;j <i;j++) {
-				Stock theStock = stocks.get(j);
-				stockService.reduceStock(theStock.getId(), 0);
-			}
-			stockService.reduceStock(updatedStockId, remStock);
-			billService.saveBill(bill);
-			drugBillService.saveDrugBill(db);
-			drugService.saveDrug(drug);
-		System.out.println("Done!");
+
+				System.out.println(i);
+
+
+				for(int j = 0;j <i;j++) {
+					Stock theStock = stocks.get(j);
+					stockService.reduceStock(theStock.getId(), 0);
+				}
+				stockService.reduceStock(updatedStockId, remStock);
+				billService.saveBill(bill);
+				drugBillService.saveDrugBill(db);
+				drugService.saveDrug(drug);
+				System.out.println("Done!");
+
+		}
+
 		
 	}
+		System.out.println("Done!!");
 
 }
+
 }

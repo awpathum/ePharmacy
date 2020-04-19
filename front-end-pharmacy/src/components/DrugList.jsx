@@ -29,13 +29,15 @@ class DrugList extends Component {
     // }
     handleTextChange = (e) => {
         let{id,value} = e.target;
-        console.log(value,id)
+        console.log('value',value,id)
         console.log("this.props.id",this.props.id)
         const netPrice = this.calcutaleNetPrice(value);
         this.props.getNetPrice(netPrice,this.props.id);
+        this,this.props.getQuantity(value)
         this.setState({netPrice,componentId:this.props.id})
 
     }
+
 
     calcutaleNetPrice = (quantity) =>{
         const netPrice = quantity * this.state.unitPrice;
@@ -46,6 +48,7 @@ class DrugList extends Component {
     handleSelectChange = (e) => {
         let { name, value } = e.target;
         console.log(value)
+        this.props.getDrugId(value)
         const unitPrice = this.getSelectedDrug(value);
         console.log(unitPrice)
         this.setState({unitPrice})
@@ -57,6 +60,7 @@ class DrugList extends Component {
         console.log(this.state.drugs)
         const drug = this.state.drugs.filter(d => d.id === selectedDrugId)
         console.log(drug)
+        this.props.getDrugId(drug[0].id)
         return (drug[0].unitPrice)
         // return drug;
     }

@@ -53,6 +53,8 @@ public class DrugDAOImpl implements DrugDAO {
 		// get the current hibernate session
 		Session currentSession = entityManager.unwrap(Session.class);
 		// retrieve data from database using the primary key
+		System.out.println(("theId"));
+		System.out.println(theId);
 		Drug theDrug = currentSession.get(Drug.class, theId);
 
 		return theDrug;

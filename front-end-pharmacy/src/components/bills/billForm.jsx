@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Formik, Form, Field, ErrorMessage } from 'formik';
-import { getBill, saveBill } from '../../services/billService';
+import { getBill, saveBill, addDrugs } from '../../services/billService';
 import DrugList from '../DrugList';
 
 class BillForm extends Component {
@@ -17,7 +17,9 @@ class BillForm extends Component {
         drugList: [],
         drugCount: 0,
         netPriceList: [],
-        billSumbit:false,
+        drugIdList: [],
+        drugQuantityList: [],
+        billSumbit: false,
         errors: {}
     };
 
@@ -70,18 +72,46 @@ class BillForm extends Component {
         delete values.quantity;
         delete values.totalPrice;
         console.log(values)
-        //  await saveBill(values);
+        await saveBill(values);
         console.log("doSubmit")
         this.setState({
-            billSumbit : true            
+            billSumbit: true
         })
 
         //this.props.history.push("/bills");
     };
 
-    doSubmitDrugs = async (values) => {
-        console.log('doSumbitDrugs', values);
-        console.log(this.state.drugList[0].props.netPrice)
+    // [
+
+    //     {
+    //     "drugId": "D000002",
+    //   "billId": "B000001",
+    //     "quantity" : 50
+    //     }
+    // ]
+    doSubmitDrugs = async () => {
+        console.log(this.state.drugList[0])
+        let toSumbit = [];
+        for (let i = 0; i < this.state.drugList.length; i++) {
+            const obj = {}
+
+            obj.billId = this.state.data.id;
+            obj.durgId = this.state.drugIdList[i];
+            obj.quantity = this.state.drugQuantityList[i];
+            toSumbit.push(obj);
+        }
+
+        console.log(toSumbit);
+
+        await addDrugs(toSumbit);
+
+
+        // drugList.map(d => {
+        //     obj.drugId = d.
+        // })
+
+
+        console.log("doSubmitDrugs")
     }
 
     validate = (values) => {
@@ -105,9 +135,24 @@ class BillForm extends Component {
     handleDrugList = () => {
 
         this.setState({
-            drugList: [...this.state.drugList, <DrugList getNetPrice={this.handleNetPrice} id={this.state.drugList.length}></DrugList>]
+            drugList: [...this.state.drugList, <DrugList getNetPrice={this.handleNetPrice} id={this.state.drugList.length} getQuantity={this.handleQuantity} getDrugId={this.handleDrugId}></DrugList>]
         })
     }
+    handleQuantity = (quantity) => {
+        console.log('quantity', quantity)
+        let dq = this.state.drugQuantityList;
+        dq.push(quantity)
+        this.setState({
+            drugQuantityList: dq
+        })
+        this.state.drugQuantityList.push(quantity)
+    }
+
+    handleDrugId = (drugId) => {
+        console.log(drugId)
+        this.state.drugIdList.push(drugId)
+    }
+
     render() {
         const { data, bills: stateBills } = this.state;
         const bills = [{ id: "", name: "" }, ...stateBills]
@@ -170,24 +215,25 @@ class BillForm extends Component {
                     </div>
                     <div className="col-sm">
                         <div>
-                            <Formik
-                                onSubmit={this.doSubmitDrugs}
 
-                            >
+
+                            <div>
+                                <label>Add Drug</label> &nbsp;
+                                            <button onClick={this.handleDrugList} className="btn btn-success"> + </button>
 
                                 <div>
-                                    <label>Add Drug</label> &nbsp;
-                                    <button onClick={this.handleDrugList} className="btn btn-success"> + </button>
-                                    <Form>
+                                    {this.state.drugList}
 
-                                        <div>
-                                            {this.state.drugList}
-
-                                        </div>
-                                        <button className="btn btn-primary" type="submit" disabled={((this.state.totalPrice && this.state.billSumbit) ? false : true)}>Save</button>
-                                    </Form>
                                 </div>
-                            </Formik>
+                                <button className="btn btn-primary" type="submit" disabled={((this.state.totalPrice && this.state.billSumbit) ? false : true)} onClick={this.doSubmitDrugs}>Save</button>
+
+                            </div>
+
+
+
+
+
+
                         </div>
 
                     </div>
@@ -195,7 +241,7 @@ class BillForm extends Component {
 
 
                 </div>
-            </div>
+            </div >
         )
     }
 }

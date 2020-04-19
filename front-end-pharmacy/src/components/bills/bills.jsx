@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {getBills,deleteBill} from '../../services/billService';
+import {getBills,deleteBill,addDrugs} from '../../services/billService';
 import { Route, Link } from "react-router-dom";
 import Pagination from "../common/pagination";
 import { paginate } from '../../utils/paginate';
@@ -120,29 +120,29 @@ class Bills extends Component {
 
 
         if (newBillIdStr.length === 1) {
-            let prefix = "D00000";
+            let prefix = "B00000";
             const refactoredBillId = prefix.concat(newBillIdStr);
             console.log('refactoredBillId', refactoredBillId)
             return refactoredBillId;
         } else if (newBillIdStr.length === 2) {
-            let prefix = "D0000";
+            let prefix = "B0000";
             const refactoredBillId = prefix.concat(newBillIdStr);
             return refactoredBillId;
         } else if (newBillIdStr.length === 3) {
-            let prefix = "D000";
+            let prefix = "B000";
             console.log('newBillIdStr',newBillIdStr)
             const refactoredBillId = prefix.concat(newBillIdStr);
             return refactoredBillId;
         } else if (newBillIdStr.length === 4) {
-            let prefix = "D00";
+            let prefix = "B00";
             const refactoredBillId = prefix.concat(newBillIdStr);
             return refactoredBillId;
         } else if (newBillIdStr.length === 5) {
-            let prefix = "D0";
+            let prefix = "B0";
             const refactoredBillId = prefix.concat(newBillIdStr);
             return refactoredBillId;
         } else {
-            let prefix = "D";
+            let prefix = "B";
             const refactoredBillId = prefix.concat(newBillIdStr);
             return refactoredBillId;
         }

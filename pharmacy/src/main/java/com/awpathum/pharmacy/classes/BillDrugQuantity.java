@@ -31,4 +31,10 @@ public class BillDrugQuantity {
     public void setQuantity(Integer quantity) {
         this.quantity = quantity;
     }
+
+    public BillDrugQuantity(String billId, String drugId, Integer quantity) {
+        this.billId = billId;
+        this.drugId = drugId;
+        this.quantity = quantity;
+    }
 }

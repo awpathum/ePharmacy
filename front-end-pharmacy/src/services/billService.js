@@ -23,6 +23,10 @@ export function saveBill(bill) {
   return http.post(apiEndpoint, bill);
 }
 
+export function addDrugs(drugs) {
+  return http.post(apiEndpoint + "addDrugs", drugs);
+}
+
 export function deleteBill(billId) {
   console.log(billId);
   http.delete(billUrl(billId));
