@@ -15,6 +15,8 @@ class BillForm extends Component {
         totalPrice: 0,
         bills: [],
         drugList: [],
+        drugCount: 0,
+        netPriceList: [],
         errors: {}
     };
 
@@ -88,26 +90,40 @@ class BillForm extends Component {
         console.log(errors)
         return errors
     }
-    handleNetPrice = (netPrice,name) => {
-        console.log(netPrice,name)
+    handleNetPrice = (netPrice, comId) => {
+        console.log(netPrice, comId)
         //dont add every time. even when netprice is 0, substract when it's 0.
-        let newTotal = this.state.totalPrice + netPrice;
-        if (netPrice === 0) {
-            newTotal = newTotal - netPrice;
-        }
+        //let newTotal = this.state.totalPrice + netPrice;
+        console.log(netPrice)
+        // if (netPrice === 0) {
+        //     console.log(this.state.netPriceList[comId])
+        //     this.state.netPriceList[comId] = 0;
+        //     console.log(this.state.netPriceList[comId])
+        // } else {
+        //     this.state.netPriceList.push(netPrice);
+        // }
 
-        console.log('newTotal', newTotal)
+        this.state.netPriceList[comId] = netPrice;
+
+        let newTotal = this.state.netPriceList.reduce((partial_sum, a) => partial_sum + a, 0);
+        console.log('sum',newTotal);
+        //this.state.netPriceList.forEach(p => newTotal + p)
+
+        //console.log(newTotal)
+
+
+
         this.setState({
-            totalPrice: newTotal
-        });
-        // this.setState({
-        //     totalPrice: (totalPrice + netPrice)
-        // })
+            totalPrice: newTotal,
+        })
+
+
     }
 
     handleDrugList = () => {
+
         this.setState({
-            drugList: [...this.state.drugList, <DrugList getNetPrice={this.handleNetPrice}></DrugList>]
+            drugList: [...this.state.drugList, <DrugList getNetPrice={this.handleNetPrice} id={this.state.drugList.length}></DrugList>]
         })
     }
     render() {

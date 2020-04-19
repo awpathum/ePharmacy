@@ -11,8 +11,7 @@ class DrugList extends Component {
         quantity: '',
         unitPrice:'',
         netPrice:'',
-        
-
+        componentId:0
     }
     async populateDrugs() {
         const { data: drugs } = await getDrugs();
@@ -29,10 +28,12 @@ class DrugList extends Component {
     //     console.log(input)
     // }
     handleTextChange = (e) => {
-        let{name,value} = e.target;
+        let{id,value} = e.target;
+        console.log(value,id)
+        console.log("this.props.id",this.props.id)
         const netPrice = this.calcutaleNetPrice(value);
-        this.props.getNetPrice(netPrice,name);
-        this.setState({netPrice})
+        this.props.getNetPrice(netPrice,this.props.id);
+        this.setState({netPrice,componentId:this.props.id})
 
     }
 
@@ -78,7 +79,7 @@ class DrugList extends Component {
                             </select>
                         </div>
                         <div class="col-sm">
-                            Quantity : {<input type="text" name="quantity" className="form-control" onChange={this.handleTextChange}></input>}
+                            Quantity : {<input type="text" id={this.props.id + 1} className="form-control" onBlur={this.handleTextChange}></input>}
                         </div>
                         <div class="col-sm">
 
