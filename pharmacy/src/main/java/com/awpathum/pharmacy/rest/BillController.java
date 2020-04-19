@@ -78,16 +78,18 @@ public class BillController {
 			System.out.println("size");
 			System.out.println(billDrugQuantity.size());
 			System.out.println(billDrugQuantity.get(k).getDrugId());
-
+			System.out.println("#1");
 			String billId = billDrugQuantity.get(k).getBillId();
+			System.out.println("#2");
 			String drugId = billDrugQuantity.get(k).getDrugId();
+			System.out.println("#3");
 			Integer quantity = billDrugQuantity.get(k).getQuantity();
-
+			System.out.println("#4");
 
 			Bill bill = billService.getBill(billId);
-
+			System.out.println("#5");
 			Drug drug = drugService.getDrug(drugId);
-
+			System.out.println("#6");
 
 
 			Float unitPrice = Float.parseFloat(drug.getUnitPrice());
@@ -95,6 +97,7 @@ public class BillController {
 			Float totalPrice = unitPrice * quantity;
 
 			bill.setTotalPrice(totalPrice);
+			System.out.println("#7");
 
 
 
@@ -112,7 +115,7 @@ public class BillController {
 
 			//reduce drug stock
 			Integer drugQuantity = drug.getQuantity();
-
+			System.out.println("*-*-*-*-*-*-*-*-**-*-*");
 			if(drugQuantity >= quantity) {
 				Integer newQuantity = (int) (drugQuantity - quantity);
 				drug.setQuantity(newQuantity);
@@ -122,6 +125,8 @@ public class BillController {
 
 				//get List of stocks and sort on ID. oldest id 1st
 				List<Stock> stocks = stockService.getSpecifcStocks(drugId);
+				System.out.println("stockslen");
+				System.out.println(stocks.size());
 
 
 				Integer remStock = 0;
@@ -131,20 +136,32 @@ public class BillController {
 
 				int i = 0;
 				while(reqStock != quantity) {
-					currentStock = currentStock + stocks.get(i).getQuantity();
 
-					if( currentStock >= quantity) {
+					System.out.println("While loop");
+					System.out.println(quantity);
+					System.out.println(reqStock);
+					if (stocks.size() > i) {
+					currentStock = currentStock + stocks.get(i).getQuantity();
+					System.out.println("#8");
+					if (currentStock >= quantity) {
 						remStock = currentStock - quantity;
 						reqStock = quantity;
 						updatedStockId = stocks.get(i).getId();
-					}else {
+						System.out.println("#9");
+					} else {
+						System.out.println("#10");
 						stocks.get(i).setQuantity(0);
 						reqStock = reqStock + currentStock;
 					}
+
+					System.out.println("#11");
+				}else{
+						break;
+					}
 					i++;
 				}
-
-				System.out.println(i);
+				System.out.println("#12");
+				//System.out.println(i);
 
 
 				for(int j = 0;j <i;j++) {
@@ -158,7 +175,7 @@ public class BillController {
 				System.out.println("Done!");
 
 		}
-
+			System.out.println("While loop end");
 		
 	}
 		System.out.println("Done!!");
