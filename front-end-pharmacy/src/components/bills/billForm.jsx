@@ -17,6 +17,7 @@ class BillForm extends Component {
         drugList: [],
         drugCount: 0,
         netPriceList: [],
+        billSumbit:false,
         errors: {}
     };
 
@@ -67,10 +68,15 @@ class BillForm extends Component {
     doSubmit = async (values) => {
         console.log(values)
         delete values.quantity;
+        delete values.totalPrice;
         console.log(values)
-        // await saveBill(values);
+        //  await saveBill(values);
         console.log("doSubmit")
-        // this.props.history.push("/bills");
+        this.setState({
+            billSumbit : true            
+        })
+
+        //this.props.history.push("/bills");
     };
 
     doSubmitDrugs = async (values) => {
@@ -84,40 +90,16 @@ class BillForm extends Component {
         if (!values.date) {
             errors.date = "Set Date";
         }
-        if (!values.totalPrice) {
-            errors.totalPrice = "Total Price";
-        }
         console.log(errors)
         return errors
     }
+
     handleNetPrice = (netPrice, comId) => {
-        console.log(netPrice, comId)
-        //dont add every time. even when netprice is 0, substract when it's 0.
-        //let newTotal = this.state.totalPrice + netPrice;
-        console.log(netPrice)
-        // if (netPrice === 0) {
-        //     console.log(this.state.netPriceList[comId])
-        //     this.state.netPriceList[comId] = 0;
-        //     console.log(this.state.netPriceList[comId])
-        // } else {
-        //     this.state.netPriceList.push(netPrice);
-        // }
-
         this.state.netPriceList[comId] = netPrice;
-
         let newTotal = this.state.netPriceList.reduce((partial_sum, a) => partial_sum + a, 0);
-        console.log('sum',newTotal);
-        //this.state.netPriceList.forEach(p => newTotal + p)
-
-        //console.log(newTotal)
-
-
-
         this.setState({
             totalPrice: newTotal,
         })
-
-
     }
 
     handleDrugList = () => {
@@ -132,7 +114,11 @@ class BillForm extends Component {
         console.log(bills)
         return (
             <div className="container">
-                <h1>Bill Form</h1>
+                <div className="row">
+                    <div class="col-md-8"><h1>Bill Form</h1></div>
+
+                    <div class="col-20 col-md-4"><h1>Total = {this.state.totalPrice}</h1></div>
+                </div>
                 <div className="row">
                     <div className="col-sm">
                         <Formik
@@ -147,13 +133,14 @@ class BillForm extends Component {
                             onSubmit={this.doSubmit}
                             // validateOnChange={true}
                             // validateOnBlur={false}
-                            // validate={this.validate}
+                            validate={this.validate}
                             enableReinitialize={true}
                         >
                             {
                                 (props) => (
 
                                     <Form>
+
                                         <fieldset className="form-group">
                                             <label>Bill Id</label>
                                             <Field className="form-control" type="text" name="id" disabled></Field>
@@ -162,11 +149,6 @@ class BillForm extends Component {
                                         <fieldset className="form-group">
                                             <label>Date</label>
                                             <Field className="form-control" type="date" name="date" ></Field>
-                                        </fieldset>
-                                        <ErrorMessage name="totalPrice" component="div" className="alert alert-warning"></ErrorMessage>
-                                        <fieldset className="form-group">
-                                            <label>Total Price</label>
-                                            <Field className="form-control" type="text" name="totalPrice" ></Field>
                                         </fieldset>
                                         <ErrorMessage name="customerName" component="div" className="alert alert-warning"></ErrorMessage>
                                         <fieldset className="form-group">
@@ -192,22 +174,24 @@ class BillForm extends Component {
                                 onSubmit={this.doSubmitDrugs}
 
                             >
+
                                 <div>
+                                    <label>Add Drug</label> &nbsp;
                                     <button onClick={this.handleDrugList} className="btn btn-success"> + </button>
                                     <Form>
-                                        <label>Add Drug</label> <br></br>
+
                                         <div>
                                             {this.state.drugList}
 
                                         </div>
-                                        <div>{this.state.totalPrice}</div>
-                                        <button className="btn btn-primary" type="submit">Save</button>
+                                        <button className="btn btn-primary" type="submit" disabled={((this.state.totalPrice && this.state.billSumbit) ? false : true)}>Save</button>
                                     </Form>
                                 </div>
                             </Formik>
                         </div>
 
                     </div>
+
 
 
                 </div>
