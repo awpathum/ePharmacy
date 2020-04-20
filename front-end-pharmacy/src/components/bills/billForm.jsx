@@ -11,8 +11,9 @@ class BillForm extends Component {
             customerName: "",
             customerAge: "",
             drugBills: [],
+            totalPrice: 0,
         },
-        totalPrice: 0,
+        
         bills: [],
         drugList: [],
         drugCount: 0,

@@ -8,6 +8,8 @@ public class BillDrugQuantity {
 
     private Integer quantity;
 
+
+
     public String getBillId() {
         return billId;
     }
@@ -36,5 +38,6 @@ public class BillDrugQuantity {
         this.billId = billId;
         this.drugId = drugId;
         this.quantity = quantity;
+
     }
 }

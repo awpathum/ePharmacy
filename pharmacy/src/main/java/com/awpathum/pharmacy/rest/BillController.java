@@ -72,6 +72,9 @@ public class BillController {
 	@PostMapping("/addDrugs")
 	public void saveDrugsForBill(@RequestBody List<BillDrugQuantity> billDrugQuantity) {
 
+	    Float totalPrice = Float.valueOf(0);
+	    Bill bill = new Bill();
+        DrugBill db = new DrugBill();
 		for (int k =0 ; k < billDrugQuantity.size(); k++){
 
 			System.out.println(k);
@@ -85,8 +88,9 @@ public class BillController {
 			System.out.println("#3");
 			Integer quantity = billDrugQuantity.get(k).getQuantity();
 			System.out.println("#4");
+			//Float netPrice = billDrugQuantity.get(k).getNetPrice();
 
-			Bill bill = billService.getBill(billId);
+			bill = billService.getBill(billId);
 			System.out.println("#5");
 			Drug drug = drugService.getDrug(drugId);
 			System.out.println("#6");
@@ -94,19 +98,20 @@ public class BillController {
 
 			Float unitPrice = Float.parseFloat(drug.getUnitPrice());
 
-			Float totalPrice = unitPrice * quantity;
+			Float netPrice = unitPrice * quantity;
 
-			bill.setTotalPrice(totalPrice);
-			System.out.println("#7");
+		//	bill.setTotalPrice(totalPrice);
+			System.out.println("totalPrice");
+          //  System.out.println(totalPrice);
 
 
 
-			DrugBill db = new DrugBill();
+
 
 			db.setBill(bill);
 			db.setDrug(drug);
 			db.setQuantity(quantity);
-			db.setTotalPrice(totalPrice);
+
 
 
 
@@ -169,15 +174,27 @@ public class BillController {
 					stockService.reduceStock(theStock.getId(), 0);
 				}
 				stockService.reduceStock(updatedStockId, remStock);
-				billService.saveBill(bill);
-				drugBillService.saveDrugBill(db);
-				drugService.saveDrug(drug);
+//				billService.saveBill(bill);
+//				drugBillService.saveDrugBill(db);
+//				drugService.saveDrug(drug);
 				System.out.println("Done!");
 
+
+
 		}
+            bill.setTotalPrice(totalPrice);
+			totalPrice += netPrice;
+			db.setTotalPrice(totalPrice);
+			bill.setTotalPrice(totalPrice);
+			billService.saveBill(bill);
+			drugBillService.saveDrugBill(db);
+			drugService.saveDrug(drug);
+			System.out.println("totalPrice");
+			System.out.println((totalPrice));
 			System.out.println("While loop end");
-		
+
 	}
+
 		System.out.println("Done!!");
 
 }
