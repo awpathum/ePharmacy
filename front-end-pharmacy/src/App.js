@@ -12,6 +12,7 @@ import SupplierForm from "./components/suppliers/supplierForm";
 import Stocks from "./components/stocks/stocks";
 import StockForm from "./components/stocks/stockForm";
 import DrugForm from './components/drugs/drugForm';
+import Footer from './components/common/Footer';
 class App extends Component {
   render() {
     return (
@@ -37,6 +38,7 @@ class App extends Component {
             <Redirect to="/not-found"></Redirect>
           </Switch>
         </main>
+        <Footer></Footer>
       </React.Fragment>
     );
   }
