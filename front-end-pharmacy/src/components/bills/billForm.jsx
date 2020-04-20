@@ -91,20 +91,21 @@ class BillForm extends Component {
     //     }
     // ]
     doSubmitDrugs = async () => {
-        console.log(this.state.drugList[0])
+        console.log('doSubmit Drugs')
+        //console.log(this.state.drugList[0])
         let toSumbit = [];
         for (let i = 0; i < this.state.drugList.length; i++) {
             const obj = {}
 
+            obj.drugId = this.state.drugIdList[i];
             obj.billId = this.state.data.id;
-            obj.durgId = this.state.drugIdList[i];
-            obj.quantity = this.state.drugQuantityList[i];
+            obj.quantity = parseInt(this.state.drugQuantityList[i]);
             toSumbit.push(obj);
         }
+        //let myJSON = JSON.stringify(toSumbit); 
+       //console.log('myJSON',myJSON);
 
-        console.log(toSumbit);
-
-        await addDrugs(toSumbit);
+       await addDrugs(toSumbit);
 
 
         // drugList.map(d => {

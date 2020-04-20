@@ -92,6 +92,7 @@ public class BillController {
 
 			bill = billService.getBill(billId);
 			System.out.println("#5");
+			System.out.println(drugId);
 			Drug drug = drugService.getDrug(drugId);
 			System.out.println("#6");
 

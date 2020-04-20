@@ -20,10 +20,13 @@ export function getBill(billId) {
 }
 
 export function saveBill(bill) {
+  console.log(bill)
   return http.post(apiEndpoint, bill);
 }
 
 export function addDrugs(drugs) {
+  console.log("drugs", drugs);
+  console.log(apiEndpoint + "addDrugs");
   return http.post(apiEndpoint + "addDrugs", drugs);
 }
 
