@@ -1,23 +1,39 @@
 import React, { Component } from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
-import "./App.css";
+import jwtDecode from "jwt-decode";
 import Home from "./components/home";
 import NavBar from "./components/navBar";
 import Suppliers from "./components/suppliers/supplier";
 import Drugs from "./components/drugs/drugs";
 import Bills from "./components/bills/bills";
-import BillForm from './components/bills/billForm'
+import BillForm from "./components/bills/billForm";
 import NotFound from "./components/notfound";
 import SupplierForm from "./components/suppliers/supplierForm";
 import Stocks from "./components/stocks/stocks";
 import StockForm from "./components/stocks/stockForm";
-import DrugForm from './components/drugs/drugForm';
-import Footer from './components/common/Footer';
+import DrugForm from "./components/drugs/drugForm";
+import Footer from "./components/common/Footer";
+import Register from "./components/registerForm";
+import Login from "./components/loginForm";
+import Logout from "./components/logout";
+import "./App.css";
+
 class App extends Component {
+  state = {};
+
+  componentDidMount() {
+    try {
+      const jwt = localStorage.getItem("token");
+      const user = jwtDecode(jwt);
+      console.log(user);
+      this.setState({ user });
+    } catch (error) {}
+  }
+
   render() {
     return (
       <React.Fragment>
-        <NavBar></NavBar>
+        <NavBar user={this.state.user}></NavBar>
         <main className="container">
           <Switch>
             <Route path="/home" component={Home}></Route>
@@ -33,6 +49,9 @@ class App extends Component {
             <Route path="/bills/:id" component={BillForm}></Route>
             <Route path="/bills/new" exact component={BillForm}></Route>
             <Route path="/bills" component={Bills}></Route>
+            <Route path="/login" component={Login}></Route>
+            <Route path="/logout" component={Logout}></Route>
+            <Route path="/register" component={Register}></Route>
             <Route path="/not-found" component={NotFound}></Route>
             <Redirect from="/" exact to="/home"></Redirect>
             <Redirect to="/not-found"></Redirect>

@@ -1,9 +1,9 @@
 import http from "./httpService";
 import { apiUrl } from "../config.json";
 
-const apiEndpoint = apiUrl + "/auth";
+const apiEndpoint = apiUrl + "/authenticate";
 
-export function login(email, password) {
-    console.log(email,password)
-  return http.post(apiEndpoint, { email, password });
+export function login(username, password) {
+    console.log(username,password)
+  return http.post(apiEndpoint, { username, password });
 }
