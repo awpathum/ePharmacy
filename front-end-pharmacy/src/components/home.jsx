@@ -3,6 +3,7 @@ import ListGroup from './common/listGroup';
 import { getStocks } from '../services/stockService';
 import Warning from './warning';
 import { getBills } from '../services/billService';
+import auth from '../services/authService';
 
 class Home extends Component {
     state = {
@@ -10,19 +11,27 @@ class Home extends Component {
         expStocks: [],
         bills: [],
         todayIncome: 0,
-        customerCount: 0
+        customerCount: 0,
+        user:''
 
 
     }
 
     async componentDidMount() {
+        let user = auth.getCurrentUser().sub;
+        user = user.charAt(0).toUpperCase() + user.slice(1);
+        console.log(user)
         const { data: stocks } = await getStocks();
         const { data: bills } = await getBills();
 
+
         this.setState({
             stocks,
-            bills
+            bills,
+            user
+
         })
+        console.log(this.state.user)
         this.getWarnings();
         this.getTodayIncome();
     }
@@ -86,21 +95,50 @@ class Home extends Component {
     // </div>
 
     render() {
+        console.log(this.props)
         console.log(this.state.expStocks)
+        //   return (
+        //     <div>
+        //         <center><img src="https://i.pinimg.com/originals/92/6c/3d/926c3d7db4b795a20175c3c59994c2f1.jpg" className="img-responsive" alt="Responsive image"></img></center>
+        //         {/* <div className="row align-items-end">
+        //             <div className="col">
+        //                 One of three columns
+        //     </div>
+        //             <div className="col">
+        //                 One of three columns
+        //     </div>
+        //             <div className="col">
+        //                 One of three columns
+        //     </div>
+        //         </div> */}
+        //     </div>
+        // );
+
+
+
         return (
 
-            <div className="row">
-                <div className="col-6 col-md-4">
-                    <ul className="list-group">
-                        {this.state.expStocks}
-                    </ul>
-                </div>
-                <div className="col-12 col-md-8">
-                    <span class="badge badge-info"><h3>Today's income {this.state.todayIncome} rupees.</h3></span>
-                    <br></br>
-                    <span class="badge badge-success"><h3>Number of Customers {this.state.customerCount} </h3></span>
+            <div className="container-fuid">
 
+                <div className="row align-items-start">
+                    <div className="col">
+                        <ul className="list-group m-2">
+                            {this.state.expStocks}
+                        </ul>
+                    </div>
+        <div className="d-flex flex-row"><h1 className="text-light bg-dark m-2 p-5">Welcome &nbsp; {this.state.user}</h1></div>
+                    <div class="col">
+                        <ul className="list-group m-2">
+                            <div className="d-flex flex-row-reverse">
+                                <span className="badge badge-success m-2 flex-row-reverse"><h3 className="m-3">Number of Customers <br></br>{this.state.customerCount} </h3></span>
+    &nbsp;&nbsp;&nbsp;&nbsp;
+    <span className="badge badge-info m-2"><h3 className="m-3">Today's income <br></br>{this.state.todayIncome}</h3></span>
+                            </div>
+                        </ul>
+                    </div>
                 </div>
+
+
 
 
             </div>

@@ -16,6 +16,7 @@ import Register from "./components/registerForm";
 import Login from "./components/loginForm";
 import Logout from "./components/logout";
 import auth from './services/authService';
+import AuthenticatedRoute from './components/AuthenticatedRoute';
 import "./App.css";
 
 class App extends Component {
@@ -30,25 +31,25 @@ class App extends Component {
     return (
       <React.Fragment>
         <NavBar user={this.state.user}></NavBar>
-        <main className="container">
+        <main className="container-fluid">
           <Switch>
-            <Route path="/home" component={Home}></Route>
-            <Route path="/suppliers/:id" component={SupplierForm}></Route>
-            <Route path="/suppliers/new" exact component={SupplierForm}></Route>
-            <Route path="/suppliers" component={Suppliers}></Route>
-            <Route path="/stocks/:id" component={StockForm}></Route>
-            <Route path="/stocks/new" exact component={StockForm}></Route>
-            <Route path="/stocks" component={Stocks}></Route>
-            <Route path="/drugs/:id" component={DrugForm}></Route>
-            <Route path="/drugs/new" exact component={DrugForm}></Route>
-            <Route path="/drugs" component={Drugs}></Route>
-            <Route path="/bills/:id" component={BillForm}></Route>
-            <Route path="/bills/new" exact component={BillForm}></Route>
-            <Route path="/bills" component={Bills}></Route>
+            <AuthenticatedRoute path="/home" component={Home}></AuthenticatedRoute>
+            <AuthenticatedRoute path="/suppliers/:id" component={SupplierForm}></AuthenticatedRoute>
+            <AuthenticatedRoute path="/suppliers/new" exact component={SupplierForm}></AuthenticatedRoute>
+            <AuthenticatedRoute path="/suppliers" component={Suppliers}></AuthenticatedRoute>
+            <AuthenticatedRoute path="/stocks/:id" component={StockForm}></AuthenticatedRoute>
+            <AuthenticatedRoute path="/stocks/new" exact component={StockForm}></AuthenticatedRoute>
+            <AuthenticatedRoute path="/stocks" component={Stocks}></AuthenticatedRoute>
+            <AuthenticatedRoute path="/drugs/:id" component={DrugForm}></AuthenticatedRoute>
+            <AuthenticatedRoute path="/drugs/new" exact component={DrugForm}></AuthenticatedRoute>
+            <AuthenticatedRoute path="/drugs" component={Drugs}></AuthenticatedRoute>
+            <AuthenticatedRoute path="/bills/:id" component={BillForm}></AuthenticatedRoute>
+            <AuthenticatedRoute path="/bills/new" exact component={BillForm}></AuthenticatedRoute>
+            <AuthenticatedRoute path="/bills" component={Bills}></AuthenticatedRoute>
             <Route path="/login" component={Login}></Route>
-            <Route path="/logout" component={Logout}></Route>
-            <Route path="/register" component={Register}></Route>
-            <Route path="/not-found" component={NotFound}></Route>
+            <AuthenticatedRoute path="/logout" component={Logout}></AuthenticatedRoute>
+            <AuthenticatedRoute path="/register" component={Register}></AuthenticatedRoute>
+            <AuthenticatedRoute path="/not-found" component={NotFound}></AuthenticatedRoute>
             <Redirect from="/" exact to="/home"></Redirect>
             <Redirect to="/not-found"></Redirect>
           </Switch>

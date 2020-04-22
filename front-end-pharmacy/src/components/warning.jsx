@@ -28,7 +28,7 @@ class Warning extends Component {
 
 
         return (
-            <div class="card">
+            <div class="card w-30">
                 <div class="card-body">
                     {(this.state.today > this.props.Drug.expDate) ? <h5 class="card-title text-danger">{this.props.Drug.drugName}</h5> : <h5 class="card-title text-warning">{this.props.Drug.drugName}</h5>}
 
