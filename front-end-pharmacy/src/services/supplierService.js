@@ -1,7 +1,17 @@
 import http from "./httpService";
 import { apiUrl } from "../config.json";
+import auth from './authService'
+import axios from "axios";
 
 const apiEndpoint = apiUrl + "/supplier/";
+
+
+// axios.interceptors.request.use(function (config) {
+//   const token = auth.getJwt();
+//   config.headers.Authorization =  token;
+
+//   return config;
+// });
 
 function supplierUrl(id) {
   return `${apiEndpoint}${id}`;

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Joi from 'joi-browser';
 import Form from './common/form';
-import { login } from '../services/authService';
+import auth from '../services/authService';
 
 class LoginForm extends Form {
 
@@ -23,15 +23,15 @@ class LoginForm extends Form {
         try {
             const { data } = this.state;
             console.log(data.password);
-            const { data: jwt } = await login(data.username, data.password);
-            console.log('jwt',jwt.token)
-            localStorage.setItem('token', jwt.token);
+           // const { data: jwt } = await login(data.username, data.password);
+            //console.log('jwt',jwt.token)
+            // localStorage.setItem('token', jwt.token);
            // this.props.history.push("/");
-            await login(data.username, data.password);
+            await auth.login(data.username, data.password);
             window.location = '/'; //to update navbar view. to refresh all window
         } catch (ex) {
 
-            console.log('ex',ex);
+           //s console.log('ex',ex);
             if (ex.response && ex.response.status === 400) {
                 const errors = { ...this.state.errors };
                 errors.username = ex.response.data;

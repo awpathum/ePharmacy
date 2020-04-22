@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Joi from 'joi-browser';
 import Form from './common/form';
 import * as userService from '../services/userService';
+import auth from '../services/authService'
 
 class RegisterForm extends Form {
     state = {
@@ -17,6 +18,8 @@ class RegisterForm extends Form {
 
         try {
             await userService.register(this.state.data);
+          //  auth.loginWithJwt(response.body.data.token);
+            this.props.history.push("/login");
         } catch (ex) {
             if (ex.response && ex.response.status === 400) {
                 const errors = { ...this.state.errors };

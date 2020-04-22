@@ -9,7 +9,7 @@ import javax.persistence.*;
 @Table(name = "users")
 public class UserEntity {
 
-//    @Id
+    //    @Id
 //    @GeneratedValue(strategy = GenerationType.IDENTITY)
 //    private long id;
     @Id
