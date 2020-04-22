@@ -154,7 +154,7 @@ class StockForm extends Component{
 
 
     return (
-      <div>
+      <div className="container">
         <h1>Stock Form</h1>
         <Formik
           initialValues={{

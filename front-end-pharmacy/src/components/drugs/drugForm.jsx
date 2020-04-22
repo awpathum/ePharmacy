@@ -29,11 +29,10 @@ class DrugForm extends Component {
                 this.setState({ data: this.mapToViewModel(newDrugs) });
             } else {
                 const { data: drug } = await getDrug(drugId);
-                console.log(drug)
+                
                 this.setState({
                     data: this.mapToViewModel(drug)
                 });
-                console.log(this.state.data)
             }
         } catch (ex) {
             if (ex.response && ex.response.status === 404)
@@ -46,7 +45,6 @@ class DrugForm extends Component {
     }
 
     mapToViewModel(drug) {
-        console.log(drug.drugName)
         return {
             id: drug.id,
             name: drug.name,
@@ -58,35 +56,26 @@ class DrugForm extends Component {
     }
 
     doSubmit = async (values) => {
-        console.log(values)
         delete values.quantity;
-        console.log(values)
         await saveDrug(values);
-        console.log("doSubmit")
         this.props.history.push("/drugs");
     };
 
     validate = (values) => {
         let errors = {};
-        console.log(values)
         if (!values.name) {
             errors.name = "Enter Name";
         }
         if (!values.unitPrice) {
             errors.unitPrice = "Enter Unit Price";
         }
-        if (!values.compound) {
-            errors.compound = "Enter Compound"
-        }
-        console.log(errors)
         return errors
     }
     render() {
         const { data, drugs: stateDrugs } = this.state;
         const drugs = [{ id: "", name: "" }, ...stateDrugs]
-        console.log(drugs)
         return (
-            <div>
+            <div className="container">
                 <h1>Drug Form</h1>
                 <Formik
                     initialValues={{

@@ -18,7 +18,7 @@ class Stocks extends Component {
         stocks: [],
         suppliers: [],
         currentPage: 1,
-        pageSize: 4,
+        pageSize: 10,
         searchQuery: "",
         selectedSupplier: null,
         sortColumn: { path: 'title', order: 'asc' },
@@ -151,7 +151,7 @@ class Stocks extends Component {
         const newStockId = this.getNewStockId(allStocks);
         console.log('newStockId', newStockId);
         if (count === 0) {
-            return <div>
+            return <div className="container">
                 <h1>Stocks</h1>
                 <Link
                     to={{ pathname: "/stocks/new", newId: newStockId }}

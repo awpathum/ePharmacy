@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { getBill, saveBill, addDrugs } from '../../services/billService';
 import DrugList from '../DrugList';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 class BillForm extends Component {
     state = {
@@ -13,7 +15,7 @@ class BillForm extends Component {
             drugBills: [],
             totalPrice: 0,
         },
-        
+
         bills: [],
         drugList: [],
         drugCount: 0,
@@ -39,11 +41,11 @@ class BillForm extends Component {
                 this.setState({ data: this.mapToViewModel(newBills) });
             } else {
                 const { data: bill } = await getBill(billId);
-                console.log(bill)
+
                 this.setState({
                     data: this.mapToViewModel(bill)
                 });
-                console.log(this.state.data)
+
             }
         } catch (ex) {
             if (ex.response && ex.response.status === 404)
@@ -56,7 +58,6 @@ class BillForm extends Component {
     }
 
     mapToViewModel(bill) {
-        console.log(bill.billName)
         return {
             id: bill.id,
             date: bill.date,
@@ -69,31 +70,20 @@ class BillForm extends Component {
     }
 
     doSubmit = async (values) => {
-        console.log(values)
+
         delete values.quantity;
         delete values.totalPrice;
-        console.log(values)
+
         await saveBill(values);
-        console.log("doSubmit")
+
         this.setState({
             billSumbit: true
         })
-
-        //this.props.history.push("/bills");
+        this.notify();
     };
-
-    // [
-
-    //     {
-    //     "drugId": "D000002",
-    //   "billId": "B000001",
-    //     "quantity" : 50
-    //     }
-    // ]
     doSubmitDrugs = async () => {
-        console.log('doSubmit Drugs')
-        //console.log(this.state.drugList[0])
         let toSumbit = [];
+        console.log('drugIdList', this.state.drugIdList)
         for (let i = 0; i < this.state.drugList.length; i++) {
             const obj = {}
 
@@ -102,27 +92,17 @@ class BillForm extends Component {
             obj.quantity = parseInt(this.state.drugQuantityList[i]);
             toSumbit.push(obj);
         }
-        //let myJSON = JSON.stringify(toSumbit); 
-       //console.log('myJSON',myJSON);
-
-       await addDrugs(toSumbit);
-
-
-        // drugList.map(d => {
-        //     obj.drugId = d.
-        // })
-
-
-        console.log("doSubmitDrugs")
+        console.log(this.state.drugQuantityList)
+        console.log('toSumbmit', toSumbit)
+        await addDrugs(toSumbit);
+        this.props.history.push("/bills");
     }
 
     validate = (values) => {
         let errors = {};
-        console.log(values)
         if (!values.date) {
             errors.date = "Set Date";
         }
-        console.log(errors)
         return errors
     }
 
@@ -147,18 +127,24 @@ class BillForm extends Component {
         this.setState({
             drugQuantityList: dq
         })
-        this.state.drugQuantityList.push(quantity)
+        //  this.state.drugQuantityList.push(quantity)
     }
 
-    handleDrugId = (drugId) => {
-        console.log(drugId)
+    handleDrugId = (drugId,comId) => {
+        console.log("drugId",drugId, 'comID',comId)
+        console.log('*********************************************************************************************************')
+        //console.log(this.state.drug)
+        //remove old entry before push
+        //this.state.drugIdList.splice()
         this.state.drugIdList.push(drugId)
+        console.log('drugIdList push',this.state.drugIdList)
     }
+
+    notify = () => toast("Wow so easy !");
 
     render() {
         const { data, bills: stateBills } = this.state;
-        const bills = [{ id: "", name: "" }, ...stateBills]
-        console.log(bills)
+        const bills = [{ id: "", name: "" }, ...stateBills];
         return (
             <div className="container">
                 <div className="row">
@@ -222,26 +208,13 @@ class BillForm extends Component {
                             <div>
                                 <label>Add Drug</label> &nbsp;
                                             <button onClick={this.handleDrugList} className="btn btn-success"> + </button>
-
                                 <div>
                                     {this.state.drugList}
-
                                 </div>
                                 <button className="btn btn-primary" type="submit" disabled={((this.state.totalPrice && this.state.billSumbit) ? false : true)} onClick={this.doSubmitDrugs}>Save</button>
-
                             </div>
-
-
-
-
-
-
                         </div>
-
                     </div>
-
-
-
                 </div>
             </div >
         )

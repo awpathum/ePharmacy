@@ -13,7 +13,7 @@ class Suppliers extends Component {
     state = {
         suppliers: [],
         currentPage: 1,
-        pageSize: 4,
+        pageSize: 10,
         searchQuery: "",
         selectedSupplier: null,
         sortColumn: { path: 'title', order: 'asc' },

@@ -33,7 +33,7 @@ class DrugList extends Component {
         console.log("this.props.id",this.props.id)
         const netPrice = this.calcutaleNetPrice(value);
         this.props.getNetPrice(netPrice,this.props.id);
-        this,this.props.getQuantity(value)
+        this.props.getQuantity(value)
         this.setState({netPrice,componentId:this.props.id})
 
     }
@@ -59,7 +59,7 @@ class DrugList extends Component {
         console.log(selectedDrugId)
         console.log(this.state.drugs)
         const drug = this.state.drugs.filter(d => d.id === selectedDrugId)
-        console.log(drug)
+        console.log('drugId',this.props.getDrugId(drug[0].id,this.state.componentId))
         this.props.getDrugId(drug[0].id)
         return (drug[0].unitPrice)
         // return drug;
@@ -70,7 +70,6 @@ class DrugList extends Component {
         const { drugs : stateDrugs, selectedDrug } = this.state;
         const drugs = [{ id: "", name: "" }, ...stateDrugs];
         return (
-            // <p>hello</p>
             <div>
                 <br></br>
                 <br></br>

@@ -90,7 +90,7 @@ class SupplierForm extends Component {
         const suppliers = [{ id: "", name: "" }, ...stateSuppliers]
         console.log(suppliers)
         return (
-            <div>
+            <div className="container">
                 <h1>Supplier Form</h1>
                 <Formik
                     initialValues={{

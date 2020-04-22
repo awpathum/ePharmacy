@@ -13,7 +13,7 @@ class Drugs extends Component {
     state = {
         drugs: [],
         currentPage: 1,
-        pageSize: 4,
+        pageSize: 10,
         searchQuery: "",
         selectedDrug: null,
         sortColumn: { path: 'title', order: 'asc' },
@@ -158,7 +158,7 @@ class Drugs extends Component {
         console.log('newDrugId', newDrugId);
 
         if (count === 0) {
-            return <div>
+            return <div className="container">
                 <h1>Drugs</h1>
                 <Link
                 to={{ pathname: "/drugs/new", newId: newDrugId }}
