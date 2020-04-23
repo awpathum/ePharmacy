@@ -45,7 +45,7 @@ class BillForm extends Component {
                 let newBills = {
                     id: this.props.location.newId,
                     date: this.getCurrentDate(),
-                    totalPrice: "",
+                    totalPrice: 0,
                     customerName: "",
                     customerAge: "",
                     drugBills: []

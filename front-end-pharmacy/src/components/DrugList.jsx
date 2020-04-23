@@ -11,7 +11,8 @@ class DrugList extends Component {
         quantity: '',
         unitPrice: '',
         netPrice: '',
-        componentId: 0
+        componentId: 0,
+        tmpQuantity: 0
     }
     async populateDrugs() {
         const { data: drugs } = await getDrugs();
@@ -31,17 +32,22 @@ class DrugList extends Component {
     // }
     handleTextChange = (e) => {
         let { id, value } = e.target;
-        console.log('value', value, id)
-        console.log("this.props.id", this.props.id)
-        const netPrice = this.calcutaleNetPrice(value);
+        console.log('value', value)
+        //this.setState({ tmpQuantity });
+        this.state.tmpQuantity = value;
+        console.log(this.state.tmpQuantity)
+
+        const netPrice = this.calcutaleNetPrice();
         this.props.getNetPrice(netPrice, this.props.id);
         this.props.getQuantity(value);
-        this.setState({ netPrice }) 
+        this.setState({ netPrice })
     }
 
 
-    calcutaleNetPrice = (quantity) => {
-        const netPrice = quantity * this.state.unitPrice;
+    calcutaleNetPrice = () => {
+        console.log(this.state.tmpQuantity);
+        console.log(this.state.unitPrice);
+        const netPrice = this.state.tmpQuantity * this.state.unitPrice;
         //this.props.netPrice = netPrice;
         return netPrice;
     }
@@ -49,16 +55,23 @@ class DrugList extends Component {
     handleSelectChange = (e) => {
         console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
         let { id, value } = e.target;
-        console.log('id',id)
+        console.log('id', id)
         this.props.getDrugId(value)
-        const unitPrice = this.getSelectedDrug(value,id);
+        const unitPrice = this.getSelectedDrug(value, id);
         console.log(unitPrice)
-        this.setState({ unitPrice, componentId: id })
+        this.state.unitPrice = unitPrice;
+        this.state.componentId = id;
+        //this.setState({ unitPrice, componentId: id })
         this.props.getDrugId(this.setState)
+
+        
+        const netPrice = this.calcutaleNetPrice();
+        this.props.getNetPrice(netPrice, this.props.id);
+        this.setState({ netPrice });
 
     }
 
-    getSelectedDrug = (selectedDrugId,comId) => {
+    getSelectedDrug = (selectedDrugId, comId) => {
         console.log(selectedDrugId)
         console.log(this.state.drugs)
         const drug = this.state.drugs.filter(d => d.id === selectedDrugId)
@@ -81,7 +94,7 @@ class DrugList extends Component {
 
                         <div className="col-sm">
                             <select className="btn btn-primary dropdown-toggle" name="drug" id={this.props.id} onChange={this.handleSelectChange}>
-                                {drugs.map(d => <option  value={d.id} key={d.id}>{d.name}</option>)}
+                                {drugs.map(d => <option value={d.id} key={d.id}>{d.name}</option>)}
                             </select>
                         </div>
                         <div class="col-sm">
@@ -96,7 +109,6 @@ class DrugList extends Component {
                         </div>
 
                     </div>
-
                 </div>
 
 
