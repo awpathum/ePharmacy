@@ -9,9 +9,9 @@ class DrugList extends Component {
         selectedDrugId: '',
         selectedDrug: '',
         quantity: '',
-        unitPrice:'',
-        netPrice:'',
-        componentId:0
+        unitPrice: '',
+        netPrice: '',
+        componentId: 0
     }
     async populateDrugs() {
         const { data: drugs } = await getDrugs();
@@ -21,6 +21,8 @@ class DrugList extends Component {
     }
     async componentDidMount() {
         await this.populateDrugs();
+        const componentId = this.props.id;
+        this.setState(componentId)
     }
 
     // handleSelect = ({currentTarget:input}) => {
@@ -28,45 +30,47 @@ class DrugList extends Component {
     //     console.log(input)
     // }
     handleTextChange = (e) => {
-        let{id,value} = e.target;
-        console.log('value',value,id)
-        console.log("this.props.id",this.props.id)
+        let { id, value } = e.target;
+        console.log('value', value, id)
+        console.log("this.props.id", this.props.id)
         const netPrice = this.calcutaleNetPrice(value);
-        this.props.getNetPrice(netPrice,this.props.id);
-        this.props.getQuantity(value)
-        this.setState({netPrice,componentId:this.props.id})
-
+        this.props.getNetPrice(netPrice, this.props.id);
+        this.props.getQuantity(value);
+        this.setState({ netPrice }) 
     }
 
 
-    calcutaleNetPrice = (quantity) =>{
+    calcutaleNetPrice = (quantity) => {
         const netPrice = quantity * this.state.unitPrice;
         //this.props.netPrice = netPrice;
         return netPrice;
     }
 
     handleSelectChange = (e) => {
-        let { name, value } = e.target;
+        console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+        let { id, value } = e.target;
+        console.log('id',id)
         this.props.getDrugId(value)
-        const unitPrice = this.getSelectedDrug(value);
+        const unitPrice = this.getSelectedDrug(value,id);
         console.log(unitPrice)
-        this.setState({unitPrice})
+        this.setState({ unitPrice, componentId: id })
+        this.props.getDrugId(this.setState)
 
     }
 
-    getSelectedDrug = (selectedDrugId) => {
+    getSelectedDrug = (selectedDrugId,comId) => {
         console.log(selectedDrugId)
         console.log(this.state.drugs)
         const drug = this.state.drugs.filter(d => d.id === selectedDrugId)
-        console.log('drugId',this.props.getDrugId(drug[0].id,this.state.componentId))
-        this.props.getDrugId(drug[0].id,this.state.componentId)
+        console.log('drugId', this.props.getDrugId(drug[0].id, comId))
+        this.props.getDrugId(drug[0].id, comId)
         return (drug[0].unitPrice)
         // return drug;
     }
 
     render() {
         console.log(this.props.netPrice)
-        const { drugs : stateDrugs, selectedDrug } = this.state;
+        const { drugs: stateDrugs, selectedDrug } = this.state;
         const drugs = [{ id: "", name: "" }, ...stateDrugs];
         return (
             <div>
@@ -76,12 +80,12 @@ class DrugList extends Component {
                     <div className="row">
 
                         <div className="col-sm">
-                            <select className="btn btn-primary dropdown-toggle" name="drug" onChange={this.handleSelectChange}>
-                                {drugs.map(d => <option value={d.id} key={d.id}>{d.name}</option>)}
+                            <select className="btn btn-primary dropdown-toggle" name="drug" id={this.props.id} onChange={this.handleSelectChange}>
+                                {drugs.map(d => <option  value={d.id} key={d.id}>{d.name}</option>)}
                             </select>
                         </div>
                         <div class="col-sm">
-                            Quantity : {<input type="text" id={this.props.id + 1} className="form-control" onBlur={this.handleTextChange}></input>}
+                            Quantity : {<input type="text" className="form-control" onBlur={this.handleTextChange}></input>}
                         </div>
                         <div class="col-sm">
 

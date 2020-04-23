@@ -33,9 +33,9 @@ class BillForm extends Component {
         var yyyy = today.getFullYear();
         //resDate 2021-05-23
         today = yyyy + '-' + mm + '-' + dd;
-        console.log('today',today)
-                //today = mm + '/' + dd + '/' + yyyy;
-       return today;
+        console.log('today', today)
+        //today = mm + '/' + dd + '/' + yyyy;
+        return today;
     }
 
     async populateBills() {
@@ -70,7 +70,7 @@ class BillForm extends Component {
     }
 
     mapToViewModel(bill) {
-        console.log('bill',bill)
+        console.log('bill', bill)
         return {
             id: bill.id,
             date: bill.date,
@@ -148,12 +148,10 @@ class BillForm extends Component {
         console.log('*********************************************************************************************************')
         if (!this.state.drugIdList.includes(drugId)) {
             console.log("############################")
-            this.state.drugIdList.push(drugId)
+            //this.state.drugIdList.push(drugId)
+            this.state.drugIdList[comId] = drugId;
+            //this.state.drugIdList = this.state.drugIdList.filter(i => i != null);   
         }
-        //console.log(this.state.drug)
-        //remove old entry before push
-        //this.state.drugIdList.splice()
-
         console.log('drugIdList push', this.state.drugIdList)
     }
 
@@ -187,7 +185,6 @@ class BillForm extends Component {
                             enableReinitialize={true}
                         >
                             {
-                                
                                 (props) => (
 
                                     <Form>
