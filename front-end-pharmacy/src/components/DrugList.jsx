@@ -47,7 +47,6 @@ class DrugList extends Component {
 
     handleSelectChange = (e) => {
         let { name, value } = e.target;
-        console.log(value)
         this.props.getDrugId(value)
         const unitPrice = this.getSelectedDrug(value);
         console.log(unitPrice)
@@ -60,7 +59,7 @@ class DrugList extends Component {
         console.log(this.state.drugs)
         const drug = this.state.drugs.filter(d => d.id === selectedDrugId)
         console.log('drugId',this.props.getDrugId(drug[0].id,this.state.componentId))
-        this.props.getDrugId(drug[0].id)
+        this.props.getDrugId(drug[0].id,this.state.componentId)
         return (drug[0].unitPrice)
         // return drug;
     }

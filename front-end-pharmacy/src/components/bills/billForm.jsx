@@ -26,13 +26,25 @@ class BillForm extends Component {
         errors: {}
     };
 
+    getCurrentDate = () => {
+        var today = new Date();
+        var dd = String(today.getDate()).padStart(2, '0');
+        var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+        var yyyy = today.getFullYear();
+        //resDate 2021-05-23
+        today = yyyy + '-' + mm + '-' + dd;
+        console.log('today',today)
+                //today = mm + '/' + dd + '/' + yyyy;
+       return today;
+    }
+
     async populateBills() {
         try {
             const billId = this.props.match.params.id;
             if (billId === "new") {
                 let newBills = {
                     id: this.props.location.newId,
-                    date: "",
+                    date: this.getCurrentDate(),
                     totalPrice: "",
                     customerName: "",
                     customerAge: "",
@@ -58,6 +70,7 @@ class BillForm extends Component {
     }
 
     mapToViewModel(bill) {
+        console.log('bill',bill)
         return {
             id: bill.id,
             date: bill.date,
@@ -130,14 +143,18 @@ class BillForm extends Component {
         //  this.state.drugQuantityList.push(quantity)
     }
 
-    handleDrugId = (drugId,comId) => {
-        console.log("drugId",drugId, 'comID',comId)
+    handleDrugId = (drugId, comId) => {
+        console.log("drugId", drugId, 'comID', comId)
         console.log('*********************************************************************************************************')
+        if (!this.state.drugIdList.includes(drugId)) {
+            console.log("############################")
+            this.state.drugIdList.push(drugId)
+        }
         //console.log(this.state.drug)
         //remove old entry before push
         //this.state.drugIdList.splice()
-        this.state.drugIdList.push(drugId)
-        console.log('drugIdList push',this.state.drugIdList)
+
+        console.log('drugIdList push', this.state.drugIdList)
     }
 
     notify = () => toast("Wow so easy !");
@@ -170,6 +187,7 @@ class BillForm extends Component {
                             enableReinitialize={true}
                         >
                             {
+                                
                                 (props) => (
 
                                     <Form>

@@ -68,7 +68,7 @@ class StockForm extends Component{
   }
 
   mapToViewModel(stock) {
-    console.log(stock.drugName)
+    console.log('resDate',stock.resDate)
     return {
       id: stock.id,
       drugName: stock.drugName,
