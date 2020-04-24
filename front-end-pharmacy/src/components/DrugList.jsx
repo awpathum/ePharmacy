@@ -108,6 +108,7 @@ class DrugList extends Component {
             //  alert("Insufficient Stock")
         } else {
            // this.setState({ validated: true })
+           this.state.errors = [];
            this.state.validated = true;
         }
         //this.setState({ errors })
