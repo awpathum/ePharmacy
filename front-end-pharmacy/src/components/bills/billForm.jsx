@@ -129,6 +129,7 @@ class BillForm extends Component {
     }
 
     handleValidate = (validated) => {
+        console.log('handle validate')
         this.setState({
             validated
         })
