@@ -23,7 +23,8 @@ class BillForm extends Component {
         drugIdList: [],
         drugQuantityList: [],
         billSumbit: false,
-        errors: {}
+        errors: {},
+        validated: true
     };
 
     getCurrentDate = () => {
@@ -127,10 +128,17 @@ class BillForm extends Component {
         })
     }
 
+    handleValidate = (validated) => {
+        this.setState({
+            validated
+        })
+        //  this.state.validated = false;
+    }
+
     handleDrugList = () => {
 
         this.setState({
-            drugList: [...this.state.drugList, <DrugList getNetPrice={this.handleNetPrice} id={this.state.drugList.length} getQuantity={this.handleQuantity} getDrugId={this.handleDrugId}></DrugList>]
+            drugList: [...this.state.drugList, <DrugList getNetPrice={this.handleNetPrice} id={this.state.drugList.length} getQuantity={this.handleQuantity} getDrugId={this.handleDrugId} validated={this.handleValidate}></DrugList>]
         })
     }
     handleQuantity = (quantity, comId) => {
@@ -229,7 +237,7 @@ class BillForm extends Component {
                                 <div>
                                     {this.state.drugList}
                                 </div>
-                                <button className="btn btn-primary" type="submit" disabled={((this.state.totalPrice && this.state.billSumbit) ? false : true)} onClick={this.doSubmitDrugs}>Save</button>
+                                <button className="btn btn-primary" type="submit" disabled={((this.state.totalPrice && this.state.billSumbit && this.state.validated) ? false : true)} onClick={this.doSubmitDrugs}>Save</button>
                             </div>
                         </div>
                     </div>

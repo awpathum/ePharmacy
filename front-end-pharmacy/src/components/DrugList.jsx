@@ -101,13 +101,17 @@ class DrugList extends Component {
             error.push("Insufficient Stock")
             console.log('errors', errors)
             this.state.errors = error;
+            this.setState({
+                validated : false
+            })
            // this.setState({ errors: error   })
           //  alert("Insufficient Stock")
         }
         //this.setState({ errors })
 
         console.log('errors', this.state.errors)
-
+        console.log('validated',this.state.validated)
+        this.props.validated(this.state.validated)
     }
 
     render() {
