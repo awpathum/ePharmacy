@@ -88,6 +88,7 @@ public class BillController {
 			System.out.println("#3");
 			Integer quantity = billDrugQuantity.get(k).getQuantity();
 			System.out.println("#4");
+			System.out.println(quantity);
 			//Float netPrice = billDrugQuantity.get(k).getNetPrice();
 
 			bill = billService.getBill(billId);

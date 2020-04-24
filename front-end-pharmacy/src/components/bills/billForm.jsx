@@ -133,14 +133,17 @@ class BillForm extends Component {
             drugList: [...this.state.drugList, <DrugList getNetPrice={this.handleNetPrice} id={this.state.drugList.length} getQuantity={this.handleQuantity} getDrugId={this.handleDrugId}></DrugList>]
         })
     }
-    handleQuantity = (quantity) => {
+    handleQuantity = (quantity, comId) => {
         console.log('quantity', quantity)
-        let dq = this.state.drugQuantityList;
-        dq.push(quantity)
-        this.setState({
-            drugQuantityList: dq
-        })
+        console.log('comId', comId)
+        //   let dq = this.state.drugQuantityList;
+        // dq.push(quantity)
+        //dq[comId] = quantity;
+        // this.setState({
+        //     drugQuantityList: dq
+        // })
         //  this.state.drugQuantityList.push(quantity)
+        this.state.drugQuantityList[comId] = quantity;
     }
 
     handleDrugId = (drugId, comId) => {

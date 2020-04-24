@@ -33,13 +33,14 @@ class DrugList extends Component {
     handleTextChange = (e) => {
         let { id, value } = e.target;
         console.log('value', value)
+        console.log('id', id)
         //this.setState({ tmpQuantity });
         this.state.tmpQuantity = value;
         console.log(this.state.tmpQuantity)
 
         const netPrice = this.calcutaleNetPrice();
         this.props.getNetPrice(netPrice, this.props.id);
-        this.props.getQuantity(value);
+        this.props.getQuantity(value, id);
         this.setState({ netPrice })
     }
 
@@ -64,7 +65,7 @@ class DrugList extends Component {
         //this.setState({ unitPrice, componentId: id })
         this.props.getDrugId(this.setState)
 
-        
+
         const netPrice = this.calcutaleNetPrice();
         this.props.getNetPrice(netPrice, this.props.id);
         this.setState({ netPrice });
@@ -98,7 +99,7 @@ class DrugList extends Component {
                             </select>
                         </div>
                         <div class="col-sm">
-                            Quantity : {<input type="text" className="form-control" onBlur={this.handleTextChange}></input>}
+                            Quantity : {<input type="text" className="form-control" id={this.props.id} onBlur={this.handleTextChange}></input>}
                         </div>
                         <div class="col-sm">
 
