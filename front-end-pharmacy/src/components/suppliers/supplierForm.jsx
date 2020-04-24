@@ -108,7 +108,6 @@ class SupplierForm extends Component {
                 >
                     {
                         (props) => (
-
                             <Form>
                                 <fieldset className="form-group">
                                     <label>Supplier Id</label>

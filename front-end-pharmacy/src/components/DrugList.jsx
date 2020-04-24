@@ -12,7 +12,8 @@ class DrugList extends Component {
         unitPrice: '',
         netPrice: '',
         componentId: 0,
-        tmpQuantity: 0
+        tmpQuantity: 0,
+        errors: []
     }
     async populateDrugs() {
         const { data: drugs } = await getDrugs();
@@ -73,6 +74,7 @@ class DrugList extends Component {
     }
 
     getSelectedDrug = (selectedDrugId, comId) => {
+        this.state.selectedDrugId = selectedDrugId;
         console.log(selectedDrugId)
         console.log(this.state.drugs)
         const drug = this.state.drugs.filter(d => d.id === selectedDrugId)
@@ -80,6 +82,32 @@ class DrugList extends Component {
         this.props.getDrugId(drug[0].id, comId)
         return (drug[0].unitPrice)
         // return drug;
+    }
+
+    validateQuantity = (e) => {
+        console.log('validate quantity')
+        const { id, value } = e.target;
+        const { drugs, selectedDrugId, errors } = this.state;
+        console.log('value', value);
+        console.log('id', id);
+        console.log(drugs);
+        const theDrug = drugs.filter(d => d.id === selectedDrugId);
+        console.log(theDrug)
+        console.log(value)
+        console.log(theDrug[0].quantity)
+        if (value > theDrug[0].quantity) {
+            console.log('^^^^^^^^^^^^^^^^^^^^^^^^')
+            let error = [];
+            error.push("Insufficient Stock")
+            console.log('errors', errors)
+            this.state.errors = error;
+           // this.setState({ errors: error   })
+          //  alert("Insufficient Stock")
+        }
+        //this.setState({ errors })
+
+        console.log('errors', this.state.errors)
+
     }
 
     render() {
@@ -99,7 +127,8 @@ class DrugList extends Component {
                             </select>
                         </div>
                         <div class="col-sm">
-                            Quantity : {<input type="text" className="form-control" id={this.props.id} onBlur={this.handleTextChange}></input>}
+                            Quantity : {<input type="text" className="form-control" id={this.props.id} onChange={this.validateQuantity} onBlur={this.handleTextChange}></input>}
+                            {(this.state.errors.length != 0) ? <small className="form-text text-danger">{this.state.errors}</small> : null}
                         </div>
                         <div class="col-sm">
 
