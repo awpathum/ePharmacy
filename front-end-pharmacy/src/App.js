@@ -18,6 +18,7 @@ import Logout from "./components/logout";
 import auth from './services/authService';
 import AuthenticatedRoute from './components/AuthenticatedRoute';
 import "./App.css";
+import BillDetails from "./components/bills/billDetails";
 
 class App extends Component {
   state = {};
@@ -44,6 +45,7 @@ class App extends Component {
             <AuthenticatedRoute path="/drugs/new" exact component={DrugForm}></AuthenticatedRoute>
             <AuthenticatedRoute path="/drugs" component={Drugs}></AuthenticatedRoute>
             <AuthenticatedRoute path="/bills/:id" component={BillForm}></AuthenticatedRoute>
+            <AuthenticatedRoute path="/bill/:id" component={BillDetails}></AuthenticatedRoute>
             <AuthenticatedRoute path="/bills/new" exact component={BillForm}></AuthenticatedRoute>
             <AuthenticatedRoute path="/bills" component={Bills}></AuthenticatedRoute>
             <Route path="/login" component={Login}></Route>

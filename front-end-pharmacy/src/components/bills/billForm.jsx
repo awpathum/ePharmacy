@@ -68,6 +68,7 @@ class BillForm extends Component {
 
     async componentDidMount() {
         await this.populateBills();
+        await this.doSubmit();
     }
 
     mapToViewModel(bill) {

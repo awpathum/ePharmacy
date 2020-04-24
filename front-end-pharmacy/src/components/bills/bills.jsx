@@ -16,7 +16,7 @@ class Bills extends Component {
         pageSize: 10,
         searchQuery: "",
         selectedBill: null,
-        sortColumn: { path: 'title', order: 'asc' },
+        sortColumn: { path: 'title', order: 'desc' },
     }
 
     async componentDidMount() {

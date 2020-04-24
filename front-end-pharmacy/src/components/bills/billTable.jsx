@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 class BillsTable extends Component {
 
     columns = [
-        { path: 'id', label: 'Bill Id', content: bill => <Link to={`/bills/${bill.id}`}>{bill.id}</Link> },
+        { path: 'id', label: 'Bill Id', content: bill => <Link to={`/bill/${bill.id}`}>{bill.id}</Link> },
         // { path: 'genre.name', label: 'Genre' },
         { path: 'date', label: 'Date' },
         { path: 'customerName', label: 'Name' },
