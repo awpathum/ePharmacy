@@ -3,15 +3,11 @@ package com.awpathum.pharmacy.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.io.Serializable;
-import java.util.List;
 
-import javax.persistence.AssociationOverride;
-import javax.persistence.AssociationOverrides;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
 import javax.persistence.Table;
@@ -37,8 +33,8 @@ public class DrugBill {
 	    @Column(name = "quantity")
 	    private Integer quantity;
 	    
-	    @Column(name = "total_price")
-	    private float totalPrice;
+	    @Column(name = "net_price")
+	    private float netPrice;
 
 		public DrugBillId getId() {
 			return id;
@@ -56,12 +52,12 @@ public class DrugBill {
 			this.drug = drug;
 		}
 
-		public float getTotalPrice() {
-			return totalPrice;
+		public float getNetPrice() {
+			return netPrice;
 		}
 
-		public void setTotalPrice(float totalPrice) {
-			this.totalPrice = totalPrice;
+		public void setNetPrice(float netPrice) {
+			this.netPrice = netPrice;
 		}
 
 		public Bill getBill() {

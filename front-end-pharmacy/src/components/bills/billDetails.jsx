@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Formik, Form, Field, } from 'formik';
-import {getBill} from '../../services/billService';
+import {getBill,getDrugs} from '../../services/billService';
 class BillDetails extends Component {
     state = {
         data: {
@@ -29,8 +29,19 @@ class BillDetails extends Component {
 
     }
 
+    async populateDrugs(){
+        const billId = this.props.match.params.id;
+        try {
+            const{data:drugs} = await getDrugs(billId);
+            console.log(drugs)
+        } catch (ex) {
+            
+        }
+    }
+
     async componentDidMount() {
         await this.populateBill();
+        await this.populateDrugs();
     }
 
     mapToViewModel(bill) {

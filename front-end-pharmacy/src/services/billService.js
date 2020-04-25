@@ -1,5 +1,6 @@
 import http from "./httpService";
 import { apiUrl } from "../config.json";
+import { func } from "joi";
 
 const apiEndpoint = apiUrl + "/bill/";
 
@@ -33,4 +34,9 @@ export function addDrugs(drugs) {
 export function deleteBill(billId) {
   console.log(billId);
   http.delete(billUrl(billId));
+}
+
+export function getDrugs(billId) {
+  console.log('malURL',apiUrl+ 'billDrugs/' + `${billId}`)
+  return http.get(apiUrl+ '/billDrugs/' + `${billId}`)
 }

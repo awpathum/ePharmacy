@@ -38,6 +38,8 @@ public class BillController {
 	private StockService stockService;
 
 
+
+
 	@PostMapping("/")
 	public Bill saveBill(@RequestBody Bill theBill) {
 		
@@ -69,14 +71,15 @@ public class BillController {
 
 	}
 
+
 	@PostMapping("/addDrugs")
 	public void saveDrugsForBill(@RequestBody List<BillDrugQuantity> billDrugQuantity) {
 
 	    Float totalPrice = Float.valueOf(0);
 	    Bill bill = new Bill();
-        DrugBill db = new DrugBill();
+//        DrugBill db = new DrugBill();
 		for (int k =0 ; k < billDrugQuantity.size(); k++){
-
+			DrugBill db = new DrugBill();
 			System.out.println(k);
 			System.out.println("size");
 			System.out.println(billDrugQuantity.size());
@@ -181,15 +184,17 @@ public class BillController {
 //				drugService.saveDrug(drug);
 				System.out.println("Done!");
 
+				db.setNetPrice(netPrice);
+				drugBillService.saveDrugBill(db);
 
 
 		}
             bill.setTotalPrice(totalPrice);
 			totalPrice += netPrice;
-			db.setTotalPrice(totalPrice);
+//			db.setTotalPrice(totalPrice);
 			bill.setTotalPrice(totalPrice);
 			billService.saveBill(bill);
-			drugBillService.saveDrugBill(db);
+//			drugBillService.saveDrugBill(db);
 			drugService.saveDrug(drug);
 			System.out.println("totalPrice");
 			System.out.println((totalPrice));
