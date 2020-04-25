@@ -61,7 +61,7 @@ class BillDetails extends Component {
     }
 
     render() {
-        const { data,drugs } = this.state;
+        const { data, drugs } = this.state;
         console.log(data)
         console.log(drugs)
         console.log('drugBills', data.drugBills)
@@ -100,8 +100,7 @@ class BillDetails extends Component {
                                     <label>Customer Age</label>
                                     <Field className="form-control" type="text" name="customerAge" disabled></Field>
                                 </fieldset>
-                        {data.drugBills.map(d => <div class="overflow-auto">{d.id.drugId}&nbsp;&nbsp;&nbsp;{d.quantity}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{d.netPrice}</div>)}
-
+                                {(drugs.length != 0) ? data.drugBills.map(d => <div class="overflow-auto">{drugs.filter(dn => d.id.drugId === dn.id)[0].name}&nbsp;&nbsp;&nbsp;{d.quantity}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{d.netPrice}</div>) : null}
                             </Form>
                         )
                     }
@@ -114,3 +113,5 @@ class BillDetails extends Component {
 export default BillDetails;
 
 // { drugs.filter(d => d.id === d.id.drugId) }
+
+// 0
