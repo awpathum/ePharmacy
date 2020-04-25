@@ -3,19 +3,19 @@ import ListGroup from './common/listGroup';
 import { getStocks } from '../services/stockService';
 import Warning from './warning';
 import { getBills } from '../services/billService';
+import { getDrugs } from '../services/drugService';
 import auth from '../services/authService';
 
 class Home extends Component {
     state = {
         stocks: [],
         expStocks: [],
-        lowStocks:[],
+        lowStocks: [],
         bills: [],
+        drugs: [],
         todayIncome: 0,
         customerCount: 0,
-        user:''
-
-
+        user: ''
     }
 
     async componentDidMount() {
@@ -24,19 +24,30 @@ class Home extends Component {
         console.log(user)
         const { data: stocks } = await getStocks();
         const { data: bills } = await getBills();
-
+        const { data: drugs } = await getDrugs();
+        console.log(drugs)
 
         this.setState({
             stocks,
             bills,
-            user
+            user,
+            drugs
 
         })
         console.log(this.state.user)
         this.getWarnings();
         this.getTodayIncome();
+        this.getLowStocksWarnings();
     }
 
+    getLowStocksWarnings = () => {
+        const { drugs } = this.state;
+        console.log('drugs', drugs)
+        let lowStocks = [];
+        let filterd = drugs.filter(d => (d.quantity < d.warningLevel))
+        filterd.map(d => lowStocks.push(<Warning drugName={d.name} Drug={d} type='low'></Warning>));
+        this.setState({ lowStocks })
+    }
 
 
     getWarnings = () => {
@@ -45,7 +56,7 @@ class Home extends Component {
         const filtered = this.state.stocks.filter(s => s.quantity != 0);
         console.log('filterd', filtered)
         let expStocks = [];
-        filtered.map(d => ((Date.parse(d.expDate) < Date.parse(today)) ? expStocks.push(<Warning expDate={d.expDate} drugName={d.drugName} Drug={d}></Warning>) : console.log('not expired', d.expDate)))
+        filtered.map(d => ((Date.parse(d.expDate) < Date.parse(today)) ? expStocks.push(<Warning expDate={d.expDate} drugName={d.drugName} Drug={d} type='exp'></Warning>) : console.log('not expired', d.expDate)))
         this.setState({
             expStocks
         })
@@ -125,9 +136,10 @@ class Home extends Component {
                     <div className="col">
                         <ul className="list-group m-2">
                             {this.state.expStocks}
+                            {this.state.lowStocks}
                         </ul>
                     </div>
-        <div className="d-flex flex-row"><h1 className="text-light bg-dark m-2 p-5">Welcome &nbsp; {this.state.user}</h1></div>
+                    <div className="d-flex flex-row"><h1 className="text-light bg-dark m-2 p-5">Welcome &nbsp; {this.state.user}</h1></div>
                     <div class="col">
                         <ul className="list-group m-2">
                             <div className="d-flex flex-row-reverse">
