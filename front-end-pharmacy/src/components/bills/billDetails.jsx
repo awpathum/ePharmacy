@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Formik, Form, Field, } from 'formik';
 import { getBill } from '../../services/billService';
 import { getDrugs } from '../../services/drugService';
+import TableHeader from '../common/tableHeader';
 class BillDetails extends Component {
     state = {
         data: {
@@ -100,7 +101,26 @@ class BillDetails extends Component {
                                     <label>Customer Age</label>
                                     <Field className="form-control" type="text" name="customerAge" disabled></Field>
                                 </fieldset>
-                                {(drugs.length != 0) ? data.drugBills.map(d => <div class="overflow-auto">{drugs.filter(dn => d.id.drugId === dn.id)[0].name}&nbsp;&nbsp;&nbsp;{d.quantity}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{d.netPrice}</div>) : null}
+                                <table className="table table-dark">
+                                    <thead>
+                                        <tr>
+                                            <td>Drug Name</td>
+                                            <td>Quantity</td>
+                                            <td>Net Price</td>
+                                        </tr>
+
+                                    </thead>
+                                    <tbody>
+                                        {(drugs.length != 0) ? data.drugBills.map(d =>
+                                            <tr>
+                                                <td>{drugs.filter(dn => d.id.drugId === dn.id)[0].name}</td>
+                                                <td>{d.quantity}</td>
+                                                <td>{d.netPrice}</td>
+                                            </tr>) : null
+                                        }
+                                    </tbody>
+
+                                </table>
                             </Form>
                         )
                     }
