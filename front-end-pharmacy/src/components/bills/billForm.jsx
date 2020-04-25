@@ -68,7 +68,6 @@ class BillForm extends Component {
 
     async componentDidMount() {
         await this.populateBills();
-        await this.doSubmit();
     }
 
     mapToViewModel(bill) {
@@ -85,7 +84,7 @@ class BillForm extends Component {
     }
 
     doSubmit = async (values) => {
-
+        console.log('do Sumbit Drugs')
         delete values.quantity;
         delete values.totalPrice;
 
@@ -95,8 +94,8 @@ class BillForm extends Component {
             billSumbit: true
         })
         this.notify();
-    };
-    doSubmitDrugs = async () => {
+
+
         let toSumbit = [];
         console.log('drugIdList', this.state.drugIdList)
         for (let i = 0; i < this.state.drugList.length; i++) {
@@ -111,7 +110,25 @@ class BillForm extends Component {
         console.log('toSumbmit', toSumbit)
         await addDrugs(toSumbit);
         this.props.history.push("/bills");
-    }
+
+    };
+    // doSubmitDrugs = async () => {
+
+    //     let toSumbit = [];
+    //     console.log('drugIdList', this.state.drugIdList)
+    //     for (let i = 0; i < this.state.drugList.length; i++) {
+    //         const obj = {}
+
+    //         obj.drugId = this.state.drugIdList[i];
+    //         obj.billId = this.state.data.id;
+    //         obj.quantity = parseInt(this.state.drugQuantityList[i]);
+    //         toSumbit.push(obj);
+    //     }
+    //     console.log(this.state.drugQuantityList)
+    //     console.log('toSumbmit', toSumbit)
+    //     await addDrugs(toSumbit);
+    //     this.props.history.push("/bills");
+    // }
 
     validate = (values) => {
         let errors = {};
@@ -178,7 +195,7 @@ class BillForm extends Component {
                 <div className="row">
                     <div class="col-md-8"><h1>Bill Form</h1></div>
 
-                    <div class="col-20 col-md-4"><h1>Total = {this.state.totalPrice}</h1></div>
+                    <div class="col-20 col-md-4"><h1>Total = {(this.state.totalPrice != null) ? this.state.totalPrice : 0}</h1></div>
                 </div>
                 <div className="row">
                     <div className="col-sm">
@@ -199,37 +216,60 @@ class BillForm extends Component {
                         >
                             {
                                 (props) => (
+                                    <div className="container">
 
-                                    <Form>
+                                        <Form>
+                                            <div className="row">
+                                                <div className="col">
+                                                    <fieldset className="form-group">
+                                                        <label>Bill Id</label>
+                                                        <Field className="form-control" type="text" name="id" disabled></Field>
+                                                    </fieldset>
+                                                    <ErrorMessage name="date" component="div" className="alert alert-warning"></ErrorMessage>
+                                                    <fieldset className="form-group">
+                                                        <label>Date</label>
+                                                        <Field className="form-control" type="date" name="date" ></Field>
+                                                    </fieldset>
+                                                    <ErrorMessage name="customerName" component="div" className="alert alert-warning"></ErrorMessage>
+                                                    <fieldset className="form-group">
+                                                        <label>Customer Name</label>
+                                                        <Field className="form-control" type="text" name="customerName" ></Field>
+                                                    </fieldset>
+                                                    <ErrorMessage name="customerAge" component="div" className="alert alert-warning"></ErrorMessage>
+                                                    <fieldset className="form-group">
+                                                        <label>Customer Age</label>
+                                                        <Field className="form-control" type="text" name="customerAge" ></Field>
+                                                    </fieldset>
+                                                </div>
 
-                                        <fieldset className="form-group">
-                                            <label>Bill Id</label>
-                                            <Field className="form-control" type="text" name="id" disabled></Field>
-                                        </fieldset>
-                                        <ErrorMessage name="date" component="div" className="alert alert-warning"></ErrorMessage>
-                                        <fieldset className="form-group">
-                                            <label>Date</label>
-                                            <Field className="form-control" type="date" name="date" ></Field>
-                                        </fieldset>
-                                        <ErrorMessage name="customerName" component="div" className="alert alert-warning"></ErrorMessage>
-                                        <fieldset className="form-group">
-                                            <label>Customer Name</label>
-                                            <Field className="form-control" type="text" name="customerName" ></Field>
-                                        </fieldset>
-                                        <ErrorMessage name="customerAge" component="div" className="alert alert-warning"></ErrorMessage>
-                                        <fieldset className="form-group">
-                                            <label>Customer Age</label>
-                                            <Field className="form-control" type="text" name="customerAge" ></Field>
-                                        </fieldset>
 
-                                        <button className="btn btn-primary" type="submit">Save</button>
-                                    </Form>
+                                                <div className="col">
+                                                    <div>
+
+
+                                                        <div>
+                                                            <label>Add Drug</label> &nbsp;
+                                            <button onClick={this.handleDrugList} className="btn btn-success"> + </button>
+                                                            <div>
+                                                                {this.state.drugList}
+                                                            </div>
+                                                            <button className="btn btn-primary" type="submit" disabled={((this.state.totalPrice && this.state.billSumbit && this.state.validated) ? false : true)} >Save</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                                {/* <button className="btn btn-primary" type="submit">Save</button> */}
+                                            </div>
+                                        </Form>
+
+                                    </div>
 
                                 )}
 
                         </Formik>
                     </div>
-                    <div className="col-sm">
+                    {/* <div className="col-sm">
                         <div>
 
 
@@ -242,7 +282,7 @@ class BillForm extends Component {
                                 <button className="btn btn-primary" type="submit" disabled={((this.state.totalPrice && this.state.billSumbit && this.state.validated) ? false : true)} onClick={this.doSubmitDrugs}>Save</button>
                             </div>
                         </div>
-                    </div>
+                    </div> */}
                 </div>
             </div >
         )
@@ -250,3 +290,5 @@ class BillForm extends Component {
 }
 
 export default BillForm;
+
+// onClick={this.doSubmitDrugs}

@@ -67,7 +67,7 @@ class BillDetails extends Component {
         console.log(drugs)
         console.log('drugBills', data.drugBills)
         return (
-            <div className='container'>
+            <div className="container">
                 <Formik
                     enableReinitialize
                     initialValues={{
@@ -80,48 +80,54 @@ class BillDetails extends Component {
                 >
                     {
                         (props) => (
-                            <Form>
-                                <fieldset className="form-group">
-                                    <label>Bill Id</label>
-                                    <Field className="form-control" type="text" name="id" disabled></Field>
-                                </fieldset>
-                                <fieldset className="form-group">
-                                    <label>Date</label>
-                                    <Field className="form-control" type="date" name="date" disabled></Field>
-                                </fieldset>
-                                <fieldset className="form-group">
-                                    <label>Total Price</label>
-                                    <Field className="form-control" type="text" name="totalPrice" disabled></Field>
-                                </fieldset>
-                                <fieldset className="form-group">
-                                    <label>Customer Name</label>
-                                    <Field className="form-control" type="text" name="customerName" disabled></Field>
-                                </fieldset>
-                                <fieldset className="form-group">
-                                    <label>Customer Age</label>
-                                    <Field className="form-control" type="text" name="customerAge" disabled></Field>
-                                </fieldset>
-                                <table className="table table-dark">
-                                    <thead>
-                                        <tr>
-                                            <td>Drug Name</td>
-                                            <td>Quantity</td>
-                                            <td>Net Price</td>
-                                        </tr>
-
-                                    </thead>
-                                    <tbody>
-                                        {(drugs.length != 0) ? data.drugBills.map(d =>
+                            <div className="container m-5">
+                                <Form>
+                                    <fieldset className="form-group">
+                                        <label className="font-weight-bold">Bill Id</label>
+                                        <Field className="form-control" type="text" name="id" disabled></Field>
+                                    </fieldset>
+                                    <fieldset className="form-group">
+                                        <label className="font-weight-bold">Date</label>
+                                        <Field className="form-control" type="date" name="date" disabled></Field>
+                                    </fieldset>
+                                    <fieldset className="form-group">
+                                        <label className="font-weight-bold">Total Price</label>
+                                        <Field className="form-control" type="text" name="totalPrice" disabled></Field>
+                                    </fieldset>
+                                    <fieldset className="form-group">
+                                        <label className="font-weight-bold">Customer Name</label>
+                                        <Field className="form-control" type="text" name="customerName" disabled></Field>
+                                    </fieldset>
+                                    <fieldset className="form-group">
+                                        <label className="font-weight-bold">Customer Age</label>
+                                        <Field className="form-control" type="text" name="customerAge" disabled></Field>
+                                    </fieldset>
+                                    <table className="table">
+                                        <thead className="table-primary">
                                             <tr>
-                                                <td>{drugs.filter(dn => d.id.drugId === dn.id)[0].name}</td>
-                                                <td>{d.quantity}</td>
-                                                <td>{d.netPrice}</td>
-                                            </tr>) : null
-                                        }
-                                    </tbody>
+                                                <td className="font-weight-bold">Drug Name</td>
+                                                <td className="font-weight-bold">Quantity</td>
+                                                <td className="font-weight-bold">Net Price</td>
+                                            </tr>
 
-                                </table>
-                            </Form>
+                                        </thead>
+                                        <tbody>
+                                            {(drugs.length != 0) ? data.drugBills.map(d =>
+                                                <tr className="table-success">
+                                                    <td>{drugs.filter(dn => d.id.drugId === dn.id)[0].name}</td>
+                                                    <td>{d.quantity}</td>
+                                                    <td>{d.netPrice}</td>
+                                                </tr>
+                                            ) : null
+                                            }
+                                            <tr className="table-warning">
+                                                <td colspan="3"><h2>Total: {data.totalPrice}</h2></td>
+                                            </tr>
+                                        </tbody>
+
+                                    </table>
+                                </Form>
+                            </div>
                         )
                     }
                 </Formik>
