@@ -46,7 +46,7 @@ public class DrugDAOImpl implements DrugDAO {
 		currentSession.saveOrUpdate(theDrug);
 
 	}
-	
+
 	@Override
 	public Drug getDrug(String theId) {
 		System.out.println("drugDAO");
@@ -62,7 +62,7 @@ public class DrugDAOImpl implements DrugDAO {
 
 	@Override
 	public void deleteDrug(String theId) {
-		
+
 		// get the current hibernate session
 		Session currentSession = entityManager.unwrap(Session.class);
 		// delete the object with primary key
@@ -71,7 +71,7 @@ public class DrugDAOImpl implements DrugDAO {
 		theQuery.setParameter("drugId", theId);
 
 		theQuery.executeUpdate();
-		
+
 	}
 
 }

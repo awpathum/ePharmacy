@@ -4,6 +4,7 @@ import { getBill, saveBill, addDrugs } from '../../services/billService';
 import DrugList from '../DrugList';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { Route, Link } from "react-router-dom";
 
 class BillForm extends Component {
     state = {
@@ -85,10 +86,11 @@ class BillForm extends Component {
 
     doSubmit = async (values) => {
         console.log('do Sumbit Drugs')
+        console.log('values',values)
         delete values.quantity;
         delete values.totalPrice;
 
-        await saveBill(values);
+       await saveBill(values);
 
         this.setState({
             billSumbit: true
@@ -108,7 +110,7 @@ class BillForm extends Component {
         }
         console.log(this.state.drugQuantityList)
         console.log('toSumbmit', toSumbit)
-        await addDrugs(toSumbit);
+       await addDrugs(toSumbit);
         this.props.history.push("/bills");
 
     };
@@ -249,11 +251,11 @@ class BillForm extends Component {
 
                                                         <div>
                                                             <label>Add Drug</label> &nbsp;
-                                            <button onClick={this.handleDrugList} className="btn btn-success"> + </button>
+                                            <Link onClick={this.handleDrugList} className="badge badge-success p-2" data-toggle="tooltip" data-placement="top" title="Add Drug"> <h4>+</h4> </Link>
                                                             <div>
                                                                 {this.state.drugList}
                                                             </div>
-                                                            <button className="btn btn-primary" type="submit" disabled={((this.state.totalPrice && this.state.billSumbit && this.state.validated) ? false : true)} >Save</button>
+                                                            <button className="btn btn-primary" type="submit"  >Save</button>
                                                         </div>
                                                     </div>
                                                 </div>

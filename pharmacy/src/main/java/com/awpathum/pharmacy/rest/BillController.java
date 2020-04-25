@@ -27,13 +27,13 @@ public class BillController {
 	// need to inject the bill service
 	@Autowired
 	private BillService billService;
-	
+
 	@Autowired
 	private DrugService drugService;
-	
+
 	@Autowired
 	private DrugBillService drugBillService;
-	
+
 	@Autowired
 	private StockService stockService;
 
@@ -42,15 +42,15 @@ public class BillController {
 
 	@PostMapping("/")
 	public Bill saveBill(@RequestBody Bill theBill) {
-		
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");  
+
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 		Date date = new Date();
 		String dateF = formatter.format(date);
-		
-		
+
+
 		//theBill.setId(billId);
 		theBill.setDate(dateF);
-		
+
 		billService.saveBill(theBill);
 		System.out.println("Saved!!");
 		return theBill;
@@ -75,8 +75,8 @@ public class BillController {
 	@PostMapping("/addDrugs")
 	public void saveDrugsForBill(@RequestBody List<BillDrugQuantity> billDrugQuantity) {
 
-	    Float totalPrice = Float.valueOf(0);
-	    Bill bill = new Bill();
+		Float totalPrice = Float.valueOf(0);
+		Bill bill = new Bill();
 //        DrugBill db = new DrugBill();
 		for (int k =0 ; k < billDrugQuantity.size(); k++){
 			DrugBill db = new DrugBill();
@@ -105,9 +105,9 @@ public class BillController {
 
 			Float netPrice = unitPrice * quantity;
 
-		//	bill.setTotalPrice(totalPrice);
+			//	bill.setTotalPrice(totalPrice);
 			System.out.println("totalPrice");
-          //  System.out.println(totalPrice);
+			//  System.out.println(totalPrice);
 
 
 
@@ -151,21 +151,21 @@ public class BillController {
 					System.out.println(quantity);
 					System.out.println(reqStock);
 					if (stocks.size() > i) {
-					currentStock = currentStock + stocks.get(i).getQuantity();
-					System.out.println("#8");
-					if (currentStock >= quantity) {
-						remStock = currentStock - quantity;
-						reqStock = quantity;
-						updatedStockId = stocks.get(i).getId();
-						System.out.println("#9");
-					} else {
-						System.out.println("#10");
-						stocks.get(i).setQuantity(0);
-						reqStock = reqStock + currentStock;
-					}
+						currentStock = currentStock + stocks.get(i).getQuantity();
+						System.out.println("#8");
+						if (currentStock >= quantity) {
+							remStock = currentStock - quantity;
+							reqStock = quantity;
+							updatedStockId = stocks.get(i).getId();
+							System.out.println("#9");
+						} else {
+							System.out.println("#10");
+							stocks.get(i).setQuantity(0);
+							reqStock = reqStock + currentStock;
+						}
 
-					System.out.println("#11");
-				}else{
+						System.out.println("#11");
+					}else{
 						break;
 					}
 					i++;
@@ -188,8 +188,8 @@ public class BillController {
 				drugBillService.saveDrugBill(db);
 
 
-		}
-            bill.setTotalPrice(totalPrice);
+			}
+			bill.setTotalPrice(totalPrice);
 			totalPrice += netPrice;
 //			db.setTotalPrice(totalPrice);
 			bill.setTotalPrice(totalPrice);
@@ -200,10 +200,10 @@ public class BillController {
 			System.out.println((totalPrice));
 			System.out.println("While loop end");
 
-	}
+		}
 
 		System.out.println("Done!!");
 
-}
+	}
 
 }
