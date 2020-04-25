@@ -9,6 +9,7 @@ class Home extends Component {
     state = {
         stocks: [],
         expStocks: [],
+        lowStocks:[],
         bills: [],
         todayIncome: 0,
         customerCount: 0,

@@ -9,7 +9,8 @@ class DrugForm extends Component {
             name: "",
             unitPrice: "",
             compound: "",
-            quantity: ""
+            quantity: "",
+            warningLevel:""
         },
         drugs: [],
         errors: {}
@@ -24,7 +25,8 @@ class DrugForm extends Component {
                     name: "",
                     unitPrice: "",
                     compound: "",
-                    quantity: ""
+                    quantity: "",
+                    warningLevel:""
                 }
                 this.setState({ data: this.mapToViewModel(newDrugs) });
             } else {
@@ -50,7 +52,8 @@ class DrugForm extends Component {
             name: drug.name,
             unitPrice: drug.unitPrice,
             compound: drug.compound,
-            quantity: drug.quantity
+            quantity: drug.quantity,
+            warningLevel: drug.warningLevel
 
         };
     }
@@ -83,7 +86,8 @@ class DrugForm extends Component {
                         name: data.name,
                         unitPrice: data.unitPrice,
                         compound: data.compound,
-                        quantity: data.quantity
+                        quantity: data.quantity,
+                        warningLevel:data.warningLevel
 
                     }}
                     onSubmit={this.doSubmit}
@@ -114,6 +118,11 @@ class DrugForm extends Component {
                                 <fieldset className="form-group">
                                     <label>Compound</label>
                                     <Field className="form-control" type="text" name="compound" ></Field>
+                                </fieldset>
+                                <ErrorMessage name="warningLevel" component="div" className="alert alert-warning"></ErrorMessage>
+                                <fieldset className="form-group">
+                                    <label>Warning Level</label>
+                                    <Field className="form-control" type="text" name="warningLevel" ></Field>
                                 </fieldset>
                                 <button className="btn btn-primary" type="submit">Save</button>
                             </Form>

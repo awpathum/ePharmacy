@@ -11,6 +11,7 @@ class DrugsTable extends Component {
         { path: 'unitPrice', label: 'Unit Price' },
         { path: 'compound', label: 'Compound' },
         { path: 'quantity', label: 'Stock' },
+        { path: 'warningLevel', label: 'Warning Level' },
         // { path: 'drug', label: 'Drug', content: drug => <Link to={`/drugs/${drug.drugId}`}>{drug.drug}</Link> },
         // {
         //     key: 'delete',

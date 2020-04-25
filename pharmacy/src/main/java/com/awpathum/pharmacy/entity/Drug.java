@@ -32,6 +32,10 @@ public class Drug {
 	
 	@Column(name = "quantity")
 	private Integer quantity;
+
+	@Column(name = "warning_level")
+	private Integer warningLevel;
+
 	
 	@OneToMany(fetch = FetchType.EAGER,mappedBy = "drug",cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.DETACH,CascadeType.REFRESH})
 	private List<Stock> stocks;
@@ -45,12 +49,13 @@ public class Drug {
 		
 	}
 	
-	public Drug(String id,String name,String unitPrice,String compound) {
+	public Drug(String id,String name,String unitPrice,String compound,Integer warningLevel) {
 		
 		this.id = id;
 		this.name = name;
 		this.unitPrice = unitPrice;
 		this.compound = compound;
+		this.warningLevel = warningLevel;
 		
 	}
 
@@ -61,6 +66,14 @@ public class Drug {
 	public void setId(String id) {
 		id = id.replace(",", "");
 		this.id = id;
+	}
+
+	public Integer getWarningLevel() {
+		return warningLevel;
+	}
+
+	public void setWarningLevel(Integer warningLevel) {
+		this.warningLevel = warningLevel;
 	}
 
 	public String getName() {
