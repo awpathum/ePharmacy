@@ -17,9 +17,9 @@ public class SupplierServiceImpl implements SupplierService {
 	private SupplierDAO supplierDAO;
 
 	@Override
-	public List<Supplier> getSuppliers() {
+	public List<Supplier> getSuppliers(String username) {
 
-		return supplierDAO.getSuppliers();
+		return supplierDAO.getSuppliers(username);
 	}
 
 	

@@ -3,6 +3,7 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { getStock, saveStock, addSupplierToStock, addDrugToStock } from "../../services/stockService";
 import { getSuppliers } from "../../services/supplierService";
 import { getDrugs } from '../../services/drugService';
+import auth from '../../services/authService';
 
 class StockForm extends Component{
   state = {
@@ -20,14 +21,15 @@ class StockForm extends Component{
     },
     suppliers: [],
     drugs: [],
-    errors: {}
+    errors: {},
+    user:''
   };
-  async populateSuppliers() {
-    const { data: suppliers } = await getSuppliers();
+  async populateSuppliers(user) {
+    const { data: suppliers } = await getSuppliers(user);
     this.setState({ suppliers });
   }
-  async populateDrugs() {
-    const { data: drugs } = await getDrugs();
+  async populateDrugs(user) {
+    const { data: drugs } = await getDrugs(user);
     console.log(drugs)
     this.setState({ drugs });
   }
@@ -62,9 +64,14 @@ class StockForm extends Component{
   }
 
   async componentDidMount() {
-    await this.populateSuppliers();
-    await this.populateStock();
-    await this.populateDrugs();
+    const user = auth.getCurrentUser().sub;
+    console.log(user)
+    await this.populateSuppliers(user);
+    console.log('SF1');
+    await this.populateStock(user);
+    console.log('SF2');
+    await this.populateDrugs(user);
+    console.log('SF3');
   }
 
   mapToViewModel(stock) {

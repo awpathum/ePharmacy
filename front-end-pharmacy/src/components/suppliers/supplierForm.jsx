@@ -3,6 +3,7 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { getSupplier, saveSupplier } from '../../services/supplierService';
 import { getSuppliers } from "../../services/supplierService";
 import { getDrugs } from '../../services/drugService';
+import auth from '../../services/authService';
 
 class SupplierForm extends Component {
     state = {
@@ -14,7 +15,8 @@ class SupplierForm extends Component {
             telephone: ""
         },
         suppliers: [],
-        errors: {}
+        errors: {},
+        user:''
     };
 
     async populateSuppliers() {
@@ -44,7 +46,9 @@ class SupplierForm extends Component {
     }
 
     async componentDidMount() {
+        const user = auth.getCurrentUser().sub;
         await this.populateSuppliers();
+        this.setState({user})
     }
 
     mapToViewModel(supplier) {
@@ -60,6 +64,9 @@ class SupplierForm extends Component {
     }
 
     doSubmit = async (values) => {
+        const {user} = this.state;
+        console.log(values)
+        values.id =  user + values.id;
         console.log(values)
         console.log('do submit')
         await saveSupplier(values);
@@ -85,16 +92,24 @@ class SupplierForm extends Component {
         console.log(errors)
         return errors
     }
+
+
+    getId = (id) => {
+        let pos = id.indexOf("S");
+        let newId = id.substring(pos, id.length);
+        return newId;
+    }
+
     render() {
         const { data, suppliers: stateSuppliers } = this.state;
         const suppliers = [{ id: "", name: "" }, ...stateSuppliers]
-        console.log(suppliers)
+        const id = this.getId(data.id);
         return (
             <div className="container">
                 <h1>Supplier Form</h1>
                 <Formik
                     initialValues={{
-                        id: data.id,
+                        id,
                         name: data.name,
                         location: data.location,
                         email: data.email,

@@ -6,7 +6,7 @@ import com.awpathum.pharmacy.entity.Supplier;
 
 public interface SupplierDAO {
 
-	public List<Supplier> getSuppliers();
+	public List<Supplier> getSuppliers(String username);
 
 	public void saveSupplier(Supplier theSupplier);
 

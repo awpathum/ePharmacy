@@ -24,9 +24,9 @@ public class StockServiceImpl implements StockService {
 //	}
 
 	@Override
-	public List<StockResponse> getStocks() {
+	public List<StockResponse> getStocks(String username) {
 
-		return stockDAO.getStocks();
+		return stockDAO.getStocks(username);
 	}
 
 	@Override

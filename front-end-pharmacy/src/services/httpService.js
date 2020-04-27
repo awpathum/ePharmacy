@@ -1,7 +1,9 @@
 import axios from "axios";
-import { toast } from "react-toastify";
 import logger from "./logService";
 import auth from "./authService";
+import { toast } from "react-toastify";
+import jwtDecode from "jwt-decode";
+import "react-toastify/dist/ReactToastify.css";
 
 //axios.defaults.headers.common['Bearer'] =  auth.getJwt();
 
@@ -48,16 +50,20 @@ axios.interceptors.request.use(
 );
 
 axios.interceptors.response.use(null, (error) => {
-  console.log(auth.getJwt());
+  console.log("response interceptor");
+  console.log(error.response);
   const expectedError =
     error.response &&
     error.response.status >= 400 &&
     error.response.status < 500;
 
-  if (!expectedError) {
+  console.log(expectedError);
+
+  if (expectedError) {
     //console.log("Loggin the error", ex);
     logger.log(error);
-    toast("An inexpected error occurred.");
+    console.log("if clause");
+    toast("Logout and Login again");
   }
   return Promise.reject(error);
 });

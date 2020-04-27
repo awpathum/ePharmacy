@@ -1,10 +1,9 @@
 import http from "./httpService";
 import { apiUrl } from "../config.json";
-import auth from './authService'
+import auth from "./authService";
 import axios from "axios";
 
 const apiEndpoint = apiUrl + "/supplier/";
-
 
 // axios.interceptors.request.use(function (config) {
 //   const token = auth.getJwt();
@@ -17,8 +16,9 @@ function supplierUrl(id) {
   return `${apiEndpoint}${id}`;
 }
 
-export function getSuppliers() {
-  const suppliers = http.get(apiEndpoint);
+export function getSuppliers(user) {
+  console.log(user)
+  const suppliers = http.get(apiEndpoint,{params:{username:user}});
   console.log(suppliers);
   return suppliers;
 }

@@ -3,6 +3,7 @@ import { Formik, Form, Field, } from 'formik';
 import { getBill } from '../../services/billService';
 import { getDrugs } from '../../services/drugService';
 import TableHeader from '../common/tableHeader';
+import auth from '../../services/authService';
 class BillDetails extends Component {
     state = {
         data: {
@@ -13,10 +14,11 @@ class BillDetails extends Component {
             totalPrice: 0,
             drugBills: []
         },
-        drugs: []
+        drugs: [],
+        user:''
     }
 
-    async populateBill() {
+    async populateBill(user) {
         const billId = this.props.match.params.id;
         try {
             const { data: bill } = await getBill(billId);
@@ -32,10 +34,10 @@ class BillDetails extends Component {
 
     }
 
-    async populateDrugs() {
+    async populateDrugs(user) {
 
         try {
-            const { data: drugs } = await getDrugs();
+            const { data: drugs } = await getDrugs(user);
             console.log('drugs', drugs);
             this.setState({ drugs });
         } catch (ex) {
@@ -46,8 +48,9 @@ class BillDetails extends Component {
 
 
     async componentDidMount() {
-        await this.populateBill();
-        await this.populateDrugs();
+        const user = auth.getCurrentUser().sub;
+        await this.populateBill(user);
+        await this.populateDrugs(user);
     }
 
     mapToViewModel(bill) {

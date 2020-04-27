@@ -27,10 +27,10 @@ public class SupplierController {
 	}
 
 	@GetMapping("/")
-	public List<Supplier> listSuppliers() {
+	public List<Supplier> listSuppliers(@RequestParam String username) {
 
 		// get suppliers form the service
-		List<Supplier> theSuppliers = supplierService.getSuppliers();
+		List<Supplier> theSuppliers = supplierService.getSuppliers(username);
 		return theSuppliers;
 	}
 

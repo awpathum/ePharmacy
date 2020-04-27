@@ -6,7 +6,7 @@ import com.awpathum.pharmacy.entity.Bill;
 
 public interface BillDAO {
 
-	public List<Bill> getBills();
+	public List<Bill> getBills(String username);
 
 	public void saveBill(Bill theBill);
 

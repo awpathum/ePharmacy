@@ -10,6 +10,7 @@ import StocksTable from "./stocksTable";
 import _ from 'lodash';
 import { Route, Link } from "react-router-dom";
 import { toast } from "react-toastify";
+import auth from '../../services/authService';
 
 
 class Stocks extends Component {
@@ -22,17 +23,20 @@ class Stocks extends Component {
         searchQuery: "",
         selectedSupplier: null,
         sortColumn: { path: 'title', order: 'asc' },
+        user: ''
+
     }
 
     async componentDidMount() {
-        const { data } = await getSuppliers();
+        const user = await auth.getCurrentUser().sub;
+        console.log(user)
+        const { data } = await getSuppliers(user);
         const suppliers = [{ _id: "", name: 'All Suppliers' }, ...data]
-        const { data: stocks } = await getStocks();
-        console.log(stocks)
+        const { data: stocks } = await getStocks(user);
         this.setState({
             stocks,
-            //suppliers : suppliers, line beloq this is an alternative for this. because key and value are same.
-            suppliers
+            suppliers,
+            user
         })
     }
 
@@ -96,8 +100,10 @@ class Stocks extends Component {
     }
 
     getNewStockId = (allStocks) => {
+        const { user } = this.state;
         const allStocksLen = allStocks.length;
         let newStockIdStr;
+        console.log(allStocksLen)
         if (allStocksLen === 0) {
             newStockIdStr = '1';
         } else {
@@ -116,28 +122,28 @@ class Stocks extends Component {
 
 
         if (newStockIdStr.length === 1) {
-            let prefix = "L00000";
+            let prefix = user + "L00000";
             const refactoredStockId = prefix.concat(newStockIdStr);
             console.log('refactoredStockId', refactoredStockId)
             return refactoredStockId;
         } else if (newStockIdStr.length === 2) {
-            let prefix = "L0000";
+            let prefix = user + "L0000";
             const refactoredStockId = prefix.concat(newStockIdStr);
             return refactoredStockId;
         } else if (newStockIdStr.length === 3) {
-            let prefix = "L000";
+            let prefix = user + "L000";
             const refactoredStockId = prefix.concat(newStockIdStr);
             return refactoredStockId;
         } else if (newStockIdStr.length === 4) {
-            let prefix = "L00";
+            let prefix = user + "L00";
             const refactoredStockId = prefix.concat(newStockIdStr);
             return refactoredStockId;
         } else if (newStockIdStr.length === 5) {
-            let prefix = "L0";
+            let prefix = user + "L0";
             const refactoredStockId = prefix.concat(newStockIdStr);
             return refactoredStockId;
         } else {
-            let prefix = "L";
+            let prefix = user + "L";
             const refactoredStockId = prefix.concat(newStockIdStr);
             return refactoredStockId;
         }
@@ -149,7 +155,7 @@ class Stocks extends Component {
         const { length: count } = this.state.stocks;
         const { pageSize, currentPage, stocks: allStocks, selectedSupplier, sortColumn, navBarItems, searchQuery } = this.state;
         const newStockId = this.getNewStockId(allStocks);
-        console.log('newStockId', newStockId);
+        console.log(newStockId)
         if (count === 0) {
             return <div className="container">
                 <h1>Stocks</h1>

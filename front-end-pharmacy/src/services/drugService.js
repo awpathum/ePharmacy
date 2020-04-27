@@ -7,11 +7,17 @@ function drugUrl(id) {
   return `${apiEndpoint}${id}`;
 }
 
-export function getDrugs() {
-  const drugs = http.get(apiEndpoint);
+export function getDrugs(user) {
+  const drugs = http.get(apiEndpoint,{params:{username:user}});
   console.log(drugs);
   return drugs;
 }
+
+// export function getDrugs() {
+//   const drugs = http.get(apiEndpoint);
+//   console.log(drugs);
+//   return drugs;
+// }
 
 export function getDrug(drugId) {
   const drug = http.get(drugUrl(drugId));

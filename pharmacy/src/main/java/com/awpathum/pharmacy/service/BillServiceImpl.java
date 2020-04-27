@@ -17,11 +17,11 @@ public class BillServiceImpl implements BillService {
 	private BillDAO billDAO;
 
 	@Override
-	public List<Bill> getBills() {
+	public List<Bill> getBills(String username) {
 		
 		System.out.println("Bill Service");
 
-		return billDAO.getBills();
+		return billDAO.getBills(username);
 	}
 
 	

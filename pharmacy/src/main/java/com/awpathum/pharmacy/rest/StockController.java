@@ -44,10 +44,10 @@ public class StockController {
 	}
 
 	@GetMapping("/")
-	public List<StockResponse> listStocks() {
+	public List<StockResponse> listStocks(@RequestParam String username) {
 
 		// get stocks form the service
-		List<StockResponse> theStocks = stockService.getStocks();
+		List<StockResponse> theStocks = stockService.getStocks(username);
 		System.out.println(theStocks);
 		return theStocks;
 	}

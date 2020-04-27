@@ -4,8 +4,9 @@ import { Link } from 'react-router-dom';
 
 class SuppliersTable extends Component {
 
+
     columns = [
-        { path: 'id', label: 'Supplier Id', content: supplier => <Link to={`/suppliers/${supplier.id}`}>{supplier.id}</Link> },
+        { path: 'id', label: 'Supplier Id', content: supplier => <Link to={`/suppliers/${supplier.id}`}>{this.getId(supplier.id)}</Link> },
         // { path: 'genre.name', label: 'Genre' },
         { path: 'name', label: 'Name' },
         { path: 'location', label: 'Location' },
@@ -14,9 +15,15 @@ class SuppliersTable extends Component {
         // { path: 'supplier', label: 'Supplier', content: supplier => <Link to={`/suppliers/${supplier.supplierId}`}>{supplier.supplier}</Link> },
         {
             key: 'delete',
-            content: supplier => (<button className="btn btn-danger" onClick={() => this.props.onDelete(supplier)}disabled={supplier.stocks.length ? true : false}>{console.log(supplier)}Delete</button>)
+            content: supplier => (<button className="btn btn-danger" onClick={() => this.props.onDelete(supplier)} disabled={supplier.stocks.length ? true : false}>{console.log(supplier)}Delete</button>)
         },
     ]
+
+    getId = (id) => {
+        let pos = id.indexOf("S");
+        let newId = id.substring(pos, id.length);
+        return newId;
+    }
 
     raiseSort = path => {
         const sortColumn = { ...this.props.sortColumn };

@@ -6,7 +6,7 @@ import com.awpathum.pharmacy.classes.StockResponse;
 import com.awpathum.pharmacy.entity.Stock;
 public interface StockDAO {
 
-	public List<StockResponse> getStocks();
+	public List<StockResponse> getStocks(String username);
 
 	public void saveStock(Stock theStock);
 

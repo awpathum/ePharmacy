@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {getBills,deleteBill,addDrugs} from '../../services/billService';
+import { getBills, deleteBill, addDrugs } from '../../services/billService';
 import { Route, Link } from "react-router-dom";
 import Pagination from "../common/pagination";
 import { paginate } from '../../utils/paginate';
@@ -8,6 +8,7 @@ import SearchBox from "../common/searchBox";
 import BillTable from './billTable'
 import { toast } from "react-toastify";
 import _ from 'lodash';
+import auth from '../../services/authService';
 
 class Bills extends Component {
     state = {
@@ -17,13 +18,16 @@ class Bills extends Component {
         searchQuery: "",
         selectedBill: null,
         sortColumn: { path: 'title', order: 'desc' },
+        user: ''
     }
 
     async componentDidMount() {
-        const { data } = await getBills();
+        const user = auth.getCurrentUser().sub;
+        const { data } = await getBills(user);
         console.log(data)
         this.setState({
-            bills : data
+            bills: data,
+            user
         })
     }
 
@@ -81,7 +85,7 @@ class Bills extends Component {
     }
 
     getPageData = () => {
-        const { pageSize, currentPage, bills: allBills, selectedBill,sortColumn, searchQuery } = this.state;
+        const { pageSize, currentPage, bills: allBills, selectedBill, sortColumn, searchQuery } = this.state;
         let filtered = allBills;
 
         if (searchQuery) {
@@ -99,16 +103,17 @@ class Bills extends Component {
     }
 
     getNewBillId = (allBills) => {
+        const { user } = this.state;
         const allBillsLen = allBills.length;
         let newBillIdStr;
         if (allBillsLen === 0) {
             newBillIdStr = '1';
         } else {
-            console.log('alllBills',allBills)
+            console.log('alllBills', allBills)
             const lastBillId = allBills[allBillsLen - 1].id;
-            console.log('lastBillId',lastBillId);
+            console.log('lastBillId', lastBillId);
             let newBillId = lastBillId.substring(2, lastBillId.length);
-            console.log('newBillId',newBillId)
+            console.log('newBillId', newBillId)
             let newBillIdInt = parseInt(newBillId);
             console.log('newBillIdInt', newBillIdInt)
             newBillIdInt++;
@@ -120,29 +125,29 @@ class Bills extends Component {
 
 
         if (newBillIdStr.length === 1) {
-            let prefix = "B00000";
+            let prefix = user + "B00000";
             const refactoredBillId = prefix.concat(newBillIdStr);
             console.log('refactoredBillId', refactoredBillId)
             return refactoredBillId;
         } else if (newBillIdStr.length === 2) {
-            let prefix = "B0000";
+            let prefix = user + "B0000";
             const refactoredBillId = prefix.concat(newBillIdStr);
             return refactoredBillId;
         } else if (newBillIdStr.length === 3) {
-            let prefix = "B000";
-            console.log('newBillIdStr',newBillIdStr)
+            let prefix = user + "B000";
+            console.log('newBillIdStr', newBillIdStr)
             const refactoredBillId = prefix.concat(newBillIdStr);
             return refactoredBillId;
         } else if (newBillIdStr.length === 4) {
-            let prefix = "B00";
+            let prefix = user + "B00";
             const refactoredBillId = prefix.concat(newBillIdStr);
             return refactoredBillId;
         } else if (newBillIdStr.length === 5) {
-            let prefix = "B0";
+            let prefix = user + "B0";
             const refactoredBillId = prefix.concat(newBillIdStr);
             return refactoredBillId;
         } else {
-            let prefix = "B";
+            let prefix = user + "B";
             const refactoredBillId = prefix.concat(newBillIdStr);
             return refactoredBillId;
         }
@@ -161,11 +166,11 @@ class Bills extends Component {
             return <div className="container">
                 <h1>Bills</h1>
                 <Link
-                to={{ pathname: "/bills/new", newId: newBillId }}
-                className="btn btn-primary"
-                style={{ marginBottom: 20 }}
-            >
-                New Bill
+                    to={{ pathname: "/bills/new", newId: newBillId }}
+                    className="btn btn-primary"
+                    style={{ marginBottom: 20 }}
+                >
+                    New Bill
         </Link>
             </div>
         }

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {getDrugs,deleteDrug} from '../../services/drugService';
+import { getDrugs, deleteDrug } from '../../services/drugService';
 import { Route, Link } from "react-router-dom";
 import Pagination from "../common/pagination";
 import { paginate } from '../../utils/paginate';
@@ -8,6 +8,8 @@ import SearchBox from "../common/searchBox";
 import DrugTable from './drugTable'
 import { toast } from "react-toastify";
 import _ from 'lodash';
+import auth from '../../services/authService';
+
 
 class Drugs extends Component {
     state = {
@@ -17,13 +19,16 @@ class Drugs extends Component {
         searchQuery: "",
         selectedDrug: null,
         sortColumn: { path: 'title', order: 'asc' },
+        user: ''
     }
 
     async componentDidMount() {
-        const { data } = await getDrugs();
+        const user = auth.getCurrentUser().sub;
+        const { data } = await getDrugs(user);
         console.log(data)
         this.setState({
-            drugs : data
+            drugs: data,
+            user
         })
     }
 
@@ -81,7 +86,7 @@ class Drugs extends Component {
     }
 
     getPageData = () => {
-        const { pageSize, currentPage, drugs: allDrugs, selectedDrug,sortColumn, searchQuery } = this.state;
+        const { pageSize, currentPage, drugs: allDrugs, selectedDrug, sortColumn, searchQuery } = this.state;
         let filtered = allDrugs;
 
         if (searchQuery) {
@@ -99,16 +104,18 @@ class Drugs extends Component {
     }
 
     getNewDrugId = (allDrugs) => {
+        const { user } = this.state;
+        console.log(user);
         const allDrugsLen = allDrugs.length;
         let newDrugIdStr;
         if (allDrugsLen === 0) {
             newDrugIdStr = '1';
         } else {
-            console.log('alllDrugs',allDrugs)
+            console.log('alllDrugs', allDrugs)
             const lastDrugId = allDrugs[allDrugsLen - 1].id;
-            console.log('lastDrugId',lastDrugId);
+            console.log('lastDrugId', lastDrugId);
             let newDrugId = lastDrugId.substring(2, lastDrugId.length);
-            console.log('newDrugId',newDrugId)
+            console.log('newDrugId', newDrugId)
             let newDrugIdInt = parseInt(newDrugId);
             console.log('newDrugIdInt', newDrugIdInt)
             newDrugIdInt++;
@@ -120,29 +127,29 @@ class Drugs extends Component {
 
 
         if (newDrugIdStr.length === 1) {
-            let prefix = "D00000";
+            let prefix = user + "D00000";
             const refactoredDrugId = prefix.concat(newDrugIdStr);
             console.log('refactoredDrugId', refactoredDrugId)
             return refactoredDrugId;
         } else if (newDrugIdStr.length === 2) {
-            let prefix = "D0000";
+            let prefix = user + "D0000";
             const refactoredDrugId = prefix.concat(newDrugIdStr);
             return refactoredDrugId;
         } else if (newDrugIdStr.length === 3) {
-            let prefix = "D000";
-            console.log('newDrugIdStr',newDrugIdStr)
+            let prefix = user + "D000";
+            console.log('newDrugIdStr', newDrugIdStr)
             const refactoredDrugId = prefix.concat(newDrugIdStr);
             return refactoredDrugId;
         } else if (newDrugIdStr.length === 4) {
-            let prefix = "D00";
+            let prefix = user + "D00";
             const refactoredDrugId = prefix.concat(newDrugIdStr);
             return refactoredDrugId;
         } else if (newDrugIdStr.length === 5) {
-            let prefix = "D0";
+            let prefix = user + "D0";
             const refactoredDrugId = prefix.concat(newDrugIdStr);
             return refactoredDrugId;
         } else {
-            let prefix = "D";
+            let prefix = user + "D";
             const refactoredDrugId = prefix.concat(newDrugIdStr);
             return refactoredDrugId;
         }
@@ -161,11 +168,11 @@ class Drugs extends Component {
             return <div className="container">
                 <h1>Drugs</h1>
                 <Link
-                to={{ pathname: "/drugs/new", newId: newDrugId }}
-                className="btn btn-primary"
-                style={{ marginBottom: 20 }}
-            >
-                New Drug
+                    to={{ pathname: "/drugs/new", newId: newDrugId }}
+                    className="btn btn-primary"
+                    style={{ marginBottom: 20 }}
+                >
+                    New Drug
         </Link>
             </div>
         }

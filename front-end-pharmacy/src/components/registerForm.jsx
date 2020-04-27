@@ -18,8 +18,8 @@ class RegisterForm extends Form {
 
         try {
             await userService.register(this.state.data);
-          //  auth.loginWithJwt(response.body.data.token);
-            this.props.history.push("/login");
+            //  auth.loginWithJwt(response.body.data.token);
+            this.props.history.push("/register");
         } catch (ex) {
             if (ex.response && ex.response.status === 400) {
                 const errors = { ...this.state.errors };
@@ -31,7 +31,7 @@ class RegisterForm extends Form {
     }
     render() {
         return (
-            <div>
+            <div className="container-sm w-25">
                 <h1>Register</h1>
                 <form onSubmit={this.handleSubmit}>
                     <div className="form-group">

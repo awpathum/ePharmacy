@@ -19,14 +19,15 @@ public class DrugDAOImpl implements DrugDAO {
 	private EntityManager entityManager;
 
 	@Override
-	public List<Drug> getDrugs() {
+	public List<Drug> getDrugs(String username) {
 
 		Session currentSession = entityManager.unwrap(Session.class);
 
 		// create a query
-		Query<Drug> theQuery = currentSession.createQuery("from Drug", Drug.class); // Drug is entity
+		Query<Drug> theQuery = currentSession.createQuery("from Drug Where id like :username", Drug.class); // Drug is entity
 																								// class name
 		// execute query and get result list
+		theQuery.setParameter("username", username+"%");
 		List<Drug> drugs = theQuery.getResultList();
 		System.out.println("drugs size");
 		System.out.println(drugs.size());

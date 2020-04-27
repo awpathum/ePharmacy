@@ -8,10 +8,10 @@ function billUrl(id) {
   return `${apiEndpoint}${id}`;
 }
 
-export function getBills() {
-  const bills = http.get(apiEndpoint);
-  console.log(bills);
-  return bills;
+export function getBills(user) {
+  console.log(user)
+  const drugs = http.get(apiEndpoint,{params:{username:user}});
+  return drugs;
 }
 
 export function getBill(billId) {

@@ -19,6 +19,7 @@ import auth from './services/authService';
 import AuthenticatedRoute from './components/AuthenticatedRoute';
 import "./App.css";
 import BillDetails from "./components/bills/billDetails";
+import { ToastContainer } from "react-toastify";
 
 class App extends Component {
   state = {};
@@ -31,6 +32,7 @@ class App extends Component {
   render() {
     return (
       <React.Fragment>
+        <ToastContainer></ToastContainer>
         <NavBar user={this.state.user}></NavBar>
         <main className="container-fluid">
           <Switch>
@@ -50,7 +52,7 @@ class App extends Component {
             <AuthenticatedRoute path="/bills" component={Bills}></AuthenticatedRoute>
             <Route path="/login" component={Login}></Route>
             <AuthenticatedRoute path="/logout" component={Logout}></AuthenticatedRoute>
-            <AuthenticatedRoute path="/register" component={Register}></AuthenticatedRoute>
+            <Route path="/register" component={Register}></Route>
             <AuthenticatedRoute path="/not-found" component={NotFound}></AuthenticatedRoute>
             <Redirect from="/" exact to="/home"></Redirect>
             <Redirect to="/not-found"></Redirect>

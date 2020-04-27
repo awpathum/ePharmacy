@@ -7,8 +7,15 @@ function stockUrl(id) {
   return `${apiEndpoint}${id}`;
 }
 
-export function getStocks() {
-  return http.get(apiEndpoint);
+// export function getStocks(user) {
+//   return http.get(apiEndpoint);
+// }
+
+export function getStocks(user) {
+  console.log(user)
+  const stocks = http.get(apiEndpoint,{params:{username:user}});
+  console.log(stocks);
+  return stocks;
 }
 
 export function getStock(stockId) {

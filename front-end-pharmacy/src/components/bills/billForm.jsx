@@ -5,6 +5,7 @@ import DrugList from '../DrugList';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Route, Link } from "react-router-dom";
+import auth from '../../services/authService';
 
 class BillForm extends Component {
     state = {
@@ -16,7 +17,7 @@ class BillForm extends Component {
             drugBills: [],
             totalPrice: 0,
         },
-
+        user:'',
         bills: [],
         drugList: [],
         drugCount: 0,
@@ -68,6 +69,7 @@ class BillForm extends Component {
     }
 
     async componentDidMount() {
+        const user = auth.getCurrentUser().sub;
         await this.populateBills();
     }
 

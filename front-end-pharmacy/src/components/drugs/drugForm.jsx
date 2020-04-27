@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { getDrug, saveDrug } from '../../services/drugService';
+import auth from '../../services/authService';
 
 class DrugForm extends Component {
     state = {
@@ -10,7 +11,7 @@ class DrugForm extends Component {
             unitPrice: "",
             compound: "",
             quantity: "",
-            warningLevel:""
+            warningLevel: ""
         },
         drugs: [],
         errors: {}
@@ -26,12 +27,12 @@ class DrugForm extends Component {
                     unitPrice: "",
                     compound: "",
                     quantity: "",
-                    warningLevel:""
+                    warningLevel: ""
                 }
                 this.setState({ data: this.mapToViewModel(newDrugs) });
             } else {
                 const { data: drug } = await getDrug(drugId);
-                
+
                 this.setState({
                     data: this.mapToViewModel(drug)
                 });
@@ -43,7 +44,8 @@ class DrugForm extends Component {
     }
 
     async componentDidMount() {
-        await this.populateDrugs();
+        const user = auth.getCurrentUser().sub;
+        await this.populateDrugs(user);
     }
 
     mapToViewModel(drug) {
@@ -87,7 +89,7 @@ class DrugForm extends Component {
                         unitPrice: data.unitPrice,
                         compound: data.compound,
                         quantity: data.quantity,
-                        warningLevel:data.warningLevel
+                        warningLevel: data.warningLevel
 
                     }}
                     onSubmit={this.doSubmit}

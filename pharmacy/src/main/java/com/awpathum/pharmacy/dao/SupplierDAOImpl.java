@@ -19,13 +19,15 @@ public class SupplierDAOImpl implements SupplierDAO {
 	private EntityManager entityManager;
 
 	@Override
-	public List<Supplier> getSuppliers() {
+	public List<Supplier> getSuppliers(String username) {
+		System.out.println(username);
 
 		Session currentSession = entityManager.unwrap(Session.class);
 
 		// create a query
-		Query<Supplier> theQuery = currentSession.createQuery("from Supplier", Supplier.class); // Supplier is entity
-																								// class name
+		//Query<Supplier> theQuery = currentSession.createQuery("from Supplier Like :username%", Supplier.class); // Supplier is entity// class name
+		Query<Supplier> theQuery = currentSession.createQuery("from Supplier where id like :username");
+		theQuery.setParameter("username", username+"%");
 		// execute query and get result list
 		List<Supplier> suppliers = theQuery.getResultList();
 

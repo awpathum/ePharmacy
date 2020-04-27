@@ -6,7 +6,7 @@ import com.awpathum.pharmacy.entity.Drug;
 
 public interface DrugService {
 
-	public List<Drug> getDrugs();
+	public List<Drug> getDrugs(String username);
 
 	public void saveDrug(Drug theDrug);
 

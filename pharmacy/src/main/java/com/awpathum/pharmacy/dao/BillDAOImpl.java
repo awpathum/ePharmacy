@@ -20,14 +20,14 @@ public class BillDAOImpl implements BillDAO {
 
 	@Override
 	@Transactional
-	public List<Bill> getBills() {
+	public List<Bill> getBills(String username) {
 		
 		Session currentSession = entityManager.unwrap(Session.class);
 
 		// create a query
-		Query<Bill> theQuery = currentSession.createQuery("from Bill", Bill.class); // Bill is entity
+		Query<Bill> theQuery = currentSession.createQuery("from Bill Where id like :username", Bill.class); // Bill is entity
 																								// class name
-		
+		theQuery.setParameter("username", username+"%");
 		// execute query and get result list
 		List<Bill> bills = theQuery.getResultList();
 		System.out.println(bills);

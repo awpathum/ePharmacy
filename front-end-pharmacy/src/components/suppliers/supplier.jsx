@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {getSuppliers,deleteSupplier} from '../../services/supplierService';
+import { getSuppliers, deleteSupplier } from '../../services/supplierService';
 import { Route, Link } from "react-router-dom";
 import Pagination from "../common/pagination";
 import { paginate } from '../../utils/paginate';
@@ -8,6 +8,7 @@ import SearchBox from "../common/searchBox";
 import SupplierTable from './supplierTable';
 import { toast } from "react-toastify";
 import _ from 'lodash';
+import auth from '../../services/authService'
 
 class Suppliers extends Component {
     state = {
@@ -17,13 +18,15 @@ class Suppliers extends Component {
         searchQuery: "",
         selectedSupplier: null,
         sortColumn: { path: 'title', order: 'asc' },
+        user: ''
     }
 
     async componentDidMount() {
-        const { data } = await getSuppliers();
-        console.log(data)
+        const user = auth.getCurrentUser().sub;
+        const { data } = await getSuppliers(user);
         this.setState({
-            suppliers : data
+            user,
+            suppliers: data
         })
     }
 
@@ -81,7 +84,7 @@ class Suppliers extends Component {
     }
 
     getPageData = () => {
-        const { pageSize, currentPage, suppliers: allSuppliers, selectedSupplier,sortColumn, searchQuery } = this.state;
+        const { pageSize, currentPage, suppliers: allSuppliers, selectedSupplier, sortColumn, searchQuery } = this.state;
         let filtered = allSuppliers;
 
         if (searchQuery) {
@@ -99,15 +102,18 @@ class Suppliers extends Component {
     }
 
     getNewSupplierId = (allSuppliers) => {
+        const {user} = this.state;
         const allSuppliersLen = allSuppliers.length;
         let newSupplierIdStr;
         if (allSuppliersLen === 0) {
             newSupplierIdStr = '1';
         } else {
-            console.log('alllSuppliers',allSuppliers)
             const lastSupplierId = allSuppliers[allSuppliersLen - 1].id;
-            console.log('lastSupplierId',lastSupplierId);
-            let newSupplierId = lastSupplierId.substring(1, lastSupplierId.length);
+            console.log('lastSupplierId', lastSupplierId);
+            let pos = lastSupplierId.indexOf("S");
+            console.log(pos);
+            let newSupplierId = lastSupplierId.substring(pos+1, lastSupplierId.length);
+            console.log(newSupplierId)
             let newSupplierIdInt = parseInt(newSupplierId);
             console.log('newSupplierIdInt', newSupplierIdInt)
             newSupplierIdInt++;
@@ -119,28 +125,28 @@ class Suppliers extends Component {
 
 
         if (newSupplierIdStr.length === 1) {
-            let prefix = "S00000";
+            let prefix = user + "S00000";
             const refactoredSupplierId = prefix.concat(newSupplierIdStr);
             console.log('refactoredSupplierId', refactoredSupplierId)
             return refactoredSupplierId;
         } else if (newSupplierIdStr.length === 2) {
-            let prefix = "S0000";
+            let prefix = user + "S0000";
             const refactoredSupplierId = prefix.concat(newSupplierIdStr);
             return refactoredSupplierId;
         } else if (newSupplierIdStr.length === 3) {
-            let prefix = "S000";
+            let prefix = user + "S000";
             const refactoredSupplierId = prefix.concat(newSupplierIdStr);
             return refactoredSupplierId;
         } else if (newSupplierIdStr.length === 4) {
-            let prefix = "S00";
+            let prefix = user + "S00";
             const refactoredSupplierId = prefix.concat(newSupplierIdStr);
             return refactoredSupplierId;
         } else if (newSupplierIdStr.length === 5) {
-            let prefix = "S0";
+            let prefix = user + "S0";
             const refactoredSupplierId = prefix.concat(newSupplierIdStr);
             return refactoredSupplierId;
         } else {
-            let prefix = "S";
+            let prefix = user + "S";
             const refactoredSupplierId = prefix.concat(newSupplierIdStr);
             return refactoredSupplierId;
         }
@@ -156,21 +162,20 @@ class Suppliers extends Component {
         console.log('newSupplierId', newSupplierId);
 
         if (count === 0) {
-            return <div>
+            return <div className="container">
                 <h1>Suppliers</h1>
                 <Link
-                to={{ pathname: "/suppliers/new", newId: newSupplierId }}
-                className="btn btn-primary"
-                style={{ marginBottom: 20 }}
-            >
-                New Supplier
+                    to={{ pathname: "/suppliers/new", newId: newSupplierId }}
+                    className="btn btn-primary"
+                    style={{ marginBottom: 20 }}
+                >
+                    New Supplier
         </Link>
             </div>
         }
         const { totalCount, data: suppliers } = this.getPageData();
         return (
-
-            <div className="container">
+            < div className = "container" >
                 <h1>Suppliers</h1>
                 <Link
                     to={{ pathname: "/suppliers/new", newId: newSupplierId }}
@@ -196,7 +201,7 @@ class Suppliers extends Component {
                     onPageChange={this.handlePageChange}>
                 </Pagination>
 
-            </div>
+            </div >
 
         );
     }

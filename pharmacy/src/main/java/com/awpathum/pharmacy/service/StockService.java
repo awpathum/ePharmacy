@@ -8,7 +8,7 @@ import com.awpathum.pharmacy.entity.Stock;
 public interface StockService {
 	
 
-	public List<StockResponse> getStocks();
+	public List<StockResponse> getStocks(String username);
 
 	public void saveStock(Stock theStock);
 

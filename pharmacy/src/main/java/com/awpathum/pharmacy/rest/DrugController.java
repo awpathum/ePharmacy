@@ -30,10 +30,10 @@ public class DrugController {
 	}
 
 	@GetMapping("/")
-	public List<Drug> listDrugs(Model theModel) {
+	public List<Drug> listDrugs(@RequestParam String username) {
 
 		// get drugs form the service
-		List<Drug> theDrugs = drugService.getDrugs();
+		List<Drug> theDrugs = drugService.getDrugs(username);
 		return theDrugs;
 	}
 

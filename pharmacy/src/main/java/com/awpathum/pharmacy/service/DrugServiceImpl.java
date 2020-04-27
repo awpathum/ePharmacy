@@ -17,9 +17,9 @@ public class DrugServiceImpl implements DrugService {
 	private DrugDAO drugDAO;
 
 	@Override
-	public List<Drug> getDrugs() {
+	public List<Drug> getDrugs(String username) {
 
-		return drugDAO.getDrugs();
+		return drugDAO.getDrugs(username);
 	}
 
 	

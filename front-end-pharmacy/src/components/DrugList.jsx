@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { getDrugs } from '../services/drugService';
+import auth from '../services/authService';
 
 
 class DrugList extends Component {
@@ -13,16 +14,17 @@ class DrugList extends Component {
         netPrice: '',
         componentId: 0,
         tmpQuantity: 0,
-        errors: []
+        errors: [],
+        user:''
     }
-    async populateDrugs() {
-        const { data: drugs } = await getDrugs();
-
+    async populateDrugs(user) {
+        const { data: drugs } = await getDrugs(user);
         console.log(drugs)
         this.setState({ drugs });
     }
     async componentDidMount() {
-        await this.populateDrugs();
+        const user = auth.getCurrentUser().sub;
+        await this.populateDrugs(user);
         const componentId = this.props.id;
         this.setState(componentId)
     }

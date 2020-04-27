@@ -33,7 +33,7 @@ class Warning extends Component {
                     <div class="card-body">
                         {(this.state.today > this.props.Drug.expDate) ? <h5 class="card-title text-danger">{this.props.Drug.drugName}</h5> : <h5 class="card-title text-warning">{this.props.Drug.drugName}</h5>}
 
-                        <p class="card-text"> {this.props.Drug.drugName} stock is going to expire on {this.props.Drug.expDate}. Quantity is {this.props.Drug.quantity}</p>
+                        <p class="card-text"> {this.props.Drug.drugName} stock is going to expire on {this.props.Drug.expDate}.</p>
                         {/* <a href="#" class="btn btn-primary">See Stock</a> */}
                         <Link to={`/stocks/${this.props.Drug.id}`}>Go To Stock</Link>
                     </div>
@@ -41,8 +41,8 @@ class Warning extends Component {
                     <div>
                         <div class="card w-30">
                             <div class="card-body">
-                                {<h5 class="card-title text-danger">{this.props.Drug.name}</h5>} inventory is low.<br></br>
-                                <Link to={'/drugs/'}>Go To Drug</Link>
+                                {<h5 class="card-title text-danger">{this.props.Drug.name}</h5>} Inventory is low. Remains only {this.props.Drug.quantity}.<br></br>
+                                <Link to={'/suppliers/'}>Go To Suppliers</Link>
                 </div>
                         </div>
                     </div>

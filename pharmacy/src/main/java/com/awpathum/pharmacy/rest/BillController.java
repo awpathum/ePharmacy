@@ -58,10 +58,10 @@ public class BillController {
 	}
 
 	@GetMapping("/")
-	public List<Bill> listBills() {
+	public List<Bill> listBills(@RequestParam String username) {
 
 		// get bills form the service
-		return billService.getBills();
+		return billService.getBills(username);
 	}
 
 	//get bill by id

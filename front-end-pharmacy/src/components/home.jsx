@@ -45,6 +45,13 @@ class Home extends Component {
         console.log('drugs', drugs)
         let lowStocks = [];
         let filterd = drugs.filter(d => (d.quantity < d.warningLevel))
+        // filterd.map(d => lowStocks.push(<StatsCard
+        //     bigIcon={<i className="pe-7s-server text-warning" />}
+        //     statsText="Capacity"
+        //     statsValue="105GB"
+        //     statsIcon={<i className="fa fa-refresh" />}
+        //     statsIconText="Updated now"
+        // />));
         filterd.map(d => lowStocks.push(<Warning drugName={d.name} Drug={d} type='low'></Warning>));
         this.setState({ lowStocks })
     }
@@ -109,29 +116,10 @@ class Home extends Component {
     render() {
         console.log(this.props)
         console.log(this.state.expStocks)
-        //   return (
-        //     <div>
-        //         <center><img src="https://i.pinimg.com/originals/92/6c/3d/926c3d7db4b795a20175c3c59994c2f1.jpg" className="img-responsive" alt="Responsive image"></img></center>
-        //         {/* <div className="row align-items-end">
-        //             <div className="col">
-        //                 One of three columns
-        //     </div>
-        //             <div className="col">
-        //                 One of three columns
-        //     </div>
-        //             <div className="col">
-        //                 One of three columns
-        //     </div>
-        //         </div> */}
-        //     </div>
-        // );
-
-
-
+        console.log(auth.getCurrentUser())
         return (
 
             <div className="container-fuid">
-
                 <div className="row align-items-start">
                     <div className="col">
                         <ul className="list-group m-2">
@@ -150,10 +138,6 @@ class Home extends Component {
                         </ul>
                     </div>
                 </div>
-
-
-
-
             </div>
         );
     }
