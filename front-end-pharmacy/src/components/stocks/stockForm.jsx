@@ -5,7 +5,7 @@ import { getSuppliers } from "../../services/supplierService";
 import { getDrugs } from '../../services/drugService';
 import auth from '../../services/authService';
 
-class StockForm extends Component{
+class StockForm extends Component {
   state = {
     data: {
       id: "",
@@ -22,7 +22,7 @@ class StockForm extends Component{
     suppliers: [],
     drugs: [],
     errors: {},
-    user:''
+    user: ''
   };
   async populateSuppliers(user) {
     const { data: suppliers } = await getSuppliers(user);
@@ -72,10 +72,11 @@ class StockForm extends Component{
     console.log('SF2');
     await this.populateDrugs(user);
     console.log('SF3');
+    this.setState({user})
   }
 
   mapToViewModel(stock) {
-    console.log('resDate',stock.resDate)
+    console.log('resDate', stock.resDate)
     return {
       id: stock.id,
       drugName: stock.drugName,
@@ -85,14 +86,18 @@ class StockForm extends Component{
       expDate: stock.expDate,
       supplier: stock.supplier,
       supplierId: stock.supplierId,
-      drugId : stock.drugId
+      drugId: stock.drugId
 
     };
   }
 
   doSubmit = async (values) => {
+    const { user } = this.state;
+    console.log(user)
+    values.id = user + values.id;
     console.log(values)
     const { id, quantity, manDate, resDate, expDate, supplier, drug } = values;
+    console.log(id)
     let drugName;
     this.state.drugs.forEach(function (d) {
       console.log(d)
@@ -104,6 +109,7 @@ class StockForm extends Component{
     })
 
     const stock = { id, drugName, quantity, manDate, resDate, expDate }
+    console.log(stock )
     const stockSupplier = { supplierId: supplier, stockId: id }
     const stockDrug = { drugId: drug, stockId: id }
     console.log(stock)
@@ -153,11 +159,19 @@ class StockForm extends Component{
     console.log(errors)
     return errors
   }
+
+  getId = (id) => {
+    let pos = id.indexOf("L");
+    let newId = id.substring(pos, id.length);
+    return newId;
+}
   render() {
+
+
     const { data, suppliers: stateSuppliers, drugs: stateDrugs } = this.state;
     const suppliers = [{ id: "", name: "" }, ...stateSuppliers]
     const drugs = [{ id: "", name: "" }, ...stateDrugs];
-    console.log(suppliers)
+    const id = this.getId(data.id);
 
 
     return (
@@ -165,7 +179,7 @@ class StockForm extends Component{
         <h1>Stock Form</h1>
         <Formik
           initialValues={{
-            id: data.id,
+            id,
             drug: data.drugId,
             quantity: data.quantity,
             manDate: data.manDate,
@@ -198,7 +212,7 @@ class StockForm extends Component{
                   <Field component="select" className="form-control" type="drugs" name="drug">
                     {
 
-                    (data.drugName) ? drugs.map(d => (d.id === data.drugId) ? <option value={data.drugId} selected>{data.drugName}{console.log(d.id,data.drugId)}{console.log('true')}</option> : <option value={d.id}>{d.name}{console.log('drugs',drugs),console.log('data.drugId',data.drugId)}</option>) :
+                      (data.drugName) ? drugs.map(d => (d.id === data.drugId) ? <option value={data.drugId} selected>{data.drugName}{console.log(d.id, data.drugId)}{console.log('true')}</option> : <option value={d.id}>{d.name}{console.log('drugs', drugs), console.log('data.drugId', data.drugId)}</option>) :
                         drugs.map(d => <option value={d.id} key={d.id} >{d.name}</option>)
                     }
                   </Field>

@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 class BillsTable extends Component {
 
     columns = [
-        { path: 'id', label: 'Bill Id', content: bill => <Link to={`/bill/${bill.id}`}>{bill.id}</Link> },
+        { path: 'id', label: 'Bill Id', content: bill => <Link to={`/bill/${bill.id}`}>{this.getId(bill.id)}</Link> },
         // { path: 'genre.name', label: 'Genre' },
         { path: 'date', label: 'Date' },
         { path: 'customerName', label: 'Name' },
@@ -17,6 +17,11 @@ class BillsTable extends Component {
         //     content: bill => (<button className="btn btn-danger" onClick={() => this.props.onDelete(bill)}disabled={bill.stocks.length ? true : false}>{console.log(bill)}Delete</button>)
         // },
     ]
+    getId = (id) => {
+        let pos = id.indexOf("B");
+        let newId = id.substring(pos, id.length);
+        return newId;
+    }
 
     raiseSort = path => {
         const sortColumn = { ...this.props.sortColumn };

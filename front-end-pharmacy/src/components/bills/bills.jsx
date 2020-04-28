@@ -111,8 +111,9 @@ class Bills extends Component {
         } else {
             console.log('alllBills', allBills)
             const lastBillId = allBills[allBillsLen - 1].id;
-            console.log('lastBillId', lastBillId);
-            let newBillId = lastBillId.substring(2, lastBillId.length);
+            let pos = lastBillId.indexOf("B");
+            console.log(pos);
+            let newBillId = lastBillId.substring(pos+1, lastBillId.length);
             console.log('newBillId', newBillId)
             let newBillIdInt = parseInt(newBillId);
             console.log('newBillIdInt', newBillIdInt)

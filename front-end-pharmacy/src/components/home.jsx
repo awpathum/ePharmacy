@@ -22,9 +22,9 @@ class Home extends Component {
         let user = auth.getCurrentUser().sub;
         user = user.charAt(0).toUpperCase() + user.slice(1);
         console.log(user)
-        const { data: stocks } = await getStocks();
-        const { data: bills } = await getBills();
-        const { data: drugs } = await getDrugs();
+        const { data: stocks } = await getStocks(user);
+        const { data: bills } = await getBills(user);
+        const { data: drugs } = await getDrugs(user);
         console.log(drugs)
 
         this.setState({
@@ -45,13 +45,6 @@ class Home extends Component {
         console.log('drugs', drugs)
         let lowStocks = [];
         let filterd = drugs.filter(d => (d.quantity < d.warningLevel))
-        // filterd.map(d => lowStocks.push(<StatsCard
-        //     bigIcon={<i className="pe-7s-server text-warning" />}
-        //     statsText="Capacity"
-        //     statsValue="105GB"
-        //     statsIcon={<i className="fa fa-refresh" />}
-        //     statsIconText="Updated now"
-        // />));
         filterd.map(d => lowStocks.push(<Warning drugName={d.name} Drug={d} type='low'></Warning>));
         this.setState({ lowStocks })
     }

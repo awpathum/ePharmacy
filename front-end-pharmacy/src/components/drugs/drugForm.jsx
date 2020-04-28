@@ -14,7 +14,8 @@ class DrugForm extends Component {
             warningLevel: ""
         },
         drugs: [],
-        errors: {}
+        errors: {},
+        user:''
     };
 
     async populateDrugs() {
@@ -46,6 +47,7 @@ class DrugForm extends Component {
     async componentDidMount() {
         const user = auth.getCurrentUser().sub;
         await this.populateDrugs(user);
+        this.setState({user})
     }
 
     mapToViewModel(drug) {
@@ -61,7 +63,10 @@ class DrugForm extends Component {
     }
 
     doSubmit = async (values) => {
+        const {user} = this.state;
         delete values.quantity;
+        values.id = user + values.id;
+        console.log(values)
         await saveDrug(values);
         this.props.history.push("/drugs");
     };
@@ -76,15 +81,21 @@ class DrugForm extends Component {
         }
         return errors
     }
+    getId = (id) => {
+        let pos = id.indexOf("D");
+        let newId = id.substring(pos, id.length);
+        return newId;
+    }
     render() {
         const { data, drugs: stateDrugs } = this.state;
         const drugs = [{ id: "", name: "" }, ...stateDrugs]
+        const id = this.getId(data.id);
         return (
             <div className="container">
                 <h1>Drug Form</h1>
                 <Formik
                     initialValues={{
-                        id: data.id,
+                        id,
                         name: data.name,
                         unitPrice: data.unitPrice,
                         compound: data.compound,

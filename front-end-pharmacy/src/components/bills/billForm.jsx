@@ -71,6 +71,7 @@ class BillForm extends Component {
     async componentDidMount() {
         const user = auth.getCurrentUser().sub;
         await this.populateBills();
+        this.setState({user})
     }
 
     mapToViewModel(bill) {
@@ -87,11 +88,13 @@ class BillForm extends Component {
     }
 
     doSubmit = async (values) => {
+        const {user} = this.state;
         console.log('do Sumbit Drugs')
         console.log('values',values)
         delete values.quantity;
         delete values.totalPrice;
-
+        values.id = user + values.id;
+        console.log(values)
        await saveBill(values);
 
         this.setState({
@@ -191,9 +194,16 @@ class BillForm extends Component {
 
     notify = () => toast("Wow so easy !");
 
+    getId = (id) => {
+        let pos = id.indexOf("B");
+        let newId = id.substring(pos, id.length);
+        return newId;
+    }
+
     render() {
         const { data, bills: stateBills } = this.state;
         const bills = [{ id: "", name: "" }, ...stateBills];
+        const id = this.getId(data.id);
         return (
             <div className="container">
                 <div className="row">
@@ -205,7 +215,7 @@ class BillForm extends Component {
                     <div className="col-sm">
                         <Formik
                             initialValues={{
-                                id: data.id,
+                                id,
                                 date: data.date,
                                 totalPrice: data.totalPrice,
                                 customerName: data.customerName,

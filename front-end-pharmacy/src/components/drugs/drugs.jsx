@@ -113,8 +113,9 @@ class Drugs extends Component {
         } else {
             console.log('alllDrugs', allDrugs)
             const lastDrugId = allDrugs[allDrugsLen - 1].id;
-            console.log('lastDrugId', lastDrugId);
-            let newDrugId = lastDrugId.substring(2, lastDrugId.length);
+            let pos = lastDrugId.indexOf("D");
+            console.log(pos);
+            let newDrugId = lastDrugId.substring(pos+1, lastDrugId.length);
             console.log('newDrugId', newDrugId)
             let newDrugIdInt = parseInt(newDrugId);
             console.log('newDrugIdInt', newDrugIdInt)

@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 class StocksTable extends Component {
 
     columns = [
-        { path: 'id', label: 'Stock Id', content: stock => <Link to={`/stocks/${stock.id}`}>{stock.id}</Link> },
+        { path: 'id', label: 'Stock Id', content: stock => <Link to={`/stocks/${stock.id}`}>{this.getId(stock.id)}</Link> },
         // { path: 'genre.name', label: 'Genre' },
         { path: 'drugName', label: 'Drug' },
         { path: 'quantity', label: 'Quantity' },
@@ -18,6 +18,12 @@ class StocksTable extends Component {
         //     content: stock => (<button className="btn btn-danger" onClick={() => this.props.onDelete(stock)}>{console.log(stock)}Delete</button>)
         // },
     ]
+
+    getId = (id) => {
+        let pos = id.indexOf("L");
+        let newId = id.substring(pos, id.length);
+        return newId;
+    }
 
     raiseSort = path => {
         const sortColumn = { ...this.props.sortColumn };

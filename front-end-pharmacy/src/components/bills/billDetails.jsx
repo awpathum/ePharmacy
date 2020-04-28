@@ -63,18 +63,25 @@ class BillDetails extends Component {
             drugBills: bill.drugBills
         };
     }
+    getId = (id) => {
+        let pos = id.indexOf("B");
+        let newId = id.substring(pos, id.length);
+        return newId;
+    }
 
     render() {
+
         const { data, drugs } = this.state;
         console.log(data)
         console.log(drugs)
         console.log('drugBills', data.drugBills)
+        const id = this.getId(data.id)
         return (
             <div className="container">
                 <Formik
                     enableReinitialize
                     initialValues={{
-                        id: data.id,
+                        id,
                         date: data.date,
                         customerName: data.customerName,
                         customerAge: data.customerAge,

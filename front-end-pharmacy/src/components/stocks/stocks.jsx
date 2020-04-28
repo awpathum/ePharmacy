@@ -110,7 +110,9 @@ class Stocks extends Component {
             console.log('alllStocks', allStocks)
             const lastStockId = allStocks[allStocksLen - 1].id;
             console.log('lastStockId', lastStockId);
-            let newStockId = lastStockId.substring(1, lastStockId.length);
+            let pos = lastStockId.indexOf("L");
+            console.log(pos);
+            let newStockId = lastStockId.substring(pos+1, lastStockId.length);
             let newStockIdInt = parseInt(newStockId);
             console.log('newStockIdInt', newStockIdInt)
             newStockIdInt++;
