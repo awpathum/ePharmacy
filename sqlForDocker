@@ -1,0 +1,88 @@
+create table bill
+(
+    id          varchar(15) not null
+        primary key,
+    date        date        null,
+    total_price float       null
+)
+    charset = latin1;
+
+create table drug
+(
+    id         varchar(15)   not null
+        primary key,
+    name       varchar(255)  null,
+    unit_price float         null,
+    compound   varchar(255)  null,
+    quantity   int default 0 null
+)
+    charset = latin1;
+
+create table drug_bill
+(
+    drug_id     varchar(15) not null,
+    bill_id     varchar(15) not null,
+    quantity    int         null,
+    total_price float       null,
+    primary key (drug_id, bill_id),
+    constraint FK_BILLdb
+        foreign key (bill_id) references bill (id),
+    constraint FK_DRUGdb
+        foreign key (drug_id) references drug (id)
+)
+    charset = latin1;
+
+create table supplier
+(
+    id        varchar(15)  not null
+        primary key,
+    name      varchar(255) null,
+    location  varchar(255) null,
+    email     varchar(255) null,
+    telephone varchar(255) null
+)
+    charset = latin1;
+
+create table stock
+(
+    id          varchar(15)  not null
+        primary key,
+    drug_name   varchar(255) not null,
+    man_date    date         null,
+    res_date    date         null,
+    exp_date    date         null,
+    supplier_id varchar(15)  null,
+    drug_id     varchar(15)  null,
+    quantity    int          null,
+    constraint FK_DRUG
+        foreign key (drug_id) references drug (id),
+    constraint FK_SUPPLIER
+        foreign key (supplier_id) references supplier (id)
+)
+    charset = latin1;
+
+create index FK_DRUG_idx
+    on stock (drug_id);
+
+create index FK_SUPPLIER_idx
+    on stock (supplier_id);
+
+create table users
+(
+    username varchar(50)          not null
+        primary key,
+    password varchar(255)         not null,
+    enabled  tinyint(1) default 1 not null
+)
+    charset = latin1;
+
+create table authorities
+(
+    username  varchar(50) not null,
+    authority varchar(50) not null,
+    constraint authorities_idx_1
+        unique (username, authority),
+    constraint authorities_ibfk_1
+        foreign key (username) references users (username)
+)
+    charset = latin1;
