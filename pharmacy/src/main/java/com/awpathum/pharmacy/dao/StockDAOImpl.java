@@ -29,6 +29,8 @@ public class StockDAOImpl implements StockDAO {
 		Query<StockResponse> theQuery = currentSession.createQuery(sqlQuery);
 		// execute query and get result list
 		List<StockResponse> stocks = theQuery.getResultList();
+		System.out.println("Stocks");
+		System.out.println(stocks);
 
 		// return the results
 		return stocks;
@@ -65,10 +67,12 @@ public class StockDAOImpl implements StockDAO {
 	@Override
 	public Stock getStock(String theId) {
 		System.out.println("stockDAO");
+		System.out.println(theId);
 		// get the current hibernate session
 		Session currentSession = entityManager.unwrap(Session.class);
 		// retrieve data from database using the primary key
 		Stock theStock = currentSession.get(Stock.class, theId);
+
 
 		return theStock;
 	}

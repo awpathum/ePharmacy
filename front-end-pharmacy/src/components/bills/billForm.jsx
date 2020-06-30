@@ -150,6 +150,7 @@ class BillForm extends Component {
 
     handleValidate = (validated) => {
         console.log('handle validate')
+        console.log(validated)
         this.setState({
             validated
         })
@@ -192,6 +193,12 @@ class BillForm extends Component {
     render() {
         const { data, bills: stateBills } = this.state;
         const bills = [{ id: "", name: "" }, ...stateBills];
+        console.log(this.state.drugList)
+        var saveBtnValidate = this.state.drugList.filter(d => {
+            console.log('d.validate',d.validate)
+            d.validate == false
+        });
+        console.log('savebtnValidate',saveBtnValidate);
         return (
             <div className="container">
                 <div className="row">
@@ -255,7 +262,8 @@ class BillForm extends Component {
                                                             <div>
                                                                 {this.state.drugList}
                                                             </div>
-                                                            <button className="btn btn-primary" type="submit"  >Save</button>
+                                                            {(this.state.validated)?<button className="btn btn-primary" type="submit">Save</button>:<button className="btn btn-primary" type="submit" disabled>Save</button>}
+                                                            
                                                         </div>
                                                     </div>
                                                 </div>

@@ -37,6 +37,9 @@ public class StockController {
 	public Stock addStock(@RequestBody Stock theStock) {
 //		String id = theStock.getId();
 //		theStock.setId(id);
+		System.out.println("theStock");
+		System.out.println(theStock.getSupplier());
+		System.out.println(theStock.getSupplier());
 
 		stockService.saveStock(theStock);
 
@@ -71,6 +74,7 @@ public class StockController {
 		//reduce drug quantity from general stock
 		Drug theDrugFromStock = stockService.getStock(theId).getDrug();
 		Integer toDeleteQuantity = stockService.getStock(theId).getQuantity();
+		System.out.println(toDeleteQuantity);
 		String toDeleteDrugId = theDrugFromStock.getId();
 
 

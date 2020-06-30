@@ -22,7 +22,8 @@ public class DrugController {
 
 	@PostMapping("/")
 	public Drug saveDrug(@RequestBody Drug theDrug) {
-
+		System.out.println("UnitPrice");
+		System.out.println(theDrug.getUnitPrice());
 		theDrug.setQuantity(0);
 		drugService.saveDrug(theDrug);
 		return theDrug;
