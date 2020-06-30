@@ -1,5 +1,6 @@
 .App {
   text-align: center;
+  align-content: center;
 }
 
 .App-logo {
@@ -33,4 +34,20 @@
 .cover {
   width: 100%;
   max-width: 300px;
+}
+
+.background{
+  /* background-image: url("https://images.wallpapersden.com/image/download/ubuntu-19-10_66736_3840x2160.jpg"); */
+  background-image: url("./bged.jpg");
+  /* position: fixed; */
+  /* position: right 50px;
+  position: top 50px;
+  position: bottom 50px; */
+  height: 100%;
+  background-position: center;
+  /* min-width: 100%;
+  min-height: 100%; */
+  /* background-size: auto; */
+  background-size: cover;
+
 }

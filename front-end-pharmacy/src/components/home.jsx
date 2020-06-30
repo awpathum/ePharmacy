@@ -128,16 +128,14 @@ class Home extends Component {
         // );
 
 
-
         return (
-
+            
             <div className="container-fuid">
-
                 <div className="row align-items-start">
                     <div className="col">
                         <Notification lowStocks={this.state.lowStocks} expStocks={this.state.expStocks}></Notification>
                     </div>
-                    <div className="d-flex flex-row"><h1 className="text-light bg-dark m-2 p-5">Welcome &nbsp; {this.state.user}</h1></div>
+                    <div className="d-flex flex-row p-5"><h1>Welcome &nbsp; {this.state.user}</h1></div>
                     <div class="col">
                         <ul className="list-group m-2">
                             <div className="d-flex flex-row-reverse">
@@ -149,8 +147,16 @@ class Home extends Component {
                     </div>
                 </div>
             </div>
+            
         );
     }
 }
+
+// background-image: url("https://images.wallpapersden.com/image/download/ubuntu-19-10_66736_3840x2160.jpg");
+// position: fixed;
+// min-width: 100%;
+// min-height: 100%;
+// background-size: cover;
+// background-position: center;
 
 export default Home;
