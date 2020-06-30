@@ -5,6 +5,7 @@ import Warning from './warning';
 import { getBills } from '../services/billService';
 import { getDrugs } from '../services/drugService';
 import auth from '../services/authService';
+import Notification from './notification/notification';
 
 class Home extends Component {
     state = {
@@ -134,18 +135,19 @@ class Home extends Component {
 
                 <div className="row align-items-start">
                     <div className="col">
-                        <ul className="list-group m-2">
+                        <Notification lowStocks={this.state.lowStocks} expStocks={this.state.expStocks}></Notification>
+                        {/* <ul className="list-group m-2">
                             {this.state.expStocks}
                             {this.state.lowStocks}
-                        </ul>
+                        </ul> */}
                     </div>
                     <div className="d-flex flex-row"><h1 className="text-light bg-dark m-2 p-5">Welcome &nbsp; {this.state.user}</h1></div>
                     <div class="col">
                         <ul className="list-group m-2">
                             <div className="d-flex flex-row-reverse">
-                                <span className="badge badge-success m-2 flex-row-reverse"><h3 className="m-3">Number of Customers <br></br>{this.state.customerCount} </h3></span>
+                                <span className="badge badge-info m-2 flex-row-reverse"><h3 className="m-3">Number of Customers <br></br>{this.state.customerCount} </h3></span>
     &nbsp;&nbsp;&nbsp;&nbsp;
-    <span className="badge badge-info m-2"><h3 className="m-3">Today's income <br></br>{this.state.todayIncome}</h3></span>
+    <span className="badge badge-success m-2"><h3 className="m-3">Today's income <br></br>{this.state.todayIncome}</h3></span>
                             </div>
                         </ul>
                     </div>
