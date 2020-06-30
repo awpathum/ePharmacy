@@ -136,10 +136,6 @@ class Home extends Component {
                 <div className="row align-items-start">
                     <div className="col">
                         <Notification lowStocks={this.state.lowStocks} expStocks={this.state.expStocks}></Notification>
-                        {/* <ul className="list-group m-2">
-                            {this.state.expStocks}
-                            {this.state.lowStocks}
-                        </ul> */}
                     </div>
                     <div className="d-flex flex-row"><h1 className="text-light bg-dark m-2 p-5">Welcome &nbsp; {this.state.user}</h1></div>
                     <div class="col">
@@ -152,10 +148,6 @@ class Home extends Component {
                         </ul>
                     </div>
                 </div>
-
-
-
-
             </div>
         );
     }

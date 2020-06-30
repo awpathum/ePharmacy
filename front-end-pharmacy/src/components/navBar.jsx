@@ -73,20 +73,23 @@ const NavBar = ({ user }) => {
                 <ul className="navbar-nav navbar-collapse justify-content-end">
                     {
 
-                        !user && (<ul className="navbar-nav navbar-collapse justify-content-end">
+                        !user && (<ul style={{ listStyleType: "none"}} className="navbar-nav navbar-collapse justify-content-end">
                             <li className="nav-item">
                                 <NavLink className="nav-link text-white" to="/login">Login</NavLink>
                             </li>
-                            <li className="nav-item">
+                            {/* <li className="nav-item">
                                 <NavLink className="nav-link text-white" to="/register">Register</NavLink>
-                            </li>
+                            </li> */}
                         </ul>)
                     }
                     {
 
-                        user && (<ul className="navbar-collapse justify-content-end">
+                        user && (<ul style={{ listStyleType: "none"}} className="navbar-collapse justify-content-end">
                             <li className="nav-item">
                                 <NavLink className="nav-link text-white" to="/logout">Logout</NavLink>
+                            </li>
+                            <li className="nav-item">
+                                <NavLink className="nav-link text-white" to="/register">Register</NavLink>
                             </li>
                         </ul>)
                     }
