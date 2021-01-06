@@ -5,7 +5,7 @@
   "proxy": "http://localhost:8080",
   "dependencies": {
     "@hapi/joi-date": "^2.0.1",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "bootstrap": "^4.4.1",
     "formik": "^2.1.4",
     "joi": "^14.3.1",
